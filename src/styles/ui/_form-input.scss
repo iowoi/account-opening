@@ -1,0 +1,32 @@
+input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+.has-danger {
+    input,select {
+        border-color: $brand-danger;
+        &:focus {
+            border-color: $brand-danger;
+        }
+    }
+
+    .error-text {
+        color: $brand-danger;
+    }
+}
+
+.form-check-inline {
+    input[type="radio"] {
+        margin: 0 0.5rem;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+.form-group {
+    small {
+        display: block;
+    }
+    
+}

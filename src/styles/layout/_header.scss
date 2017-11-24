@@ -1,0 +1,12 @@
+.app-header {
+    padding: 1rem 1.5rem;
+    .title {
+        @include font-size($fs: 14, $lh: 1.5);
+        float: left;
+        padding: .5rem 1rem;
+    }
+    .logo {
+        float: right;
+        width: 200px;
+    }
+}
