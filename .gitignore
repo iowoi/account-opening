@@ -1,6 +1,13 @@
 
-src/\.DS_Store
 
-src/assets/\.DS_Store
+# dependencies
+/node_modules
 
-src/assets/img/\.DS_Store
+
+\.DS_Store
+
+\.idea/
+
+dist/
+
+package-lock\.json

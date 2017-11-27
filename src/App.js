@@ -83,11 +83,8 @@ class App extends Component {
                 <Router history={browserHistory}>
                     <div>
                         <Header/>
-                        <div className="clearfix"></div>
                         <MuiThemeProvider>
-                            <div className="container-fluid">
                                 <RouteWithSubRoutes routes={routes}/>
-                            </div>
                         </MuiThemeProvider>
                     </div>
                 </Router>

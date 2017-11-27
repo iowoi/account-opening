@@ -16,7 +16,8 @@
     "react-router-redux": "^5.0.0-alpha.8",
     "react-scripts": "1.0.17",
     "redux": "^3.7.2",
-    "redux-form": "^7.1.2"
+    "redux-form": "^7.1.2",
+    "resolve-url-loader": "^2.2.0"
   },
   "scripts": {
     "start": "webpack-dev-server --devtool eval --progress --colors --hot --content-base build --config webpack.dev.js",

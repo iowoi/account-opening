@@ -7,8 +7,9 @@ class Header extends Component {
     render() {
         return (
             <header className="app-header">
-                <div className="logo"><img src={logo}/></div>
-                <div className="title">Open an Account 开立帐户</div>
+                <img src={logo} className="logo"/>
+                <span className="short-line">|</span>
+                <span className="title">Open an Account 开立帐户</span>
 
                 {/* <div className="clearfix"></div>
                 <div className="float-right">

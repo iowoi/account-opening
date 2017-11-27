@@ -1,13 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin'); // 使用 extract text webpack plugin
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const ExtractMainCss = new ExtractTextPlugin({filename: 'css/main.css'})
+// 使用 extract text webpack plugin
+
+const ExtractMainCss = new ExtractTextPlugin({filename: 'main.css'})
 module.exports = {
     devServer: {
         historyApiFallback: true,
         hot: true
     },
+    devtool: 'eval-source-map',
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
@@ -27,32 +30,35 @@ module.exports = {
                 test: /\.css$/,
                 use: ExtractMainCss.extract({
                     fallback: 'style-loader',
-                    use: [
-                        {
-                            loader: 'css-loader'
-                        }
-                    ]
+                    use: ['css-loader', 'resolve-url-loader']
                 })
-            }, {
-                test: /\.scss$/,
-                use: ExtractMainCss.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader', 'sass-loader']
-                })
+            },  {
+                test: /\.(ttf|eot|otf|woff)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                    outputPath: 'assets/fonts/'
+                }
             }, {
                 test: /\.(png|jpg|gif)$/,
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',
-                    outputPath: 'img/'
+                    outputPath: 'assets/img/'
                 }
             }, {
                 test: /\.svg$/,
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',
-                    outputPath: 'svg/'
+                    outputPath: 'assets/svg/'
                 }
+            },{
+                test: /\.scss$/,
+                use: ExtractMainCss.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                })
             }
         ]
     },

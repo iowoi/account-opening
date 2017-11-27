@@ -6,7 +6,6 @@ import asyncValidate from '../../asyncValidate';
 import autoBind from 'auto-bind';
 import {Link} from 'react-router-dom';
 
-
 const validate = values => {
     const errors = {}
     const requiredFields = ['gender', 'firstName', 'surname', 'email', 'birth', 'countryOfBirth', 'nationality', 'address', 'city', 'country', 'contactCountryCode', 'contactNumber', 'telPassword', 'companyName', 'employmentStatus', 'natureOfBusiness', 'taxResidentCountries']

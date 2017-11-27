@@ -28,61 +28,58 @@ class CnTerm extends Component {
         const {handleSubmit} = this.props;
 
         return (
-            <section className="row">
-                <div className="col-md-8 col-center">
-                    <div className="row">
-                        <div className="col-md-4">
-                            <form onSubmit={handleSubmit(this.handleSubmit)}>
-                                <h4>请先选取你的居住地</h4>
-                                <Field component="select" name="loc" className="custom-select">
-                                    <option value="Argentina">Argentina 阿根廷</option>
-                                    <option value="Austria">Austria 奥地利</option>
-                                    <option value="Belgium">Belgium 比利时</option>
-                                    <option value="Brazil">Brazil 巴西</option>
-                                    <option value="Canada">Canada 加拿大</option>
-                                    <option value="China">China 中国</option>
-                                    <option value="Denmark">Denmark 丹麦</option>
-                                    <option value="Finland">Finland 芬兰</option>
-                                    <option value="France">France 法国</option>
-                                    <option value="Germany">Germany 德国</option>
-                                    <option value="Greece">Greece 希腊</option>
-                                    <option value="HK">Hong Kong, China 中国香港</option>
-                                    <option value="Iceland">Iceland 冰岛</option>
-                                    <option value="India">India 印度</option>
-                                    <option value="Ireland">Ireland 爱尔兰</option>
-                                    <option value="Italy">Italy 意大利</option>
-                                    <option value="Japan">Japan 日本</option>
-                                    <option value="Netherlands">Kingdom of the Netherlands 荷兰</option>
-                                    <option value="Luxembourg">Luxembourg 卢森堡</option>
-                                    <option value="Macau">Macau, China 中国澳门</option>
-                                    <option value="Mexico">Mexico 墨西哥</option>
-                                    <option value="NewZealand">New Zealand 新西兰</option>
-                                    <option value="Norway">Norway 挪威</option>
-                                    <option value="Portugal">Portugal 葡萄牙</option>
-                                    <option value="Korea">Republic of Korea 韩国</option>
-                                    <option value="RussianFederation">Russian Federation 俄罗斯联邦</option>
-                                    <option value="Singapore">Singapore 新加坡</option>
-                                    <option value="SouthAfrica">South Africa 南非</option>
-                                    <option value="Spain">Spain 西班牙</option>
-                                    <option value="Sweden">Sweden 瑞典</option>
-                                    <option value="Switzerland">Switzerland 瑞士</option>
-                                    <option value="Taiwan">Taiwan 台灣</option>
-                                    <option value="Turkey">Turkey 土耳其</option>
-                                    <option value="UnitedKingdom">United Kingdom 联合王国</option>
-                                </Field>
-                                <p>*若您的居住地没有在表上，<br/>请您电邮到
-                                    <a href="mailto:onlineaccount@kvbkunlun.com">
-                                        onlineaccount@kvbkunlun.com</a>。</p>
-                                <button className="btn btn-primary" type="submit">下一步</button>
-
-                            </form>
-                        </div>
-                        <div className="col-md-8">
-                            <Term/>
-                        </div>
+            <div className="col-md-8 col-center term-wrap">
+                <div className="row">
+                    <div className="col-md-4">
+                        <form onSubmit={handleSubmit(this.handleSubmit)}>
+                            <h4>请先选取你的居住地</h4>
+                            <Field component="select" name="loc" className="custom-select">
+                                <option value="Argentina">Argentina 阿根廷</option>
+                                <option value="Austria">Austria 奥地利</option>
+                                <option value="Belgium">Belgium 比利时</option>
+                                <option value="Brazil">Brazil 巴西</option>
+                                <option value="Canada">Canada 加拿大</option>
+                                <option value="China">China 中国</option>
+                                <option value="Denmark">Denmark 丹麦</option>
+                                <option value="Finland">Finland 芬兰</option>
+                                <option value="France">France 法国</option>
+                                <option value="Germany">Germany 德国</option>
+                                <option value="Greece">Greece 希腊</option>
+                                <option value="HK">Hong Kong, China 中国香港</option>
+                                <option value="Iceland">Iceland 冰岛</option>
+                                <option value="India">India 印度</option>
+                                <option value="Ireland">Ireland 爱尔兰</option>
+                                <option value="Italy">Italy 意大利</option>
+                                <option value="Japan">Japan 日本</option>
+                                <option value="Netherlands">Kingdom of the Netherlands 荷兰</option>
+                                <option value="Luxembourg">Luxembourg 卢森堡</option>
+                                <option value="Macau">Macau, China 中国澳门</option>
+                                <option value="Mexico">Mexico 墨西哥</option>
+                                <option value="NewZealand">New Zealand 新西兰</option>
+                                <option value="Norway">Norway 挪威</option>
+                                <option value="Portugal">Portugal 葡萄牙</option>
+                                <option value="Korea">Republic of Korea 韩国</option>
+                                <option value="RussianFederation">Russian Federation 俄罗斯联邦</option>
+                                <option value="Singapore">Singapore 新加坡</option>
+                                <option value="SouthAfrica">South Africa 南非</option>
+                                <option value="Spain">Spain 西班牙</option>
+                                <option value="Sweden">Sweden 瑞典</option>
+                                <option value="Switzerland">Switzerland 瑞士</option>
+                                <option value="Taiwan">Taiwan 台灣</option>
+                                <option value="Turkey">Turkey 土耳其</option>
+                                <option value="UnitedKingdom">United Kingdom 联合王国</option>
+                            </Field>
+                            <p>*若您的居住地没有在表上，<br/>请您电邮到
+                                <a href="mailto:onlineaccount@kvbkunlun.com">
+                                    onlineaccount@kvbkunlun.com</a>。</p>
+                            <button className="btn btn-primary" type="submit">下一步</button>
+                        </form>
+                    </div>
+                    <div className="col-md-8">
+                        <Term/>
                     </div>
                 </div>
-            </section>
+            </div>
         );
     }
 }
