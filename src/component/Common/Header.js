@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import logo from '../../assets/img/logo_kvb.png';
+import logo from '../../assets/svg/icn-logo.svg';
 import FlatButton from 'material-ui/FlatButton';
 import {Link} from 'react-router-dom';
 
@@ -9,7 +9,7 @@ class Header extends Component {
             <header className="app-header">
                 <img src={logo} className="logo"/>
                 <span className="short-line">|</span>
-                <span className="title">Open an Account 开立帐户</span>
+                <span className="title"><font>Open an Account</font>开立帐户</span>
 
                 {/* <div className="clearfix"></div>
                 <div className="float-right">

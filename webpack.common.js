@@ -32,28 +32,41 @@ module.exports = {
                     fallback: 'style-loader',
                     use: ['css-loader', 'resolve-url-loader']
                 })
-            },  {
-                test: /\.(ttf|eot|otf|woff)(\?v=[a-z0-9]\.[a-z0-9]\.[a-z0-9])?$/,
-                loader: 'file-loader',
+            }, {
+                test: /\.(ttf|eot|otf|woff)$/,
+                loader: 'url-loader?limit=100000',
                 options: {
                     name: '[name].[ext]',
                     outputPath: 'assets/fonts/'
                 }
-            }, {
-                test: /\.(png|jpg|gif)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]',
-                    outputPath: 'assets/img/'
-                }
-            }, {
+            },
+            {
+                    test: /\.(png|jpg|gif)$/,
+                    use: [{
+                        loader: 'url-loader?limit=100000',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'assets/images/'
+                        }
+                    }]
+                },
+            
+            // {
+            //     test: /\.(png|jpg|gif)$/,
+            //     loader: 'url-loader?limit=100000',
+            //     options: {
+            //         name: '[name].[ext]',
+            //         outputPath: 'assets/images/'
+            //     }
+            // },
+             {
                 test: /\.svg$/,
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',
                     outputPath: 'assets/svg/'
                 }
-            },{
+            }, {
                 test: /\.scss$/,
                 use: ExtractMainCss.extract({
                     fallback: 'style-loader',

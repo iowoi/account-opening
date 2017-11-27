@@ -28,9 +28,9 @@ class CnTerm extends Component {
         const {handleSubmit} = this.props;
 
         return (
-            <div className="col-md-8 col-center term-wrap">
+            <div className="col-lg-9 col-md-10 col-center term-wrap">
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-lg-4 col-md-5 left-wrap">
                         <form onSubmit={handleSubmit(this.handleSubmit)}>
                             <h4>请先选取你的居住地</h4>
                             <Field component="select" name="loc" className="custom-select">
@@ -75,7 +75,7 @@ class CnTerm extends Component {
                             <button className="btn btn-primary" type="submit">下一步</button>
                         </form>
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-lg-8 col-md-7 right-wrap">
                         <Term/>
                     </div>
                 </div>

@@ -1,12 +1,21 @@
 .term-wrap {
-    margin-top: 200px;
+    margin-top: 150px;
+    @include font-size($fs: 15, $lh: 1.6);
     h4 {
-        width: 225px;
+        @include font-size($fs: 24, $lh: 1.5);
         height: 37px;
-        font-family: NotoSansCJKsc;
-        font-size: 25px;
-        font-weight: 500;
-        text-align: justify;
         color: #00397d;
     }
+    .left-wrap{
+        border-right: solid 1.5px rgba(1, 57, 125, 0.37);
+        padding-top: 7%;
+        .custom-select {
+            margin: 1rem 0 2.5rem;
+        }   
+    }
+    .right-wrap{
+        padding: 5%;
+    }
+    
+    
 }
