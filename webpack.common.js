@@ -1,3 +1,5 @@
+
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -14,8 +16,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, './dist'),
-        publicPath: '/'
+        path: path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
@@ -33,11 +34,11 @@ module.exports = {
                     use: ['css-loader', 'resolve-url-loader']
                 })
             }, {
-                test: /\.(ttf|eot|otf|woff)$/,
+                test: /\.(ttf|eot|otf|woff|woff2)$/,
                 loader: 'url-loader?limit=100000',
                 options: {
                     name: '[name].[ext]',
-                    outputPath: 'assets/fonts/'
+                    outputPath: '/assets/fonts/'
                 }
             },
             {
@@ -46,7 +47,7 @@ module.exports = {
                         loader: 'url-loader?limit=100000',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: 'assets/images/'
+                            outputPath: '/assets/images/'
                         }
                     }]
                 },
@@ -64,7 +65,7 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',
-                    outputPath: 'assets/svg/'
+                    outputPath: '/assets/svg/'
                 }
             }, {
                 test: /\.scss$/,

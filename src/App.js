@@ -31,48 +31,35 @@ import store from './store';
 
 const routes = [
     {
-        path: '/cn',
+        path: '',
         component: CnIndex,
         routes: [
             {
-                path: '/cn/term',
+                path: '/term',
                 component: CnSelectLocation
             }, {
-                path: '/cn/apply',
+                path: '/apply',
                 component: CnApply
             }, {
-                path: '/cn/applyInfo',
+                path: '/applyInfo',
                 component: CnApplyInfo
             }, {
-                path: '/cn/personal-detail',
+                path: '/personal-detail',
                 component: CnPersonalDetail
             }, {
-                path: '/cn/account-information',
+                path: '/account-information',
                 component: CnAccountInformation
             }, {
-                path: '/cn/investment-background',
+                path: '/investment-background',
                 component: CnInvestmentBackground
             }, {
-                path: '/cn/declaration',
+                path: '/declaration',
                 component: CnDeclaration
             }, {
-                path: '/cn/finish',
+                path: '/finish',
                 component: CnFinish
             }
         ]
-    }, {
-        path: '/en',
-        component: EnIndex,
-        routes: [
-            {
-                path: '/en/term',
-                component: EnTerm
-            }, {
-                path: '/en/form',
-                component: EnForm
-            }
-        ]
-
     }
 ]
 
