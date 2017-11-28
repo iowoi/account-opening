@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "webpack.config.js",
+  "homepage": "http://testaccountopen.kvbkunlun.com/Security",
   "dependencies": {
     "auto-bind": "^1.1.0",
     "history": "^4.7.2",

@@ -8,10 +8,6 @@ import CnInvestmentBackground from './cn/Form/InvestmentBackground';
 import CnDeclaration from './cn/Form/Declaration';
 import CnFinish from './cn/Form/Finish';
 
-// English
-import EnIndex from './en/index';
-import EnTerm from './en/term';
-import EnForm from './en/form';
 
 export {
     CnIndex,
@@ -21,9 +17,5 @@ export {
     CnAccountInformation,
     CnInvestmentBackground,
     CnDeclaration,
-    CnFinish,
-
-    EnIndex,
-    EnTerm,
-    EnForm
+    CnFinish
 }

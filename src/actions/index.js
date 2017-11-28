@@ -4,7 +4,7 @@
 
  export const SET_LOCTION = 'SET_LOCTION'
 
- /**
+/**
   * action creators
   */
   

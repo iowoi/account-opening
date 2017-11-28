@@ -1,4 +1,6 @@
 .apply-info {
+    @include font-size($fs: 20, $lh: 1.5);
+    
     .icon-btns {
         text-align: center;
     }

@@ -35,28 +35,28 @@ const routes = [
         component: CnIndex,
         routes: [
             {
-                path: '/term',
+                path: ROOT_PATH+'term',
                 component: CnSelectLocation
             }, {
-                path: '/apply',
+                path: ROOT_PATH+'apply',
                 component: CnApply
             }, {
-                path: '/applyInfo',
+                path: ROOT_PATH+'applyInfo',
                 component: CnApplyInfo
             }, {
-                path: '/personal-detail',
+                path: ROOT_PATH+'personal-detail',
                 component: CnPersonalDetail
             }, {
-                path: '/account-information',
+                path: ROOT_PATH+'account-information',
                 component: CnAccountInformation
             }, {
-                path: '/investment-background',
+                path: ROOT_PATH+'investment-background',
                 component: CnInvestmentBackground
             }, {
-                path: '/declaration',
+                path: ROOT_PATH+'declaration',
                 component: CnDeclaration
             }, {
-                path: '/finish',
+                path: ROOT_PATH+'finish',
                 component: CnFinish
             }
         ]

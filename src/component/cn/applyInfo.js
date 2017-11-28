@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
-
+import {Link} from 'react-router-dom';
+import IconStep1 from '../../assets/svg/apply/icon-step1.svg';
+import IconStep2 from '../../assets/svg/apply/icon-step2.svg';
+import IconStep3 from '../../assets/svg/apply/icon-step3.svg';
 class ApplyInfo extends Component {
     render() {
         console.log(this.props)
@@ -8,7 +10,24 @@ class ApplyInfo extends Component {
             <div className="apply-info">
                 <section className="col-md-8 col-center icon-btns">
                     <div className="row">
-                        <div className="col-md-4">填写线上申请表</div>
+                        <div className="col-md-4">
+                            <p className="step-title">Step1</p>
+                            <img src={IconStep1}/>
+                            填写线上申请表
+                        </div>
+                        <div className="col-md-4">
+                            <p className="step-title">Step1</p>
+
+                            <img src={IconStep2}/>
+                            提交证明文件及W-8BEN表格
+                            <a href="#">点击上传</a>
+                        </div>
+                        <div className="col-md-4">
+                            <p className="step-title">Step1</p>
+
+                            <img src={IconStep3}/>
+                            通过电子邮件接收TradingStar帐户与登录信息
+                        </div>
                         <div className="col-md-4">提交证明文件及W-8BEN Form</div>
                         <div className="col-md-4">通过电子邮件接收Tranding Star帐户及登陆信息</div>
                     </div>
@@ -70,13 +89,13 @@ class ApplyInfo extends Component {
                                     <li>选民登记通知；</li>
                                     <li>任何其他显示该客户姓名和住址的正式的政府信函或通知。</li>
                                 </ol>
-                                
+
                                 <p>另外可使用的地址证明文件——只适用于中国大陆开户客户</p>
                                 <li>手机账单（六个月内出具的）</li>
                                 <li>载有现居住地址的户口证明文件。</li>
                             </ul>
                             <p>银行账户证明（文件签发日必须在12个月之内，且清晰载有客户姓名、银行账号和银行名称）</p>
-                            
+
                             <ul className="list-style">
                                 <li>载有银行账号、银行名称和银行账户持有人姓名的银行账单</li>
                                 <li>银行出示的有效存款单证明</li>
@@ -85,14 +104,14 @@ class ApplyInfo extends Component {
 
                         </div>
                     </div>
-                    <div className="text-center"> 
+                    <div className="text-center">
                         <Link to="personal-detail" className="btn btn-primary col-center">填寫表格 ></Link>
                     </div>
                 </section>
             </div>
-            )
-        }
+        )
     }
-
-
-    export default ApplyInfo;
+}
+    
+   
+export default ApplyInfo;

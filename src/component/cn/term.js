@@ -4,8 +4,10 @@ import {Link} from 'react-router-dom';
 import autoBind from 'auto-bind';
 import {Redirect} from 'react-router';
 const location = {
-    pathname: '/cn/apply'
+    pathname: ROOT_PATH+'apply'
 }
+
+console.log(process.env.NODE_ENV)
 
 class CnTerm extends Component {
     constructor(props) {
@@ -14,13 +16,12 @@ class CnTerm extends Component {
     }
 
     handleSubmit(e) {
-        // console.log(this.props.sendLocation(e))
+       
         this
             .props
             .sendLocation(e)
-        this
-            .props
-            .history
+            console.log(location)
+        this.props.history
             .push(location)
     }
 
@@ -28,7 +29,7 @@ class CnTerm extends Component {
         const {handleSubmit} = this.props;
 
         return (
-            <div className="col-lg-9 col-md-10 col-center term-wrap">
+            <div className="col-lg-9 col-md-10 col-center column-wrap">
                 <div className="row">
                     <div className="col-lg-4 col-md-5 left-wrap">
                         <form onSubmit={handleSubmit(this.handleSubmit)}>
