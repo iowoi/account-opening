@@ -1,4 +1,3 @@
-
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -17,6 +16,8 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
+       // publicPath: "/Security"
+
     },
     module: {
         rules: [
@@ -40,27 +41,23 @@ module.exports = {
                     name: '[name].[ext]',
                     outputPath: '/assets/fonts/'
                 }
-            },
-            {
-                    test: /\.(png|jpg|gif)$/,
-                    use: [{
+            }, {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
                         loader: 'url-loader?limit=100000',
                         options: {
                             name: '[name].[ext]',
                             outputPath: '/assets/images/'
                         }
-                    }]
-                },
-            
-            // {
-            //     test: /\.(png|jpg|gif)$/,
-            //     loader: 'url-loader?limit=100000',
-            //     options: {
-            //         name: '[name].[ext]',
-            //         outputPath: 'assets/images/'
-            //     }
-            // },
-             {
+                    }
+                ]
+            },
+
+            // {     test: /\.(png|jpg|gif)$/,     loader: 'url-loader?limit=100000',
+            // options: {         name: '[name].[ext]',         outputPath: 'assets/images/'
+            //     } },
+            {
                 test: /\.svg$/,
                 loader: 'file-loader',
                 options: {
@@ -77,7 +74,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({title: 'Account Opening', hash: true, template: 'index-template.ejs'}),
         ExtractMainCss
     ]
 };
+

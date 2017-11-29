@@ -11,7 +11,7 @@ class CnApply extends Component {
                 <div className="row">
                     <div className="col-md-4 left-wrap">
                         <h5>帐户拥有4大优势</h5>
-                        <Link to={ROOT_PATH+'applyInfo'} className="btn btn-primary hidden-md-down">下一步</Link>
+                        <Link to='applyInfo' className="btn btn-primary hidden-md-down">下一步</Link>
                     </div>
                     <div className="col-md-8 right-wrap">
                         <ul className="icon-list">
@@ -20,7 +20,7 @@ class CnApply extends Component {
                             <li><img src={Icon24}/><div>24小时服务</div></li>
                             <li><img src={IconChart}/><div>每天进行专业和最实时的深入分析</div></li>
                         </ul>
-                        <Link to={ROOT_PATH+'applyInfo'} className="btn btn-primary hidden-lg-up">下一步</Link>
+                        <Link to='applyInfo' className="btn btn-primary hidden-lg-up">下一步</Link>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common,{
     devtool: 'inline-source-map',
@@ -13,9 +14,14 @@ module.exports = merge(common,{
                 'NODE_ENV': JSON.stringify('develop'),                           
             },
             ROOT_PATH: JSON.stringify('/')
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Account Opening', 
+            hash: true, 
+            template: 'index-template.ejs',
+            baseUrl: '/'
         })
     ]
    
 });
 
-console.log(process.env.NODE_ENV)

@@ -15,6 +15,12 @@ module.exports = merge(common, {
             },
             ROOT_PATH: JSON.stringify('/Security/')
         }),
+        new HtmlWebpackPlugin({
+            title: 'Account Opening', 
+            hash: true, 
+            template: 'index-template.ejs',
+            baseUrl: '/Security/'
+        }),
         new UglifyJSPlugin({
             sourceMap: true
         })
