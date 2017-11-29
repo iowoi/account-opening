@@ -15,15 +15,16 @@
 
 html {
     height: 100%;
-    font-size: 12px;
 }
 
 body {
+    font-size: 14px;
     height: 100%;
     margin: 0;
     font-family: "Noto Sans SC", "Roboto";
     padding: 0;
     background: linear-gradient(to right, #c8deed, #d4e7f7 29%, #e0ecf6 59%, #e6f0f9 79%, #e4edf5 91%, #e7f0f7, #e7f0f7);
+    @include --below-mobile { font-size: 12px; }
 }
 
 #root {
@@ -90,8 +91,14 @@ button.btn-primary {
     height: 37px;
     border-radius: 100px;
     background-color: $blue;
-    margin: 2rem 0 !important;
+    margin: 2rem 0;
     &:hover {
         cursor: pointer;
     }
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }

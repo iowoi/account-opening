@@ -1,8 +1,8 @@
 .app-header {
     height: 105px;
-	background-color: #1e61b1;
+    background-color: $blue;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.24);
-    padding: 30px;
+    padding: px-to-rem(30);
     span {
         position: relative;
         top: 5px;
@@ -25,5 +25,21 @@
     }
     .logo {
         width: 200px;
+    }
+}
+
+@include --below-mobile {
+    .app-header {
+        padding: 10px;
+        height: 97px;
+        .title {
+            @include font-size($fs: 15, $lh: 1.2);
+            display: block;
+            text-align: center;
+            padding:0;
+        }
+        .short-line {
+            display: none;
+        }
     }
 }

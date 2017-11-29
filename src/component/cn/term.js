@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import autoBind from 'auto-bind';
 import {Redirect} from 'react-router';
 const location = {
-    pathname: ROOT_PATH+'apply'
+    pathname: ROOT_PATH + 'apply'
 }
 
 console.log(process.env.NODE_ENV)
@@ -16,12 +16,14 @@ class CnTerm extends Component {
     }
 
     handleSubmit(e) {
-       
+
         this
             .props
             .sendLocation(e)
-            console.log(location)
-        this.props.history
+        console.log(location)
+        this
+            .props
+            .history
             .push(location)
     }
 
@@ -31,8 +33,9 @@ class CnTerm extends Component {
         return (
             <div className="col-lg-9 col-md-10 col-center column-wrap">
                 <div className="row">
-                    <div className="col-lg-4 col-md-5 left-wrap">
-                        <form onSubmit={handleSubmit(this.handleSubmit)}>
+                    <form onSubmit={handleSubmit(this.handleSubmit)}>
+
+                        <div className="col-lg-4 col-md-5 left-wrap">
                             <h4>请先选取你的居住地</h4>
                             <Field component="select" name="loc" className="custom-select">
                                 <option value="Argentina">Argentina 阿根廷</option>
@@ -73,12 +76,14 @@ class CnTerm extends Component {
                             <p>*若您的居住地没有在表上，<br/>请您电邮到
                                 <a href="mailto:onlineaccount@kvbkunlun.com">
                                     onlineaccount@kvbkunlun.com</a>。</p>
-                            <button className="btn btn-primary" type="submit">下一步</button>
-                        </form>
-                    </div>
-                    <div className="col-lg-8 col-md-7 right-wrap">
-                        <Term/>
-                    </div>
+                            <button className="btn btn-primary hidden-md-down" type="submit">下一步</button>
+                        </div>
+                        <div className="col-lg-8 col-md-7 right-wrap">
+                            <Term/>
+                            <button className="btn btn-primary hidden-lg-up" type="submit">下一步</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         );

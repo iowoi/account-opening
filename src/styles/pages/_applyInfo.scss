@@ -1,11 +1,183 @@
-.apply-info {
-    @include font-size($fs: 20, $lh: 1.5);
-    
+.apply-info-wrap {
+    padding-bottom: 180px;
+    @include font-size(16, 1.5);
+    hr {
+        @include blue-hr;
+        margin: px-to-rem(75) 0 px-to-rem(35);
+    }
+    h3 {
+        @include font-size(28, 1.5);
+        margin: px-to-rem(50) 0 px-to-rem(40);
+        color: $dark-blue;
+    }
+    h6 {
+        @include font-size(16, 1.5);
+        font-weight: bold;
+        margin: px-to-rem(20) 0;
+    }
+    .step-title {
+        @include font-size(25, 1.5);
+        color: $orange;
+        font-style: italic;
+        font-weight: bolder;
+    }
     .icon-btns {
         text-align: center;
+        a {
+            @include underline;
+        }
+        .row {
+            display: table;
+        }
+        .col-md-1,
+        .col-md-3 {
+            display: table-cell;
+            float: none;
+        }
+        .col-md-1 {
+            vertical-align: middle;
+        }
+        .col-md-3 {
+            width: 28%;
+            img {
+                height: 120px;
+                margin: px-to-rem(25) 0 px-to-rem(35);
+            }
+            p {
+                margin-bottom: 0;
+            }
+            a {
+                @include font-size(12, 1.5);
+            }
+            .step-card {
+                p {
+                    @include font-size(20, 1.5);
+                    color: $blue;
+                }
+            }
+        }
     }
-    .col-md-2 {
-        text-align: right;
-        border-right: 1px solid #ccc;
+    .apply-text {
+        ol {
+            padding: 0 0 0 px-to-rem(18);
+            ul {
+                margin-left: - px-to-rem(15);
+                li {
+                    &::before {
+                        content: '–  ';
+                    }
+                }
+            }
+        }
+        .col-md-2 {
+            text-align: right;
+        }
+        .col-md-10 {
+            .btn {
+                margin: 0;
+            }
+            border-left: blue-hr-style();
+            ul>li,
+            ol>li {
+                line-height: px-to-rem(28);
+            }
+        }
+    }
+}
+
+@include --below-small {
+    .apply-info-wrap {
+        padding-bottom: 100px;
+        h6 {
+            margin: 1rem 0;
+        }
+        .icon-btns {
+            .col-md-3 {
+                width: 25%;
+            }
+        }
+        .apply-text {
+            margin: 0 3rem;
+            .vcenter {
+                display: block;
+            }
+            .col-md-2 {
+                @include font-size(18, 1.5);
+                text-align: left;
+                font-weight: bold;
+                color: $dark-blue;
+                margin: 30px 0 10px;
+            }
+            .col-md-10 {
+                padding-left: 2rem;
+                border-left: gary-hr-style();
+                margin-left: 1.5rem;
+            }
+        }
+    }
+}
+
+@include --below-tablet {
+    .apply-info-wrap {
+        .icon-btns {
+            .step-title {
+                text-align: left;
+            }
+            .row {
+                display: inherit;
+                .col-md-1 {
+                    text-align: center;
+                    display: inherit;
+                    margin-top: 2.5rem;
+                    img {
+                        height: 38px;
+                    }
+                }
+                .col-md-3 {
+                    width: 80%;
+                    margin: 0 auto;
+                    display: inherit;
+                    .step-card {
+                        display: table;
+                        width: 100%;
+                        background: $white;
+                        img,
+                        p {
+                            display: table-cell;
+                            vertical-align: middle;
+                        }
+                        img {
+                            height: 60px;
+                            margin: 2.5rem 0;
+                        }
+                        p {
+                            width: 75%;
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+        .apply-text {
+            margin: 0 2rem;
+        }
+    }
+}
+
+@include --below-mobile {
+    .apply-info-wrap {
+        .icon-btns {
+            .row {
+                .col-md-3 {
+                    width: 95%;
+                    .step-card p {
+                        @include font-size(16, 1.5);
+                    }
+                }
+            }
+        }
+        .apply-text {
+            margin: 0 1rem;
+        }
     }
 }
