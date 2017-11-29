@@ -5,10 +5,12 @@ class Navbar extends Component {
     render() {
         return (
             <nav className="navbar">
-                <Panel pathName="/personal-detail" title={<div>Personal Detail<br/>个人资料</div>}/>
-                <Panel pathName="/investment-background" title={<div>Investment Background<br/>投资背景</div>}/>
-                <Panel pathName="/declaration" title={<div>Declaration<br/>声明</div>}/>
-                <Panel pathName="/finish" title={<div>Finish<br/>完成</div>}/> 
+                <Panel pathName="/personal-detail" title="Personal Detail<br/>个人资料"/>
+                <Panel pathName="/investment-background" title="Account Information<br/>帐户资料"/>
+                <Panel pathName="/investment-background" title="Investment Background<br/>投资背景"/>
+                <Panel pathName="/investment-background" title="Security Question<br/>投资背景"/>
+                <Panel pathName="/declaration" title="Declaration<br/>声明"/>
+                <Panel pathName="/finish" title="Finish<br/>完成"/> 
             </nav>
         );
     }
@@ -17,8 +19,10 @@ class Navbar extends Component {
 class Panel extends Component {
     render(){
         return(
-            <div className={this.props.pathName === window.location.pathname ? "active" : null}>
-                {this.props.title}
+            <div className={this.props.pathName === window.location.pathname ? "active panel-list" : " panel-list"}
+            dangerouslySetInnerHTML={{
+                __html: this.props.title
+            }}>
             </div>
         )
     }

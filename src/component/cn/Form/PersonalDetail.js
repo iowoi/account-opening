@@ -69,7 +69,7 @@ class PersonalDetail extends Component {
         const {disabled_standadLot} = this.state
         const { handleSubmit, pristine, reset, submitting } = this.props
         return (
-            <div className="col-md-8 col-center">
+            <div className="col-md-10 col-center">
                 <Navbar/> {/* Form */}
 
                 <form onSubmit={this.handleSubmit}>

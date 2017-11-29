@@ -5,9 +5,7 @@ class CnIndex extends Component {
     constructor(props) {
         super(props);
     }
-    render() {
-        console.log(ROOT_PATH)
-        
+    render() {        
         return (
             <div>
                 <RouteWithSubRoutes routes={this.props.routes}/>

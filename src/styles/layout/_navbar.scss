@@ -2,7 +2,14 @@
     text-align: center;
     border-bottom: 1px solid #ccc;
     padding: 30px 0;
+    .panel-list{
+        background-color: #0F559A;
+        width: 16.6%;
+        float: left;
+        color: $white;
+        border-right:  solid 2px #1e61b1;
+    }
     .active {
-        color:red;
+        background-color: #2a7de2;
     }
 }
