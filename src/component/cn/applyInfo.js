@@ -137,7 +137,7 @@ class ApplyInfo extends Component {
                         </div>
                     </div>
                     <div className="text-center">
-                        <Link to="personal-detail" className="btn btn-primary col-center">立即申请</Link>
+                        <Link to="form/personal-detail" className="btn btn-primary col-center">立即申请</Link>
                     </div>
                 </section>
             </div>

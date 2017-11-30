@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {MenuItem, SelectField} from 'material-ui';
-import Navbar from './Navbar';
 class CnAccountInformation extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +17,8 @@ class CnAccountInformation extends Component {
         console.log(this.props)
         return (
             <div className="col-md-8 col-center">
-                <Navbar/>
+import Navbar from './Navbar';
+            
             </div>
         );
     }

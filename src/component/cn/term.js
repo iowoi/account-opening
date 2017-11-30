@@ -4,10 +4,8 @@ import {Link} from 'react-router-dom';
 import autoBind from 'auto-bind';
 import {Redirect} from 'react-router';
 const location = {
-    pathname: ROOT_PATH + 'apply'
+    pathname: ROOT_PATH + 'cn/apply'
 }
-
-console.log(process.env.NODE_ENV)
 
 class CnTerm extends Component {
     constructor(props) {
@@ -16,7 +14,6 @@ class CnTerm extends Component {
     }
 
     handleSubmit(e) {
-
         this
             .props
             .sendLocation(e)
@@ -34,7 +31,6 @@ class CnTerm extends Component {
             <div className="col-lg-9 col-md-10 col-center column-wrap">
                 <div className="row">
                     <form onSubmit={handleSubmit(this.handleSubmit)}>
-
                         <div className="col-lg-4 col-md-5 left-wrap">
                             <h4>请先选取你的居住地</h4>
                             <Field component="select" name="loc" className="custom-select">

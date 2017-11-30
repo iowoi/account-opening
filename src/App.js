@@ -12,9 +12,7 @@ import {
     CnInvestmentBackground,
     CnDeclaration,
     CnFinish,
-    EnIndex,
-    EnTerm,
-    EnForm
+    FormIndex,
 } from './component/index';
 import {CnPersonalDetail, CnSelectLocation} from './container';
 import {MemoryRouter} from 'react-router'
@@ -31,35 +29,46 @@ import store from './store';
 
 const routes = [
     {
-        path: '',
+        path: process.env.NODE_ENV === 'develop' ? ROOT_PATH : ROOT_PATH + 'cn',
+        exact: true,
         component: CnIndex,
         routes: [
             {
-                path: ROOT_PATH+'term',
+                path: ROOT_PATH + 'cn/term',
                 component: CnSelectLocation
             }, {
-                path: ROOT_PATH+'apply',
+                path: ROOT_PATH + 'cn/apply',
                 component: CnApply
             }, {
-                path: ROOT_PATH+'applyInfo',
+                path: ROOT_PATH + 'cn/applyInfo',
                 component: CnApplyInfo
-            }, {
-                path: ROOT_PATH+'personal-detail',
+            },  
+        ]
+    },{
+        path: process.env.NODE_ENV === 'develop' ?  ROOT_PATH + 'cn/form' : ROOT_PATH + 'cn/personal-detail',
+        exact: true,
+        component: FormIndex,
+        routes: [
+            {
+                path: ROOT_PATH + 'cn/form/personal-detail',
                 component: CnPersonalDetail
-            }, {
-                path: ROOT_PATH+'account-information',
+            },{
+                path: ROOT_PATH + 'cn/form/account-information',
                 component: CnAccountInformation
             }, {
-                path: ROOT_PATH+'investment-background',
+                path: ROOT_PATH + 'cn/form/investment-background',
                 component: CnInvestmentBackground
             }, {
-                path: ROOT_PATH+'declaration',
+                path: ROOT_PATH + 'cn/form/security-question',
+                component: CnInvestmentBackground
+            }, {
+                path: ROOT_PATH + 'cn/form/declaration',
                 component: CnDeclaration
             }, {
-                path: ROOT_PATH+'finish',
+                path: ROOT_PATH + 'cn/form/finish',
                 component: CnFinish
             }
-        ]
+        ]                    
     }
 ]
 
@@ -71,7 +80,7 @@ class App extends Component {
                     <div>
                         <Header/>
                         <MuiThemeProvider>
-                                <RouteWithSubRoutes routes={routes}/>
+                            <RouteWithSubRoutes routes={routes}/>
                         </MuiThemeProvider>
                     </div>
                 </Router>

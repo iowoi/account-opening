@@ -7,11 +7,12 @@ class CnIndex extends Component {
         super(props);
     }
     render() {        
-        console.log(ROOT_PATH)
+       console.log(this.props)
+       console.log(ROOT_PATH)
         return (
             <div>
                 <RouteWithSubRoutes routes={this.props.routes}/>
-                <Route exact path={ROOT_PATH} render={() => (<Redirect to={ROOT_PATH+'term'}/>)}/>
+                <Route exact path={ROOT_PATH} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>
                 <Route component={Page404}></Route>
             </div>
         );

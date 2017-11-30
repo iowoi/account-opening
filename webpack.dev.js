@@ -18,8 +18,7 @@ module.exports = merge(common,{
         new HtmlWebpackPlugin({
             title: 'Account Opening', 
             hash: true, 
-            template: 'index-template.ejs',
-            baseUrl: '/'
+            template: 'index-template.ejs'
         })
     ]
    

@@ -1,15 +1,55 @@
 .navbar {
     text-align: center;
+    border: none;
     border-bottom: 1px solid #ccc;
-    padding: 30px 0;
-    .panel-list{
-        background-color: #0F559A;
-        width: 16.6%;
-        float: left;
+    background-color: $blue;
+    padding-top: 10px;
+    height: 137px;
+    border-radius: 0;
+    .navbar-nav {
+        display: table;
+        position: absolute;
+        left: 12.5%;
+    }
+    .panel-list {
         color: $white;
-        border-right:  solid 2px #1e61b1;
+        display: table-cell;
+        &:last-child {
+            .panel-title {
+                padding: 30px 40px;
+                border-right: none;
+            }
+        }
+        &:nth-child(3) {
+            .panel-title {
+                padding: 30px 26px;
+            }
+        }
+        .panel-title {
+            padding: 30px;
+            background-color: #0F559A;
+            border-right: solid 2px #1e61b1;
+            span {
+                @include font-size(18, 1.5);
+            }
+            @include font-size(22, 1.5);
+        }
+    }
+    .active-label {
+        height: 35px;
+        img {
+            top: -2px;
+            position: relative;
+            width: calc(100% + 6px);
+            left: -4px;
+            z-index: 10;
+        }
     }
     .active {
-        background-color: #2a7de2;
+        .panel-title {
+            background-color: #2a7de2;
+        }
+        position: relative;
     }
 }
+

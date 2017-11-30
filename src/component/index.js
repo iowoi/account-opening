@@ -7,7 +7,7 @@ import CnAccountInformation from './cn/Form/AccountInformation';
 import CnInvestmentBackground from './cn/Form/InvestmentBackground';
 import CnDeclaration from './cn/Form/Declaration';
 import CnFinish from './cn/Form/Finish';
-
+import FormIndex from './cn/Form';
 
 export {
     CnIndex,
@@ -17,5 +17,6 @@ export {
     CnAccountInformation,
     CnInvestmentBackground,
     CnDeclaration,
-    CnFinish
+    CnFinish,
+    FormIndex
 }

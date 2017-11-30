@@ -15,7 +15,8 @@ module.exports = {
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath:'/'
        // publicPath: "/Security"
 
     },
@@ -39,7 +40,7 @@ module.exports = {
                 loader: 'url-loader?limit=100000',
                 options: {
                     name: '[name].[ext]',
-                    outputPath: '/assets/fonts/'
+                    outputPath: 'assets/fonts/'
                 }
             }, {
                 test: /\.(png|jpg|gif)$/,
@@ -48,7 +49,7 @@ module.exports = {
                         loader: 'url-loader?limit=100000',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: '/assets/images/'
+                            outputPath: 'assets/images/'
                         }
                     }
                 ]
@@ -62,7 +63,7 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',
-                    outputPath: '/assets/svg/'
+                    outputPath: 'assets/svg/'
                 }
             }, {
                 test: /\.scss$/,

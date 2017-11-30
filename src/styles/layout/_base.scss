@@ -1,15 +1,15 @@
 // note: no img assets required for layout
-// @font-face {
-//   font-family: 'Noto Sans SC';
-//   font-style: normal;
-//   font-weight: 100;
-//   src: url("./assets/fonts/NotoSansSC/NotoSansSC-Light.woff2") format('woff2'), url("./NotoSansSC-Light.woff") format('woff'), url("/assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
-// }
+@font-face {
+  font-family: 'Noto Sans SC';
+  font-style: normal;
+  font-weight: 100;
+  src: url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff2") format('woff2'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
+}
 @font-face {
     font-family: 'Roboto';
     font-style: normal;
-    font-weight: 500;
-    src: url("./Roboto-Light.ttf") format('truetype');
+    font-weight: 800;
+    src: url("../assets/fonts/Roboto/Roboto-Light.ttf") format('truetype');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
 
@@ -18,7 +18,7 @@ html {
 }
 
 body {
-    font-size: 14px;
+    font-size: 12px;
     height: 100%;
     margin: 0;
     font-family: "Noto Sans SC", "Roboto";
@@ -28,7 +28,7 @@ body {
 }
 
 #root {
-    background: url("./web-bg.png") no-repeat;
+    background: url("../assets/img/web-bg.png") no-repeat;
     background-size: 100% auto;
     height: 100%;
 }
