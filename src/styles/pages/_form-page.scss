@@ -1,0 +1,26 @@
+.form-page {
+    padding: 335px 3rem 4rem;
+    background: #fff;
+    margin: 0px auto 100px;
+    h3 {
+        font-weight: bolder;
+        color: $dark-blue;
+        margin-bottom: 1rem;
+    }
+    .blue-title {
+        color: $dark-blue;
+        @include font-size(18, 1.5);
+    }
+    small {
+        @include font-size(15, 1.5);
+    }
+    label,p {
+        @include font-size(18, 1.5);
+    }
+}
+
+@include --below-mobile {
+    .form-page {
+        margin: 90px auto 100px;
+    }
+}

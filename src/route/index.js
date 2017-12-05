@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, Link} from 'react-router-dom';
+import {Route, Link, Switch} from 'react-router-dom';
 
 export class RouteWithSubRoutes extends Component {
     constructor(props) {
@@ -7,12 +7,12 @@ export class RouteWithSubRoutes extends Component {
     }
     render() {
         return (
-            <div>
+            <Switch>
                 {this.props.routes
                     .map((route, i) => (
                         <SubRoutes key={i} {...route}/>
                     ))}
-            </div>
+            </Switch>
         );
     }
 }

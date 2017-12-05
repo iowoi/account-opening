@@ -25,10 +25,10 @@ $brand-danger : $red !default;
 // --------------------------------------------------
 
 @mixin --above-large {min-width: 1401px};
-@mixin --below-large {max-width: 1400px};
+@mixin --below-large { @media only screen and (max-width: 1400px) { @content; }};
 @mixin --above-medium {min-width: 1281px};
-@mixin --below-medium {max-width: 1280px};
-@mixin --above-desktop {min-width: 1025px};
+@mixin --below-medium { @media only screen and (max-width: 1280px) { @content; }};
+@mixin --above-desktop { @media only screen and (min-width: 1025px) { @content; }};
 @mixin --below-desktop { @media only screen and (max-width: 1024px) { @content; }};
 @mixin --above-small {min-width: 851px};
 @mixin --below-small { @media only screen and (max-width: 991px) { @content; }};
@@ -36,10 +36,11 @@ $brand-danger : $red !default;
 @mixin --below-tablet { @media only screen and (max-width: 767px) { @content; }};
 @mixin --above-mobile {min-width: 551px};
 @mixin --below-mobile { @media only screen and (max-width: 550px) { @content; }};
+@mixin --below-xs-mobile { @media only screen and (max-width: 424px) { @content; }};
 
 // Font Style
 // --------------------------------------------------
-@media only screen and (max-width: 550px) { 
+@media only screen and (max-width: 1024px) { 
     @function px-to-rem($size) {
         @return ($size / 10 * 0.8)+rem;
     } 

@@ -1,15 +1,19 @@
 .navbar {
     text-align: center;
     border: none;
-    border-bottom: 1px solid #ccc;
+    //border-bottom: 1px solid #ccc;
     background-color: $blue;
-    padding-top: 10px;
-    height: 137px;
+    padding-top: 30px;
+    height: 156px;
     border-radius: 0;
+    position: relative;
+    z-index: 201;
     .navbar-nav {
         display: table;
-        position: absolute;
-        left: 12.5%;
+        padding: 0;
+        
+        //position: absolute;
+       // left: 12.5%;
     }
     .panel-list {
         color: $white;
@@ -53,3 +57,19 @@
     }
 }
 
+@media(max-width: 1440px) {
+    .navbar {
+        padding-top: 0;
+        height: 111px;
+    }
+}
+@media(max-width: 1023px) {
+    .navbar {
+        height: 85px;
+        .panel-title {
+            span,br {
+                display: none;
+            }
+        }
+    }
+}

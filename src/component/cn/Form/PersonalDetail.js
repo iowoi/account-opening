@@ -6,6 +6,8 @@ import asyncValidate from '../../asyncValidate';
 import autoBind from 'auto-bind';
 import {Link} from 'react-router-dom';
 import { findDOMNode } from 'react-dom';
+import $ from 'jquery';
+import FormHeader from './common/Header';
 
 const validate = values => {
     const errors = {}
@@ -87,243 +89,261 @@ class PersonalDetail extends Component {
     }
     
     handleScroll(event) {
-        console.log(event.srcElement)
-        let scrollTop = event.srcElement.body.scrollTop,
-            itemTranslate = Math.min(0, scrollTop/3 - 60);
-    
-        console.log(itemTranslate)
+        const elms = ["step1","step2","step3"]
+        const bodyRect = document.body.getBoundingClientRect().top
+        
+        elms.map(function(id,index){
+            const domElm = document.getElementById(id).getBoundingClientRect()
+            const elmTop = domElm.top
+            const scrollPos = $(document).scrollTop()
+            let elmOffsetY = elmTop - bodyRect
+           // console.log(id,"scrollPos:"+scrollPos,domElm.height,$('#step3').offset())
+            if(elmOffsetY <= scrollPos ){
+                $('#stepper'+index).addClass('active');
+                $('#stepper'+index).siblings().removeClass('active');
+            }
+        })
     }
 
     componentWillUpdate() {
-        console.log(findDOMNode(this.refs.step1).getClientRects())
+       // console.log(findDOMNode(this.refs.step1))
         
-      }
+    }
     addSelfCertification(e) {
         return <SelfCertification key=""/>
     }
-
+    
     render() {
         //console.log(this.state)
+        const steps = [
+            {cn:"个人申请", en:"Individual Applicant"},
+            {cn:"就业资料", en:"Employment Information"},
+            {html:"<font class='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font class='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
+        ]
         const {disabled_standadLot} = this.state
         const {handleSubmit, pristine, reset, submitting} = this.props
         return (
             <div>
-                <Stepper/>
-                <div className="form-page">
+                <FormHeader></FormHeader>
+                <div className="form-page col-md-10 col-center">
                     <form onSubmit={this.handleSubmit}>
-                        <h5  ref="step1">Individual Applicant 个人申请</h5>
-                        <p>Please complete all required details below. Those marked with an * are
-                            mandatory.<br/>请完成所有需要的栏位。标明 * 的为必须填写。</p>
+                        <div id="step1">
+                            <h3>Individual Applicant 个人申请</h3>
+                            <p className="blue-title">Please complete all required details below. Those marked with an * are
+                                mandatory.<br/>请完成所有需要的栏位。标明 * 的为必须填写。</p>
 
-                        <fieldset className="form-group row">
-                            <label>Gender 性別*</label>
-                            <div className="col-sm-10 form-check-inline">
-                                <Field type="radio" component="input" name="gender" value="male"/>
-                                Male 男
-                                <Field type="radio" component="input" name="gender" value="female"/>
-                                Female 女
+                            <div className="form-group">
+                                <label>Gender 性別*</label>
+                                <div className="form-check-inline">
+                                    <Field type="radio" component="input" name="gender" value="male"/>
+                                    Male 男
+                                    <Field type="radio" component="input" name="gender" value="female"/>
+                                    Female 女
+                                </div>
                             </div>
-                        </fieldset>
 
-                        <Field
-                            name="firstName"
-                            component={InputField}
-                            label="First Name (as shown on your proof of identity)名称（与身份证明一致）*"/>
+                            <Field
+                                name="firstName"
+                                component={InputField}
+                                label="First Name (as shown on your proof of identity)名称（与身份证明一致）*"/>
 
-                        <Field
-                            name="middleName"
-                            component={InputField}
-                            label="Middle Name (if applicable) 中间名 (如适用)"/>
+                            <Field
+                                name="middleName"
+                                component={InputField}
+                                label="Middle Name (if applicable) 中间名 (如适用)"/>
 
-                        <Field
-                            name="surname"
-                            component={InputField}
-                            label="Surname (as shown on your proof of identity) 姓氏（与身份证明一致）*"/>
+                            <Field
+                                name="surname"
+                                component={InputField}
+                                label="Surname (as shown on your proof of identity) 姓氏（与身份证明一致）*"/>
 
-                        <Field
-                            name="email"
-                            component={InputField}
-                            label="Email Address 电子邮件 *"
-                            labelInfo="It is important that you provide a valid email address for future correspondence. <br/> 请确保提供一个有效的电子邮件地址以方便之后的通讯联系"/>
+                            <Field
+                                name="email"
+                                component={InputField}
+                                label="Email Address 电子邮件 *"
+                                labelInfo="It is important that you provide a valid email address for future correspondence. <br/> 请确保提供一个有效的电子邮件地址以方便之后的通讯联系"/>
 
-                        <Field
-                            name="birth"
-                            component={DateField}
-                            label="Date of Birth 出生日期 *"
-                            labelInfo="You must be over 18 years old to trade with KVB. <br/> 您必须年满18岁才可以在KVB昆仑国际开立账户"/>
+                            <Field
+                                name="birth"
+                                component={DateField}
+                                label="Date of Birth 出生日期 *"
+                                labelInfo="You must be over 18 years old to trade with KVB. <br/> 您必须年满18岁才可以在KVB昆仑国际开立账户"/>
 
-                        <Field
-                            name="countryOfBirth"
-                            component={SelectField}
-                            label="Country of Birth 出生国家 *">
-                            <option value="">-- Country --</option>
-                            <Countries/>
-                        </Field>
-
-                        <Field name="nationality" component={SelectField} label="Nationality 国籍 *">
-                            <option value="">-- Nationality --</option>
-                            <Countries/>
-                        </Field>
-
-                        <Field
-                            name="address"
-                            component={InputField}
-                            label="Residential Address (P.O. Box Addresses are not acceptable) 通讯地址 (邮政信箱将不予接受) *"/>
-
-                        <Field name="city" component={InputField} label="Town/City 城镇/城市 *"/>
-
-                        <Field name="postcode" component={InputField} label="Postcode 邮政编号"/>
-
-                        <Field name="country" component={SelectField} label="Country or Region 国家或地区 *">
-                            <option value="">-- Country --</option>
-                            <Countries/>
-                        </Field>
-
-                        <label className="d-block">Primary Contact Number 主要联络号码 *</label>
-                        <div className="form-inline">
-                            <Field name="contactType" component="select" className="custom-select">
-                                <option value="Work 办公室">Work 办公室</option>
-                                <option value="Home 住宅">Home 住宅</option>
-                                <option value="Mobile 手机">Mobile 手机</option>
+                            <Field
+                                name="countryOfBirth"
+                                component={SelectField}
+                                label="Country of Birth 出生国家 *">
+                                <option value="">-- Country --</option>
+                                <Countries/>
                             </Field>
+
+                            <Field name="nationality" component={SelectField} label="Nationality 国籍 *">
+                                <option value="">-- Nationality --</option>
+                                <Countries/>
+                            </Field>
+
                             <Field
-                                name="contactCountryCode"
-                                className="form-control"
-                                placeholder="Country Code 国家码"
-                                component={InputField}/>
+                                name="address"
+                                component={InputField}
+                                label="Residential Address (P.O. Box Addresses are not acceptable) 通讯地址 (邮政信箱将不予接受) *"/>
+
+                            <Field name="city" component={InputField} label="Town/City 城镇/城市 *"/>
+
+                            <Field name="postcode" component={InputField} label="Postcode 邮政编号"/>
+
+                            <Field name="country" component={SelectField} label="Country or Region 国家或地区 *">
+                                <option value="">-- Country --</option>
+                                <Countries/>
+                            </Field>
+
+                            <label className="d-block">Primary Contact Number 主要联络号码 *</label>
+                            <div className="form-inline">
+                                <Field name="contactType" component="select" className="custom-select">
+                                    <option value="Work 办公室">Work 办公室</option>
+                                    <option value="Home 住宅">Home 住宅</option>
+                                    <option value="Mobile 手机">Mobile 手机</option>
+                                </Field>
+                                <Field
+                                    name="contactCountryCode"
+                                    className="form-control"
+                                    placeholder="Country Code 国家码"
+                                    component={InputField}/>
+                                <Field
+                                    name="contactAreaCode"
+                                    className="form-control"
+                                    placeholder="Area Code 区码"
+                                    component={InputField}/>
+                                <Field
+                                    name="contactNumber"
+                                    className="form-control"
+                                    placeholder="Number 电话号码"
+                                    component={InputField}/>
+                            </div>
+
                             <Field
-                                name="contactAreaCode"
-                                className="form-control"
-                                placeholder="Area Code 区码"
-                                component={InputField}/>
+                                name="telPassword"
+                                component={InputField}
+                                label="Telephone Password 电话密码 *"
+                                labelInfo="It is important that you remember your telephone password for future identification when contacting KVB. <br/> 请确保记住您的电话密码以方便之后与我们联络时的身份识别"/>
+
                             <Field
-                                name="contactNumber"
-                                className="form-control"
-                                placeholder="Number 电话号码"
-                                component={InputField}/>
+                                name="knowFrom"
+                                component={InputField}
+                                onChange={this.handleChange}
+                                label="If you are referred by a service provider, please specify the service provider number 如您由代理介绍开户, 烦请填写代理号码"/> {this.state.show_ShareTransWithAgent
+                                ? <ShareTransWithAgent/>
+                                : null}
+
+                            <h5>Charges Schedule 费用表</h5>
+
+                            <p>KVB Kunlun New Zealand Limited fees and charges as agreed and acknowledged by
+                                the client are as follows: 客户同意并确认KVB昆仑新西兰有限公司的费用如下：</p>
+                            <label className="d-block">Commission per standard lot 每手标准手数佣金 (如果不加佣金，请留空)
+                            </label>
+                            <div className="form-inline">
+                                <Field
+                                    type="radio"
+                                    component="input"
+                                    onChange={this.handleChange}
+                                    name="standadLotRadio"
+                                    value="0"/>
+                                <Field
+                                    name="standadLot"
+                                    component={InputField}
+                                    onChange={this.handleChange}
+                                    disabled={disabled_standadLot != 0
+                                    ? true
+                                    : false}/>
+                            </div>
+                            <div className="form-inline">
+                                <Field
+                                    type="radio"
+                                    component="input"
+                                    onChange={this.handleChange}
+                                    name="standadLotRadio"
+                                    value="1"/>
+                                <Field
+                                    name="standadLot"
+                                    component={InputField}
+                                    onChange={this.handleChange}
+                                    disabled={disabled_standadLot != 1
+                                    ? true
+                                    : false}/>
+                                %
+                            </div>
                         </div>
-
-                        <Field
-                            name="telPassword"
-                            component={InputField}
-                            label="Telephone Password 电话密码 *"
-                            labelInfo="It is important that you remember your telephone password for future identification when contacting KVB. <br/> 请确保记住您的电话密码以方便之后与我们联络时的身份识别"/>
-
-                        <Field
-                            name="knowFrom"
-                            component={InputField}
-                            onChange={this.handleChange}
-                            label="If you are referred by a service provider, please specify the service provider number 如您由代理介绍开户, 烦请填写代理号码"/> {this.state.show_ShareTransWithAgent
-                            ? <ShareTransWithAgent/>
-                            : null}
-
                         <hr/> {/* ======================= Form Two ======================= */}
+                        <div id="step2">
+                            <h3>Employment Information 就业资料</h3>
 
-                        <h5>Charges Schedule 费用表</h5>
-                        <p>KVB Kunlun New Zealand Limited fees and charges as agreed and acknowledged by
-                            the client are as follows: 客户同意并确认KVB昆仑新西兰有限公司的费用如下：</p>
-                        <label className="d-block">Commission per standard lot 每手标准手数佣金 (如果不加佣金，请留空)
-                        </label>
-                        <div className="form-inline">
                             <Field
-                                type="radio"
-                                component="input"
+                                name="employmentStatus"
+                                component={SelectField}
                                 onChange={this.handleChange}
-                                name="standadLotRadio"
-                                value="0"/>
-                            <Field
-                                name="standadLot"
-                                component={InputField}
-                                onChange={this.handleChange}
-                                disabled={disabled_standadLot != 0
-                                ? true
-                                : false}/>
+                                label="Employment Status 就业情况 *">
+                                <option value="Employed 受雇">Employed 受雇</option>
+                                <option value="Self-employed 自雇">Self-employed 自雇</option>
+                                <option value="Retired 退休">Retired 退休</option>
+                                <option value="Unemployed 无业">Unemployed 无业</option>
+                            </Field>
+
+                            {this.state.show_EmploymentStatus
+                                ? <EmploymentStatus/>
+                                : null}
+
+                            <hr/> {/* ======================= Form Four ======================= */}
+
+                            <label className="d-block">Are you a citizen or a tax resident of the United States of America?
+                                <br/>
+                                您是否是美国公民或纳税居民？
+                            </label>
+                            <div className="form-check-inline">
+                                <Field
+                                    type="radio"
+                                    component="input"
+                                    onChange={this.handleChange}
+                                    name="isUSA"
+                                    value="Yes"/>
+                                Yes 是
+                                <Field
+                                    type="radio"
+                                    component="input"
+                                    onChange={this.handleChange}
+                                    name="isUSA"
+                                    value="No"/>
+                                No 否
+                            </div>
+
+                            <label className="d-block">Are you born in the U.S. (or a U.S. territory) but am
+                                no longer a U.S. citizen as you have voluntarily surrendered your citizenship?
+                                <br/>
+                                您是否出生於美国 (或美国领土)，但本人以自愿放弃美国国籍，不在是美国公民？
+
+                            </label>
+                            <div className="form-check-inline">
+                                <Field
+                                    type="radio"
+                                    component="input"
+                                    onChange={this.handleChange}
+                                    name="bornInUSA"
+                                    value="Yes"/>
+                                Yes 是
+                                <Field
+                                    type="radio"
+                                    component="input"
+                                    onChange={this.handleChange}
+                                    name="bornInUSA"
+                                    value="No"/>
+                                No 否
+                            </div>
                         </div>
-                        <div className="form-inline">
-                            <Field
-                                type="radio"
-                                component="input"
-                                onChange={this.handleChange}
-                                name="standadLotRadio"
-                                value="1"/>
-                            <Field
-                                name="standadLot"
-                                component={InputField}
-                                onChange={this.handleChange}
-                                disabled={disabled_standadLot != 1
-                                ? true
-                                : false}/>
-                            %
-                        </div>
-
-                        <hr/> {/* ======================= Form Three ======================= */}
-
-                        <h5>Employment Information 就业资料</h5>
-
-                        <Field
-                            name="employmentStatus"
-                            component={SelectField}
-                            onChange={this.handleChange}
-                            label="Employment Status 就业情况 *">
-                            <option value="Employed 受雇">Employed 受雇</option>
-                            <option value="Self-employed 自雇">Self-employed 自雇</option>
-                            <option value="Retired 退休">Retired 退休</option>
-                            <option value="Unemployed 无业">Unemployed 无业</option>
-                        </Field>
-
-                        {this.state.show_EmploymentStatus
-                            ? <EmploymentStatus/>
-                            : null}
-
-                        <hr/> {/* ======================= Form Four ======================= */}
-
-                        <label className="d-block">Are you a citizen or a tax resident of the United States of America?
-                            <br/>
-                            您是否是美国公民或纳税居民？
-                        </label>
-                        <div className="form-check-inline">
-                            <Field
-                                type="radio"
-                                component="input"
-                                onChange={this.handleChange}
-                                name="isUSA"
-                                value="Yes"/>
-                            Yes 是
-                            <Field
-                                type="radio"
-                                component="input"
-                                onChange={this.handleChange}
-                                name="isUSA"
-                                value="No"/>
-                            No 否
-                        </div>
-
-                        <label className="d-block">Are you born in the U.S. (or a U.S. territory) but am
-                            no longer a U.S. citizen as you have voluntarily surrendered your citizenship?
-                            <br/>
-                            您是否出生於美国 (或美国领土)，但本人以自愿放弃美国国籍，不在是美国公民？
-
-                        </label>
-                        <div className="form-check-inline">
-                            <Field
-                                type="radio"
-                                component="input"
-                                onChange={this.handleChange}
-                                name="bornInUSA"
-                                value="Yes"/>
-                            Yes 是
-                            <Field
-                                type="radio"
-                                component="input"
-                                onChange={this.handleChange}
-                                name="bornInUSA"
-                                value="No"/>
-                            No 否
-                        </div>
+                        
+                        
 
                         <hr/> {/* ======================= Section Five ======================= */}
-                        <h5>Common Reporting Standard 普通报告标准
-                            <br/>Individual Self-Certification 个人认证</h5>
+                        <div id="step3">
+                        <h3>Common Reporting Standard 普通报告标准
+                            <br/>Individual Self-Certification 个人认证</h3>
                         <SelfCertification/>
                         <a
                             href="javascript:void(0);"
@@ -336,6 +356,8 @@ class PersonalDetail extends Component {
                             of another jurisdiction/country<br/>
                             您可以是不止一个国家的税务居民。 如果您是其他管辖区/国家的税务居民，请点击更多
                         </p>
+                        </div>
+                       
                         {/* <button type="submit" className="btn btn-primary">
                             下一步 >
                         </button> */}
@@ -343,7 +365,6 @@ class PersonalDetail extends Component {
                         </Link>
                     </form>
                 </div>
-                
             </div>
         )
     }
