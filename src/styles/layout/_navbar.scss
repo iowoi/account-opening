@@ -61,12 +61,32 @@
         height: 111px; 
     }
 }
-@media(max-width: 1023px) {
+@media(max-width: 1024px) {
     .navbar {
         height: 85px;
         .panel-title {
             span,br {
                 display: none;
+            }
+        }
+        .panel-list {
+            &:last-child {
+                .panel-title {
+                    padding: 20px 35px;
+                }
+            }
+            &:nth-child(3) {
+                .panel-title {
+                    padding: 20px 35px;
+                }
+            }
+            &:nth-child(5) {
+                .panel-title {
+                    padding: 20px 35px;
+                }
+            }
+            .panel-title {
+                padding: 20px 30px;
             }
         }
     }

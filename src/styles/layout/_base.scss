@@ -19,7 +19,7 @@ html {
 
 @include --below-large{
     html {
-        font-size: 9px;
+        font-size: 8.5px;
     }
 }
 
@@ -29,6 +29,8 @@ html {
         font-size: 8px;
     }
 }
+
+
 
 
 @include --below-tablet{
