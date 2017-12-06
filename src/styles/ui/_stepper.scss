@@ -43,7 +43,7 @@
     }
     span {
         color: #1e61b1;
-        @include font-size(16, 1.5);
+        @include font-size(16);
         font {
             margin-right: 10px;
         }
@@ -73,7 +73,7 @@
         padding: 10px 0 20px;
         p {
             height: 25px;
-            @include font-size(12, 1.5);
+            @include font-size(12);
         }
     }
     .stepper-row {

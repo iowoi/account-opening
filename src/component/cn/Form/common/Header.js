@@ -23,20 +23,14 @@ class FormHeader extends Component {
         if (scrollPos >=  header.height()) {
             header.addClass('fixed')
         } 
-
     }
 
     render() {
-        const steps = [
-            {cn:"个人申请", en:"Individual Applicant"},
-            {cn:"就业资料", en:"Employment Information"},
-            {html:"<font class='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font class='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
-        ]
         return (
             <header className="fixed">
                 <Header/>
                 <Navbar/>
-                <Stepper titles={steps}/>
+                <Stepper titles={this.props.steps}/>
             </header>
         );
     }

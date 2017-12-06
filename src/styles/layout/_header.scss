@@ -17,18 +17,18 @@ header{
     z-index: 200;
     position: relative;
     .title {
-        @include font-size($fs: 18, $lh: 1.5);
+        @include font-size($fs: 18);
         padding: .5rem 1rem;
         color: #fff;
         font {
-            @include font-size($fs: 22, $lh: 1.5);
+            @include font-size($fs: 22);
             font-stretch: condensed;
             text-align: justify;
             margin-right: 1rem;
         }
     }
     .short-line {
-        @include font-size($fs: 22, $lh: 1.5);
+        @include font-size($fs: 22);
         color: #fff;
         margin: 0 1rem 0 2rem;
     }

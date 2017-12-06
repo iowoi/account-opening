@@ -15,6 +15,9 @@ $dark-blue : #00397d !default;
 $teal : #5bc0de !default;
 $pink : #ff5b77 !default;
 $purple: #613d7c !default;
+$gary:  #4a4a4a;
+$lite-gary:  #e9e6e6;
+
 $brand-primary : $blue !default;
 $brand-success : $green !default;
 $brand-info : $teal !default;
@@ -40,23 +43,25 @@ $brand-danger : $red !default;
 
 // Font Style
 // --------------------------------------------------
+$default-size : 12;
+
 @media only screen and (max-width: 1024px) { 
-    @function px-to-rem($size) {
-        @return ($size / 10 * 0.8)+rem;
-    } 
-}
-$default-line-height: 1.5 !default;
-@function px-to-rem($size) {
-    @return ($size / 10 )+rem;
+    $default-size : 10;
+    
 }
 
-@mixin font-size($fs: false, $lh: $default-line-height) {
+$default-line-height: 2.25rem !default;
+@function px-to-rem($size) {
+    @return ($size/$default-size)+rem;
+}
+
+@mixin font-size($fs: false, $lh: false) {
     @if $fs {
         font-size: px-to-rem($fs);
     }
     @if $lh {
-        line-height: $lh;
-    }
+        line-height: px-to-rem($lh); 
+    } 
 }
 
 // Line Style

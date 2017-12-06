@@ -1,22 +1,22 @@
 .apply-info-wrap {
     padding-bottom: 180px;
-    @include font-size(16, 1.5);
+    @include font-size(16);
     hr {
         @include blue-hr;
         margin: px-to-rem(75) 0 px-to-rem(35);
     }
     h3 {
-        @include font-size(28, 1.5);
+        @include font-size(28);
         margin: px-to-rem(50) 0 px-to-rem(40);
         color: $dark-blue;
     }
     h6 {
-        @include font-size(16, 1.5);
+        @include font-size(16);
         font-weight: bold;
         margin: px-to-rem(20) 0;
     }
     .step-title {
-        @include font-size(25, 1.5);
+        @include font-size(25);
         color: $orange;
         font-style: italic;
         font-weight: bolder;
@@ -47,11 +47,11 @@
                 margin-bottom: 0;
             }
             a {
-                @include font-size(12, 1.5);
+                @include font-size(12);
             }
             .step-card {
                 p {
-                    @include font-size(20, 1.5);
+                    @include font-size(20);
                     color: $blue;
                 }
             }
@@ -102,7 +102,7 @@
                 display: block;
             }
             .col-md-2 {
-                @include font-size(18, 1.5);
+                @include font-size(18);
                 text-align: left;
                 font-weight: bold;
                 color: $dark-blue;
@@ -171,7 +171,7 @@
                 .col-md-3 {
                     width: 95%;
                     .step-card p {
-                        @include font-size(16, 1.5);
+                        @include font-size(16);
                     }
                 }
             }

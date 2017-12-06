@@ -1,21 +1,82 @@
 .form-page {
-    padding: 335px 3rem 4rem;
-    background: #fff;
-    margin: 0px auto 100px;
+    padding: px-to-rem(335) 3rem 4rem;
+    background: rgba(255, 255, 255, 0.7);
+    margin: 0px auto px-to-rem(100);
+    color: $gary;
+    @include font-size(18, 27);
+    .form-group {
+        margin: 0;
+        padding:  px-to-rem(16) 0;
+    }
+    hr {
+        border-top: solid 1.5px rgba(1, 57, 125, 0.37);
+    }
+    h3,
+    .blue-title,
+    label {
+        font-family: 'Roboto M', 'Noto Sans SC M';
+    }
     h3 {
-        font-weight: bolder;
         color: $dark-blue;
-        margin-bottom: 1rem;
+        margin: px-to-rem(36) 0 px-to-rem(5);
+        @include font-size(24, 40);
     }
     .blue-title {
         color: $dark-blue;
-        @include font-size(18, 1.5);
     }
     small {
-        @include font-size(15, 1.5);
+        @include font-size(15, 21);
     }
-    label,p {
-        @include font-size(18, 1.5);
+    label {
+        margin-bottom: 0;
+        font-weight: bolder;
+    }
+    input,
+    select {
+        margin-top: px-to-rem(10);
+        width: 50%;
+        height: px-to-rem(36);
+    }
+    select:disabled {
+        background-color: $lite-gary;
+        cursor: not-allowed;
+    }
+    input[type=radio] {
+        width: initial;
+        height: initial;
+        position: relative;
+        top: px-to-rem(-2);
+    }
+    .col-inputs {
+        select,
+        input {
+            width: initial;
+        }
+        .form-group {
+            margin: 0 0 0 1rem;
+        }
+    }
+    .form-inline {
+        .form-group {
+            margin: 0 0 0 1rem;
+        }
+    }
+    #step3 {
+        .form-group {
+            margin: 0.5rem 0;
+        }
+    }
+    .expend,
+    .senior-expend {
+        background-color: rgba(31, 97, 177, 0.23);
+    }
+    .expend {
+        margin: px-to-rem(-20) -3rem px-to-rem(-7);
+        padding: 1rem 3rem 0;
+    }
+    .senior-expend {
+        margin:  px-to-rem(20) -3rem -1.7rem;
+        padding: 1px 3rem px-to-rem(15);
     }
 }
 

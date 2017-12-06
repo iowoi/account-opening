@@ -47,10 +47,8 @@ class PersonalDetail extends Component {
         autoBind(this);
         this.state = {
             show_ShareTransWithAgent: false,
-            disabled_standadLot: 0,
-            show_SeniorInfo: false,
-            show_DontHaveTINReason: false,
-            show_EmploymentStatus: true
+            show_EmploymentStatus: true,
+            selfCertificationKey: 0
         };
     }
 
@@ -59,21 +57,13 @@ class PersonalDetail extends Component {
         target.name === 'knowFrom' && target.value
             ? this.setState({show_ShareTransWithAgent: true})
             : this.setState({show_ShareTransWithAgent: false})
-
-        target.name === 'employmentStatus' && target.value !== 'Unemployed 无业'
+       
+        if (target.name === 'employmentStatus' ){
+            target.value !== 'Unemployed 无业'
             ? this.setState({show_EmploymentStatus: true})
             : this.setState({show_EmploymentStatus: false})
-
-        target.name === 'haveTIN' && target.value === 'Yes'
-            ? this.setState({show_SeniorInfo: true})
-            : this.setState({show_SeniorInfo: false})
-
-        if (target.name === 'standadLotRadio') {
-            this.setState({disabled_standadLot: target.value})
         }
-
         console.log(target.name, target.value, this.state)
-
     }
 
     handleSubmit(values) {
@@ -110,21 +100,34 @@ class PersonalDetail extends Component {
         
     }
     addSelfCertification(e) {
-        return <SelfCertification key=""/>
+        e.preventDefault();
+        this.setState({
+            selfCertificationKey: this.state.selfCertificationKey + 1
+        })
     }
     
+    removeSelfCertification(){
+        this.setState({
+            selfCertificationKey: this.state.selfCertificationKey - 1
+        })
+    }
     render() {
         //console.log(this.state)
+        const {handleSubmit, pristine, reset, submitting} = this.props
+        const {selfCertificationKey} = this.state
         const steps = [
             {cn:"个人申请", en:"Individual Applicant"},
             {cn:"就业资料", en:"Employment Information"},
             {html:"<font class='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font class='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
         ]
-        const {disabled_standadLot} = this.state
-        const {handleSubmit, pristine, reset, submitting} = this.props
+        const SelfCertificationArr = [];
+        for (var i = 0; i < this.state.selfCertificationKey; i += 1) {
+            SelfCertificationArr.push(<SelfCertification id={i+1} key={i} removeSelfCertification={this.removeSelfCertification}/>);
+        };
+
         return (
             <div>
-                <FormHeader></FormHeader>
+                <FormHeader steps={steps}/>
                 <div className="form-page col-md-10 col-center">
                     <form onSubmit={this.handleSubmit}>
                         <div id="step1">
@@ -133,7 +136,7 @@ class PersonalDetail extends Component {
                                 mandatory.<br/>请完成所有需要的栏位。标明 * 的为必须填写。</p>
 
                             <div className="form-group">
-                                <label>Gender 性別*</label>
+                                <label>Gender 性别*</label>
                                 <div className="form-check-inline">
                                     <Field type="radio" component="input" name="gender" value="male"/>
                                     Male 男
@@ -145,12 +148,12 @@ class PersonalDetail extends Component {
                             <Field
                                 name="firstName"
                                 component={InputField}
-                                label="First Name (as shown on your proof of identity)名称（与身份证明一致）*"/>
+                                label="First Name (as shown on your proof of identity) 名称（与身份证明一致）*"/>
 
                             <Field
                                 name="middleName"
                                 component={InputField}
-                                label="Middle Name (if applicable) 中间名 (如适用)"/>
+                                label="Middle Name (if applicable) 中间名（如适用）"/>
 
                             <Field
                                 name="surname"
@@ -197,7 +200,7 @@ class PersonalDetail extends Component {
                             </Field>
 
                             <label className="d-block">Primary Contact Number 主要联络号码 *</label>
-                            <div className="form-inline">
+                            <div className="form-inline col-inputs">
                                 <Field name="contactType" component="select" className="custom-select">
                                     <option value="Work 办公室">Work 办公室</option>
                                     <option value="Home 住宅">Home 住宅</option>
@@ -234,43 +237,7 @@ class PersonalDetail extends Component {
                                 ? <ShareTransWithAgent/>
                                 : null}
 
-                            <h5>Charges Schedule 费用表</h5>
-
-                            <p>KVB Kunlun New Zealand Limited fees and charges as agreed and acknowledged by
-                                the client are as follows: 客户同意并确认KVB昆仑新西兰有限公司的费用如下：</p>
-                            <label className="d-block">Commission per standard lot 每手标准手数佣金 (如果不加佣金，请留空)
-                            </label>
-                            <div className="form-inline">
-                                <Field
-                                    type="radio"
-                                    component="input"
-                                    onChange={this.handleChange}
-                                    name="standadLotRadio"
-                                    value="0"/>
-                                <Field
-                                    name="standadLot"
-                                    component={InputField}
-                                    onChange={this.handleChange}
-                                    disabled={disabled_standadLot != 0
-                                    ? true
-                                    : false}/>
-                            </div>
-                            <div className="form-inline">
-                                <Field
-                                    type="radio"
-                                    component="input"
-                                    onChange={this.handleChange}
-                                    name="standadLotRadio"
-                                    value="1"/>
-                                <Field
-                                    name="standadLot"
-                                    component={InputField}
-                                    onChange={this.handleChange}
-                                    disabled={disabled_standadLot != 1
-                                    ? true
-                                    : false}/>
-                                %
-                            </div>
+                            
                         </div>
                         <hr/> {/* ======================= Form Two ======================= */}
                         <div id="step2">
@@ -344,18 +311,19 @@ class PersonalDetail extends Component {
                         <div id="step3">
                         <h3>Common Reporting Standard 普通报告标准
                             <br/>Individual Self-Certification 个人认证</h3>
-                        <SelfCertification/>
-                        <a
-                            href="javascript:void(0);"
-                            id="0"
-                            onClick={this.addSelfCertification}
-                            className="btn btn-primary">
-                            More 更多
-                        </a>
+                        <SelfCertification id="0"/>
+                        {SelfCertificationArr}
                         <p>You can be a tax resident of more than one country. If you are a tax resident
                             of another jurisdiction/country<br/>
                             您可以是不止一个国家的税务居民。 如果您是其他管辖区/国家的税务居民，请点击更多
                         </p>
+                        {selfCertificationKey === 3 ? null : <button
+                            onClick={this.addSelfCertification}
+                            className="btn btn-white">
+                            More 更多
+                        </button>}
+                        
+                        
                         </div>
                        
                         {/* <button type="submit" className="btn btn-primary">
@@ -371,26 +339,82 @@ class PersonalDetail extends Component {
 }
 
 class ShareTransWithAgent extends Component {
+    constructor(props) {
+        super(props);
+        autoBind(this);
+        this.state = {
+            disabled_standadLot: 0,
+        };
+    }
+    handleChange(e) {
+        const target = e.target
+        if (target.name === 'standadLotRadio') {
+            this.setState({disabled_standadLot: target.value})
+        }
+    }
     render() {
+        const {disabled_standadLot} = this.state
+        
         return (
-            <fieldset className="form-group">
-                <label>Do you agree to authorise the disclosure of account information
-                    (transaction records, funds in and funds out) to your Referring Party?
-                    <br/>你是否同意授权KVB披露您的帐户信息（交易记录，出入金）给您的代理人？
+            <div className="expend">
+                <div className="form-group">
+                    <label>Do you agree to authorise the disclosure of account information
+                        (transaction records, funds in and funds out) to your Referring Party?
+                        <br/>你是否同意授权KVB披露您的帐户信息（交易记录，出入金）给您的代理人？
+                    </label>
+                    <div>
+                        <Field
+                            type="radio"
+                            component="input"
+                            name="shareTransWithAgent"
+                            checked
+                            value="0"/>
+                        Yes I agree please proceed 是的，我同意，请继续
+                        <br/>
+                        <Field type="radio" component="input" name="shareTransWithAgent" value="1"/>
+                        No, I don't agree 不，我不同意
+                    </div>
+                </div>
+                <hr/>
+
+                <h3>Charges Schedule 费用表</h3>
+
+                <p>KVB Kunlun New Zealand Limited fees and charges as agreed and acknowledged by
+                    the client are as follows: 客户同意并确认KVB昆仑新西兰有限公司的费用如下：</p>
+                <label className="d-block">Commission per standard lot 每手标准手数佣金 (如果不加佣金，请留空)
                 </label>
-                <div>
+                <div className="form-inline">
                     <Field
                         type="radio"
                         component="input"
-                        name="shareTransWithAgent"
-                        checked
+                        onChange={this.handleChange}
+                        name="standadLotRadio"
                         value="0"/>
-                    Yes I agree please proceed 是的，我同意，请继续
-                    <br/>
-                    <Field type="radio" component="input" name="shareTransWithAgent" value="1"/>
-                    No, I don't agree 不，我不同意
+                    <Field
+                        name="standadLot"
+                        component={InputField}
+                        onChange={this.handleChange}
+                        disabled={disabled_standadLot != 0
+                        ? true
+                        : false}/>
                 </div>
-            </fieldset>
+                <div className="form-inline">
+                    <Field
+                        type="radio"
+                        component="input"
+                        onChange={this.handleChange}
+                        name="standadLotRadio"
+                        value="1"/>
+                    <Field
+                        name="standadLot"
+                        component={InputField}
+                        onChange={this.handleChange}
+                        disabled={disabled_standadLot != 1
+                        ? true
+                        : false}/>
+                    %
+                </div>
+            </div>
         );
     }
 }
@@ -398,54 +422,76 @@ class ShareTransWithAgent extends Component {
 class SeniorInfo extends Component {
     render() {
         return (
-            <div className="form-group">
-                <p>Please complete the details below. KVB cannot process an account application
-                    without these questions being answered.<br/>
-                    请填写以下信息，如以下信息不完整KVB将无法处理您的开户申请：
-                </p>
-                <Field
-                    name="senior"
-                    label="Name of Director/Senior Management /Prescribed Person/PEP <br/> 董事/高级管理人员/“特定人员”/政治公众人物姓名"
-                    className="form-control"
-                    component={InputField}/>
-                <Field
-                    name="position"
-                    label="Name of entity listed on Recognized Securities Exchange/Employer/Political Position Held <br/> 上市公司名称/相关公司或企业名称/现任职位"
-                    className="form-control"
-                    component={InputField}/>
+            <div className="senior-expend">
+                <div className="form-group">
+                    <label className="d-block">Please complete the details below. KVB cannot process an account application
+                        without these questions being answered.<br/>
+                        请填写以下信息，如以下信息不完整KVB将无法处理您的开户申请：
+                    </label>
+
+                    <small className="mt-2">Name of Director/Senior Management /Prescribed Person/PEP <br/> 董事/高级管理人员/“特定人员”/政治公众人物姓名"
+                    </small>
+                    <Field
+                        name="senior"
+                        className="form-control"
+                        component={InputField}/>
+                    <small>Name of entity listed on Recognized Securities Exchange/Employer/Political Position Held <br/> 上市公司名称/相关公司或企业名称/现任职位"
+                    </small>
+                    <Field
+                        name="position"
+                        className="form-control"
+                        component={InputField}/>
+                </div>
             </div>
         );
     }
 }
 
 class SelfCertification extends Component {
+    constructor(props){
+        super(props);
+        autoBind(this);
+        this.state = {
+            haveTIN: true,
+            expendStyle: props.id % 2 === 0
+        }
+    }
+    handleChange(e) {
+        console.log(this)
+        const target = e.target
+        target.name.indexOf('haveTIN') != -1 && target.value === 'Yes'
+            ? this.setState({haveTIN: true})
+            : this.setState({haveTIN: false})
+    }
     render() {
+        const {removeSelfCertification,id} = this.props
+        const {haveTIN,expendStyle} = this.state
         return (
-            <div>
-                <p>Which country or countries are you a tax resident?* 您是哪个或哪些国家的税务居民？
-                    <br/>
-                    (Please notify KVB if there is any material change in circumstances.
-                    如果有任何情况发生改变，请通知KVB)
-                </p>
+            <div className={!expendStyle?"expend":null}>
+                {id != 0?
+                    <a href="javascript:void(0);" className="pull-right" onClick={removeSelfCertification}>
+                        <span className="glyphicon red glyphicon-remove" aria-hidden="true"></span>
+                    </a>
+                :null}
 
-                <Field name="taxResidentCountries[]" component={SelectField}>
+                <Field name={`taxResidentCountries[${id}]`} 
+                    label="Which country or countries are you a tax resident? 您是哪个或哪些国家的税务居民？*"
+                    labelInfo="(Please notify KVB if there is any material change in circumstances. 如果有任何情况发生改变，请通知KVB)"
+                    component={SelectField}>
                     <option value="">-- Tax Resident Country --</option>
                     <Countries/>
                 </Field>
-
-                <p>Please provide your Taxpayer Identification Number (TIN). 请提供您的纳税人识别号码（TIN）
-                    (For account holder who is tax resident of China, the TIN is the China National
-                    Identity Card Number. 对于中国税务居民的账户持有人，TIN号码就是中国的居民身份证号码)
-                </p>
-
-                <Field name="haveTIN" type="radio" component="input" value="Yes"/>
-                I do have TIN
-                <Field name="taxPayerIdentificationNumber" component={InputField}/>
-
-                <Field name="haveTIN" type="radio" component="input" value="No"/>
-                I do not have TIN
+                
+                <label>Please provide your Taxpayer Identification Number (TIN). 请提供您的纳税人识别号码 (TIN) </label>
+                <small className="d-block">(For account holder who is tax resident of China, the TIN is the China National
+                    Identity Card Number. 对于中国税务居民的账户持有人，TIN号码就是中国的居民身份证号码)</small>
+                <Field name={`haveTIN${id}`} type="radio" component="input" value="Yes" onChange={this.handleChange} checked={haveTIN}/>
+                <label>I do have TIN</label>
+                <Field name="taxPayerIdentificationNumber" component={InputField} disabled={!haveTIN}/>
+                <Field name={`haveTIN${id}`} type="radio" component="input" value="No" onChange={this.handleChange}/>
+                <label>I do not have TIN</label>
                 <p>If a TIN is unavailable, provide the appropriate reason: 如果您没有TIN号码，请提供适当的理由</p>
-                <Field name="taxResidentCountries" component="select" className="custom-select">
+                <Field name="taxResidentCountries" component="select" className="custom-select" disabled={haveTIN} >
                     <option value="">-- Reason --</option>
                     <option value="A: 账户持有人是在不发放TIN号码给其居民的管辖权地域作为税务居民">A: The jurisdiction where the
                         account holder is a resident for tax purposes does not issue TINs to its

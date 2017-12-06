@@ -3,6 +3,7 @@ input[type="radio"] {
 }
 
 .has-danger {
+    position: relative;
     input,select {
         border-color: $brand-danger;
         &:focus {
@@ -11,6 +12,9 @@ input[type="radio"] {
     }
 
     .error-text {
+        bottom: -20px;
+        position: absolute;
+        font-size: px-to-rem(12);
         color: $brand-danger;
     }
 }

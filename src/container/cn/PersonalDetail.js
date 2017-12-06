@@ -11,7 +11,6 @@ const mapStateToPorps = (state) => ({
         isSenior: "No",
         isUSA: "No",
         bornInUSA: "No",
-        haveTIN: "Yes",
         nationality: state.info.data ? state.info.data.loc : null,
         country: state.info.data ? state.info.data.loc : null,        
         taxResidentCountries: state.info.data ? state.info.data.loc : null
