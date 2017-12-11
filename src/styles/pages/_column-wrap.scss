@@ -1,7 +1,7 @@
 .column-wrap {
     margin-top: 150px;
     padding-bottom: 180px;
-    @include font-size($fs: 15, $lh: 1.6);
+    @include font-size(15);
     a {
         @include underline;
     }

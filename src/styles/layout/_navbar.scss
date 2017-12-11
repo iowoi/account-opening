@@ -3,7 +3,7 @@
     border: none; //border-bottom: 1px solid #ccc;
     background-color: $blue;
     padding-top: px-to-rem(30);
-    height: px-to-rem(153);
+    height: 154px;
     border-radius: 0;
     position: relative;
     z-index: 201;
@@ -53,10 +53,42 @@
         position: relative;
     }
 }
+.mb-navbar {
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    background-color: #3b8beb;
+    line-height: 42px;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    height: 42px;
+    span {
+        margin-left: 15px;
+        color: rgba(1, 57, 125, 0.37);
+    }
+    .nav-step {
+        height: 8px;
+        background-color: #1e61b1;
+        box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.24);
+        .nav-dash {
+            width: 20%;
+            height: 8px;
+            float: left;
+            border-right: 8px solid #003E7E;
+            &:last-child{
+                border-right: none;
+            }
+            &.active {
+                background: #fff;
+            }
+        }
+    }
+}
 
 @media(max-width: 1440px) {
     .navbar {
-        height: px-to-rem(132);
+        height: 134px;
         .panel-list {
             &:last-child {
                 .panel-title {
@@ -80,19 +112,26 @@
     }
 }
 
-@include --below-large{        
+@include --below-large {
     .navbar {
+        height: 124px;
         .panel-list {
-        .panel-title {
-            span {
-                @include font-size(16);
+            .panel-title {
+                span {
+                    @include font-size(16);
+                }
             }
         }
     }
+}
+
+@media(max-width: 1220px) {
+    .navbar-nav {
+        width: 100%;
     }
 }
 
-@media(max-width: 1024px) {
+@include --below-desktop {
     .navbar {
         height: 85px;
         .panel-title {

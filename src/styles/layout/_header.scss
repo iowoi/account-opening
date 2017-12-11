@@ -1,4 +1,4 @@
-header{
+header {
     &.fixed {
         position: fixed;
         top: 0;
@@ -8,8 +8,9 @@ header{
     }
     .app-header {
         padding: px-to-rem(30) 0 0 0;
-    }        
+    }
 }
+
 .app-header {
     background-color: $blue;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.24);
@@ -38,36 +39,47 @@ header{
     }
 }
 
-@include --below-mobile {
-    .app-header {
-        padding: 1.5rem 1rem 1.5rem;
-        position: fixed;
-        top:0;
-        width:100%;
-        .title {
-            @include font-size($fs: 14, $lh: 1.2);
-            text-align: center;
-            margin-left: 10px;
-            padding:0;
-            font {
-                font-size: 1.8rem;
-            }
-        }
-        .short-line {
-            display: none;
+@include --below-small {
+    header {
+        .app-header {
+            padding: 2.5rem 0 2rem;
         }
     }
 }
+
+@include --below-mobile {
+    header {
+        .app-header {
+            padding: 1.5rem 1rem 1.5rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            .title {
+                @include font-size(14);
+                text-align: center;
+                margin-left: 10px;
+                padding: 0;
+                font {
+                    font-size: 1.8rem;
+                }
+            }
+            .logo {
+                margin-left: 0px;
+            }
+            .short-line {
+                display: none;
+            }
+        }
+    }
+}
+
 @include --below-xs-mobile {
     .app-header {
         .logo {
             margin-top: 0px;
         }
         .title {
-            font {
-                display: none;
-            }
-            margin-left: 20px;
+            display: none;
         }
     }
 }

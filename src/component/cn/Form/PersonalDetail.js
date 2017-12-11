@@ -199,28 +199,30 @@ class PersonalDetail extends Component {
                                 <Countries/>
                             </Field>
 
-                            <label className="d-block">Primary Contact Number 主要联络号码 *</label>
-                            <div className="form-inline col-inputs">
-                                <Field name="contactType" component="select" className="custom-select">
-                                    <option value="Work 办公室">Work 办公室</option>
-                                    <option value="Home 住宅">Home 住宅</option>
-                                    <option value="Mobile 手机">Mobile 手机</option>
-                                </Field>
-                                <Field
-                                    name="contactCountryCode"
-                                    className="form-control"
-                                    placeholder="Country Code 国家码"
-                                    component={InputField}/>
-                                <Field
-                                    name="contactAreaCode"
-                                    className="form-control"
-                                    placeholder="Area Code 区码"
-                                    component={InputField}/>
-                                <Field
-                                    name="contactNumber"
-                                    className="form-control"
-                                    placeholder="Number 电话号码"
-                                    component={InputField}/>
+                            <div className="form-group">
+                                <label className="d-block">Primary Contact Number 主要联络号码 *</label>
+                                <div className="form-inline col-inputs">
+                                    <Field name="contactType" component="select" className="custom-select">
+                                        <option value="Work 办公室">Work 办公室</option>
+                                        <option value="Home 住宅">Home 住宅</option>
+                                        <option value="Mobile 手机">Mobile 手机</option>
+                                    </Field>
+                                    <Field
+                                        name="contactCountryCode"
+                                        className="form-control"
+                                        placeholder="Country Code 国家码"
+                                        component={InputField}/>
+                                    <Field
+                                        name="contactAreaCode"
+                                        className="form-control"
+                                        placeholder="Area Code 区码"
+                                        component={InputField}/>
+                                    <Field
+                                        name="contactNumber"
+                                        className="form-control"
+                                        placeholder="Number 电话号码"
+                                        component={InputField}/>
+                                </div>
                             </div>
 
                             <Field
@@ -329,8 +331,11 @@ class PersonalDetail extends Component {
                         {/* <button type="submit" className="btn btn-primary">
                             下一步 >
                         </button> */}
-                        <Link to="account-infomation" className="btn btn-primary">下一步 >
+                        <div className=" text-center">
+                            <Link to="account-infomation" className="btn btn-primary">下一步 >
                         </Link>
+                        </div>
+                        
                     </form>
                 </div>
             </div>
@@ -457,7 +462,6 @@ class SelfCertification extends Component {
         }
     }
     handleChange(e) {
-        console.log(this)
         const target = e.target
         target.name.indexOf('haveTIN') != -1 && target.value === 'Yes'
             ? this.setState({haveTIN: true})
@@ -482,16 +486,15 @@ class SelfCertification extends Component {
                     <Countries/>
                 </Field>
                 
-                <label>Please provide your Taxpayer Identification Number (TIN). 请提供您的纳税人识别号码 (TIN) </label>
-                <small className="d-block">(For account holder who is tax resident of China, the TIN is the China National
-                    Identity Card Number. 对于中国税务居民的账户持有人，TIN号码就是中国的居民身份证号码)</small>
+                <label className="mt-4">Please provide your Taxpayer Identification Number (TIN). 请提供您的纳税人识别号码 (TIN) </label>
+                <small className="d-block">(For account holder who is tax resident of China, the TIN is the China National Identity Card Number. 对于中国税务居民的账户持有人，TIN号码就是中国的居民身份证号码)</small>
                 <Field name={`haveTIN${id}`} type="radio" component="input" value="Yes" onChange={this.handleChange} checked={haveTIN}/>
                 <label>I do have TIN</label>
                 <Field name="taxPayerIdentificationNumber" component={InputField} disabled={!haveTIN}/>
                 <Field name={`haveTIN${id}`} type="radio" component="input" value="No" onChange={this.handleChange}/>
                 <label>I do not have TIN</label>
                 <p>If a TIN is unavailable, provide the appropriate reason: 如果您没有TIN号码，请提供适当的理由</p>
-                <Field name="taxResidentCountries" component="select" className="custom-select" disabled={haveTIN} >
+                <Field name="taxResidentCountries" component="select" className="mt-0 custom-select" disabled={haveTIN} >
                     <option value="">-- Reason --</option>
                     <option value="A: 账户持有人是在不发放TIN号码给其居民的管辖权地域作为税务居民">A: The jurisdiction where the
                         account holder is a resident for tax purposes does not issue TINs to its

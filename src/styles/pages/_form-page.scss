@@ -3,10 +3,11 @@
     background: rgba(255, 255, 255, 0.7);
     margin: 0px auto px-to-rem(100);
     color: $gary;
-    @include font-size(18, 27);
-    .form-group {
+    @include font-size(18);
+    .form-group,
+    .form-check-inline {
         margin: 0;
-        padding:  px-to-rem(16) 0;
+        padding: px-to-rem(16) 0;
     }
     hr {
         border-top: solid 1.5px rgba(1, 57, 125, 0.37);
@@ -25,7 +26,7 @@
         color: $dark-blue;
     }
     small {
-        @include font-size(15, 21);
+        @include font-size(15);
     }
     label {
         margin-bottom: 0;
@@ -42,28 +43,43 @@
         cursor: not-allowed;
     }
     input[type=radio] {
-        width: initial;
-        height: initial;
+        width: 17px;
+        height: 17px;
         position: relative;
-        top: px-to-rem(-2);
+        top: 2px;
     }
     .col-inputs {
+        display: table;
+        input[type=radio] {
+            display: table-cell;
+            vertical-align: middle;
+        }
         select,
         input {
             width: initial;
         }
-        .form-group {
-            margin: 0 0 0 1rem;
-        }
     }
     .form-inline {
+        display: table;
+        input[type=radio] {
+            display: table-cell;
+            vertical-align: middle;
+        }
         .form-group {
             margin: 0 0 0 1rem;
+            padding: 1rem 0;
+            .form-control {
+                margin: 0;
+            }
+        }
+        select {
+            margin-top: 0;
         }
     }
     #step3 {
         .form-group {
             margin: 0.5rem 0;
+            padding: 0px;
         }
     }
     .expend,
@@ -71,17 +87,53 @@
         background-color: rgba(31, 97, 177, 0.23);
     }
     .expend {
-        margin: px-to-rem(-20) -3rem px-to-rem(-7);
-        padding: 1rem 3rem 0;
+        margin: 1.4rem -3rem -1.8rem;
+        padding: 1rem 3rem 2rem;
     }
     .senior-expend {
-        margin:  px-to-rem(20) -3rem -1.7rem;
+        margin: px-to-rem(20) -3rem -1.7rem;
         padding: 1px 3rem px-to-rem(15);
+    }
+}
+
+@include --below-small {
+    .form-page {
+        padding-top: 150px;
     }
 }
 
 @include --below-mobile {
     .form-page {
-        margin: 90px auto 100px;
+        padding-top: 125px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin: 0px auto 100px;
+        .form-group,
+        .form-check-inline {
+            padding: 0.8rem 0;
+        }
+        input.form-control {
+            min-width: 170px;
+            width: 80%;
+        }
+        select {
+            width: 100%;
+        }
+        .col-inputs {
+            .form-group {
+                margin: 0.5rem 0;
+                padding: 0;
+            }
+            .has-danger {
+                .error-text {
+                    position: inherit;
+                    display: inline-block;
+                    margin-left: 5px;
+                }
+                input {
+                    display: inline-block;
+                }
+            }
+        }
     }
 }
