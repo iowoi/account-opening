@@ -70,35 +70,6 @@ class PersonalDetail extends Component {
         console.log(values)
 
     }
-    componentDidMount() {
-        window.addEventListener('scroll', this.handleScroll);
-    }
-    
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll);
-    }
-    
-    handleScroll(event) {
-        const elms = ["step1","step2","step3"]
-        const bodyRect = document.body.getBoundingClientRect().top
-        
-        elms.map(function(id,index){
-            const domElm = document.getElementById(id).getBoundingClientRect()
-            const elmTop = domElm.top
-            const scrollPos = $(document).scrollTop()
-            let elmOffsetY = elmTop - bodyRect
-           // console.log(id,"scrollPos:"+scrollPos,domElm.height,$('#step3').offset())
-            if(elmOffsetY <= scrollPos ){
-                $('#stepper'+index).addClass('active');
-                $('#stepper'+index).siblings().removeClass('active');
-            }
-        })
-    }
-
-    componentWillUpdate() {
-       // console.log(findDOMNode(this.refs.step1))
-        
-    }
     addSelfCertification(e) {
         e.preventDefault();
         this.setState({
@@ -125,12 +96,11 @@ class PersonalDetail extends Component {
             SelfCertificationArr.push(<SelfCertification id={i+1} key={i} removeSelfCertification={this.removeSelfCertification}/>);
         };
 
-        return (
-            <div>
-                <FormHeader steps={steps}/>
-                <div className="form-page col-md-10 col-center">
+        return [
+                <FormHeader steps={steps} key={0}/>,
+                <div className="form-page col-md-10 col-center" key={1}>
                     <form onSubmit={this.handleSubmit}>
-                        <div id="step1">
+                        <div id="step1" className="steps">
                             <h3>Individual Applicant 个人申请</h3>
                             <p className="blue-title">Please complete all required details below. Those marked with an * are
                                 mandatory.<br/>请完成所有需要的栏位。标明 * 的为必须填写。</p>
@@ -242,7 +212,7 @@ class PersonalDetail extends Component {
                             
                         </div>
                         <hr/> {/* ======================= Form Two ======================= */}
-                        <div id="step2">
+                        <div id="step2" className="steps">
                             <h3>Employment Information 就业资料</h3>
 
                             <Field
@@ -306,11 +276,8 @@ class PersonalDetail extends Component {
                                 No 否
                             </div>
                         </div>
-                        
-                        
-
                         <hr/> {/* ======================= Section Five ======================= */}
-                        <div id="step3">
+                        <div id="step3" className="steps">
                         <h3>Common Reporting Standard 普通报告标准
                             <br/>Individual Self-Certification 个人认证</h3>
                         <SelfCertification id="0"/>
@@ -332,14 +299,13 @@ class PersonalDetail extends Component {
                             下一步 >
                         </button> */}
                         <div className=" text-center">
-                            <Link to="account-infomation" className="btn btn-primary">下一步 >
+                            <Link to="account-information" className="btn btn-primary">下一步 >
                         </Link>
                         </div>
                         
                     </form>
                 </div>
-            </div>
-        )
+        ]
     }
 }
 

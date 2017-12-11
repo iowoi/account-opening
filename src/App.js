@@ -10,6 +10,7 @@ import {
     CnApplyInfo,
     CnAccountInformation,
     CnInvestmentBackground,
+    CnSecurityQuestions,
     CnDeclaration,
     CnFinish,
     FormIndex,
@@ -57,7 +58,7 @@ const routes = [
                         component: CnInvestmentBackground
                     }, {
                         path: ROOT_PATH + 'cn/form/security-question',
-                        component: CnInvestmentBackground
+                        component: CnSecurityQuestions
                     }, {
                         path: ROOT_PATH + 'cn/form/declaration',
                         component: CnDeclaration

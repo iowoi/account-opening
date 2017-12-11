@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ActiveLabel from '../../../../assets/svg/icon-triangle.svg';
+import ActiveLabel from '../../../../assets/img/icon-triangle.png';
 
 class Navbar extends Component {
     
@@ -21,7 +21,7 @@ class Navbar extends Component {
             }, {
                 pathName: '/security-question',
                 en: 'Security Question',
-                cn: '投资背景'
+                cn: '安全问题'
             }, {
                 pathName: '/declaration',
                 en: 'Declaration',
@@ -32,9 +32,6 @@ class Navbar extends Component {
                 cn: '完成'
             }
         ]
-        console.log(window
-            .location
-            .pathname)
         return (
             <div>
                 <div className="navbar hidden-md-down">
@@ -54,7 +51,7 @@ class Navbar extends Component {
                             .indexOf(nabs.pathName) > -1){
                                 return (
                                     <div key={index}>
-                                        Personal Details 个人资料
+                                        {nabs.en} {nabs.cn}
                                         <span>Step {index+1} of 5</span>
                                     </div>
                                 )
@@ -129,7 +126,6 @@ class MbPanel extends Component {
         const {active} = this.state
         return (
             <div className={`${active}nav-dash`}></div>
-
         )
     }
 }

@@ -44,6 +44,7 @@
             width: calc(100% + 0.5rem);
             left: px-to-rem(-4);
             z-index: 10;
+            height: 25px;
         }
     }
     .active {
@@ -160,5 +161,10 @@
                 padding: 20px 30px;
             }
         }
+    }
+}
+@include --below-mobile {
+    .mb-navbar {
+        top:68px;
     }
 }

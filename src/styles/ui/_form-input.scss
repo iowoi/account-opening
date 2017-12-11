@@ -22,12 +22,11 @@ input[type="radio"] {
 .form-check-inline {
     input[type="radio"] {
         margin: 0 0.5rem;
+        margin-left: 25px;
         &:first-child {
             margin-left: 0;
         }
-        &:nth-child(2) {
-            margin-left: 25px;
-        }
+       
     }
 }
 
@@ -37,5 +36,14 @@ input[type="radio"] {
     }
     input.form-control {
         min-width: 170px;
+    }
+}
+
+.text-center {
+    .btn {
+        margin-left: 35px;
+        &:first-child {
+            margin-left: 0;
+        }
     }
 }
