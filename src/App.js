@@ -8,6 +8,7 @@ import {
     CnTerm,
     CnApply,
     CnApplyInfo,
+    CnUpload,
     CnAccountInformation,
     CnInvestmentBackground,
     CnSecurityQuestions,
@@ -16,7 +17,6 @@ import {
     FormIndex,
 } from './component/index';
 import {CnPersonalDetail, CnSelectLocation} from './container';
-import {MemoryRouter} from 'react-router'
 import {browserHistory} from 'react-router'
 
 import {BrowserRouter as Router, Switch, withRouter, Route, Redirect} from 'react-router-dom';
@@ -27,11 +27,12 @@ import './styles/bootstrap/bootstrap.scss';
 import './styles/app.scss';
 import {Provider} from 'react-redux';
 import store from './store';
-console.log(ROOT_PATH)
+console.log("ENV => "+process.env.NODE_ENV)
+console.log("ROOT_PATH => "+ROOT_PATH)
 
 const routes = [
     {
-        path: process.env.NODE_ENV === 'develop' ?  ROOT_PATH : ROOT_PATH + 'cn',
+        path: process.env.NODE_ENV === 'develop' ?  ROOT_PATH : '/',
         component: CnIndex,
         routes: [
             {
@@ -43,6 +44,9 @@ const routes = [
             }, {
                 path: ROOT_PATH + 'cn/applyInfo',
                 component: CnApplyInfo
+            }, {
+                path: ROOT_PATH + 'cn/upload',
+                component: CnUpload
             },  {
                 path: ROOT_PATH + 'cn/form',
                 component: FormIndex,

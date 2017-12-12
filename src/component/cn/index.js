@@ -8,12 +8,16 @@ class CnIndex extends Component {
         super(props);
     }
     render() {        
+        console.log('Redirect:',ROOT_PATH)
        const {location} = this.props
         return (
             <div>
                 {location.pathname.indexOf('form') != -1 ? null : <Header/>}
                 <RouteWithSubRoutes routes={this.props.routes}/>
                 <Route exact path={ROOT_PATH} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>
+                <Route exact path={ROOT_PATH+'cn'} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>
+                <Route exact path={ROOT_PATH+'cn/'} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>
+
                 <Route component={Page404}></Route>
             </div>
         );

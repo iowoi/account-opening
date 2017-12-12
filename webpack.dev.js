@@ -13,7 +13,8 @@ module.exports = merge(common,{
             'process.env':{
                 'NODE_ENV': JSON.stringify('develop'),                           
             },
-            ROOT_PATH: JSON.stringify('/')
+            ROOT_PATH: JSON.stringify('/'),
+            API_URL: JSON.stringify('https://testmykvb.kvbkunlun.com/api')
         }),
         new HtmlWebpackPlugin({
             title: 'Account Opening', 

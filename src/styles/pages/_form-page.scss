@@ -1,4 +1,5 @@
 .form-page {
+    
     padding: px-to-rem(335) 3rem 4rem;
     background: rgba(255, 255, 255, 0.7);
     margin: 0px auto px-to-rem(100);
@@ -81,6 +82,10 @@
             margin: 0.5rem 0;
             padding: 0px;
         }
+        .expend {
+            margin: -1.2em -3rem 0rem;
+            padding: 1rem 3rem 0rem;
+        }
     }
     .expend,
     .senior-expend {
@@ -135,5 +140,15 @@
                 }
             }
         }
+    }
+}
+
+
+
+.normal-height {
+    padding: 4rem 3rem 4rem;
+    &:first-of-type {
+        padding-top: 25rem;    
+        margin-bottom: 20px;  
     }
 }

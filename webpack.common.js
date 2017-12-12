@@ -16,8 +16,10 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath: "/Security/"
-        //publicPath:'/'
+        publicPath:'/'
+        //publicPath:'/Security' to production
+       // publicPath:'/Security/'
+        //publicPath: "/Security/"
         
     },
     module: {

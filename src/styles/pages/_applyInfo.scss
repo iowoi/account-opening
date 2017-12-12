@@ -10,6 +10,11 @@
         margin: px-to-rem(50) 0 px-to-rem(40);
         color: $dark-blue;
     }
+    h4 {
+        @include font-size(25);
+        margin: 35px 0 25px;
+        color: $dark-blue;
+    }
     h6 {
         @include font-size(16);
         font-weight: bold;
@@ -71,6 +76,20 @@
         }
         .col-md-2 {
             text-align: right;
+        }
+        .left-border {
+            border-left: blue-hr-style();
+            padding-left: 22px;
+            clear: both;
+            .d-block {
+                margin: 8px 0;
+                ol {
+                    line-height: 1.8;
+                    list-style: disc;
+                    margin-left: 35px;
+                }
+            }
+            
         }
         .col-md-10 {
             .btn {

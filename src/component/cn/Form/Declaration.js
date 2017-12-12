@@ -122,9 +122,9 @@ class CnDeclaration extends Component {
                         
                         
                         <div className="text-center">
-                            <Link to="investment-background" className="btn btn-primary">返回
+                            <Link to="security-question" className="btn btn-primary">返回
                             </Link>
-                            <Link to="declaration" className="btn btn-primary">下一步
+                            <Link to="finish" className="btn btn-primary">下一步
                             </Link>
                         </div>
                     </form>

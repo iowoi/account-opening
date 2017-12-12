@@ -15,7 +15,7 @@ const validate = values => {
     return errors
 }
 
-class CnSecurityQuestions extends Component {
+class SecurityQuestions extends Component {
     constructor(props) {
         super(props);
 
@@ -87,9 +87,9 @@ class CnSecurityQuestions extends Component {
     }
 }
 
-CnSecurityQuestions = reduxForm({
+SecurityQuestions = reduxForm({
     form: 'SecurityQuestions', validate
     // , asyncValidate
-})(CnSecurityQuestions)
+})(SecurityQuestions)
 
-export default CnSecurityQuestions;
+export default SecurityQuestions;

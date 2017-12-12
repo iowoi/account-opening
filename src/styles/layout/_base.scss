@@ -1,8 +1,14 @@
 // note: no img assets required for layout
 @font-face {
-  font-family: 'Noto Sans SC';
-  font-style: normal;  
-  src: url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff2") format('woff2'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
+    font-family: 'Noto Sans SC';
+    font-style: normal;
+    src: url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff2") format('woff2'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans SC';
+    font-style: normal;
+    src: url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff2") format('woff2'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
 }
 
 @font-face {
@@ -17,25 +23,23 @@ html {
     font-family: 'Noto Sans SC', 'Roboto';
 }
 
-@include --below-large{
+@include --below-large {
     html {
         font-size: 10px;
     }
 }
 
-
-@include --below-medium{
+@include --below-medium {
     html {
         font-size: 10px;
     }
 }
 
-@include --below-tablet{
+@include --below-tablet {
     html {
         font-size: 10px;
     }
 }
-
 
 body {
     height: 100%;
@@ -43,15 +47,15 @@ body {
     font-family: "Noto Sans SC", "Roboto";
     padding: 0;
     background: linear-gradient(to right, #c8deed, #d4e7f7 29%, #e0ecf6 59%, #e6f0f9 79%, #e4edf5 91%, #e7f0f7, #e7f0f7);
-    @include --below-mobile { font-size: 12px; }
+    @include --below-mobile {
+        font-size: 12px;
+    }
 }
 
 #root {
     background: url("../assets/img/web-bg.png") no-repeat;
-    background-size: 100% auto;
-    //height: 100%;
+    background-size: 100% auto; //height: 100%;
     min-height: 100vh;
-    
 }
 
 .full-height {
@@ -137,6 +141,7 @@ button.btn-white {
     vertical-align: middle;
     float: none;
 }
+
 .red {
     color: $red;
 }
