@@ -3,8 +3,9 @@ import logo from '../../assets/svg/icn-logo.svg';
 import {Link} from 'react-router-dom';
 
 class Header extends Component {
-
     render() {
+        console.log(ROOT_PATH)
+        
         return (
             <div className="app-header">
                 <Link to={ROOT_PATH}><img src={logo} className="logo"/></Link>

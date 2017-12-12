@@ -17,7 +17,6 @@ class CnTerm extends Component {
         this
             .props
             .sendLocation(e)
-        console.log(location)
         this
             .props
             .history
@@ -26,7 +25,7 @@ class CnTerm extends Component {
 
     render() {
         const {handleSubmit} = this.props;
-
+        console.log(this.props)
         return (
             <div className="col-lg-9 col-md-10 col-center column-wrap">
                 <div className="row">

@@ -3,8 +3,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import logo from './assets/svg/icn-logo.svg';
 import {Header} from './component/Common';
 import {RouteWithSubRoutes} from './route';
+import {connect} from 'react-redux';
+
+
+
 import {
-    CnIndex,
     CnTerm,
     CnApply,
     CnApplyInfo,
@@ -16,7 +19,7 @@ import {
     CnFinish,
     FormIndex,
 } from './component/index';
-import {CnPersonalDetail, CnSelectLocation} from './container';
+import {CnIndex, CnPersonalDetail, CnSelectLocation} from './container';
 import {browserHistory} from 'react-router'
 
 import {BrowserRouter as Router, Switch, withRouter, Route, Redirect} from 'react-router-dom';
@@ -29,7 +32,10 @@ import {Provider} from 'react-redux';
 import store from './store';
 console.log("ENV => "+process.env.NODE_ENV)
 console.log("ROOT_PATH => "+ROOT_PATH)
+import {getSource} from './actions';
 
+
+getSource();
 const routes = [
     {
         path: process.env.NODE_ENV === 'develop' ?  ROOT_PATH : '/',
@@ -77,7 +83,9 @@ const routes = [
 ]
 
 class App extends Component {
+    
     render() {
+        console.log("APP",this.props)
         return (
             <Provider store={store}>
                 <Router history={browserHistory}>
@@ -94,5 +102,8 @@ class App extends Component {
         );
     }
 }
+
+
+
 
 export default App;

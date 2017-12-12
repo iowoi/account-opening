@@ -6,11 +6,12 @@ export class RouteWithSubRoutes extends Component {
         super(props)
     }
     render() {
+        const {source} = this.props
         return (
             <Switch>
                 {this.props.routes
                     .map((route, i) => (
-                        <SubRoutes key={i} {...route}/>
+                        <SubRoutes key={i} {...route} />
                     ))}
             </Switch>
         );
@@ -19,6 +20,7 @@ export class RouteWithSubRoutes extends Component {
 
 const SubRoutes = (route) => (
     <Route
+        source={route.source}
         path={route.path}
         render={props => (<route.component {...props} routes={route.routes}/>)}/>
 )
