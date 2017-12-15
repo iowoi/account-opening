@@ -58,47 +58,26 @@ class CnAccountInformation extends Component {
                 en: "Market access"
             }
         ]
-        const {source} = this.props;
-
+        const {handleSubmit, pristine, reset, submitting, source, style} = this.props
+        
         return (
-            <div style={this.props.style}>
+            <div style={style}>
                 <FormHeader steps={steps} key={0}/>
                 <div className="form-page col-md-10 col-center" key={1}>
                     <form onSubmit={this.handleSubmit}>
                         <div id="0" className="steps">
                             <h3>Nature and Purpose 投资性质与目的</h3>
-
                             <div className="form-group">
-                                <label>What is the nature and purpose of your relationship KVB? 您与KVB 昆仑国际建立关系的目的是什么？</label>
-                                <div className="d-block">
-                                    <Field type="radio" component="input" name="gender" value="male"/>
-                                    Medium term investment 中期投资
-                                </div>
-                                <div className="d-block">
-                                    <Field type="radio" component="input" name="gender" value="female"/>
-                                    Long term capital growth 长期资本增值
-                                </div>
-                                <div className="d-block">
-                                    <Field type="radio" component="input" name="gender" value="male"/>
-                                    Dividend yield / 股息收益/固定收益
-                                </div>
+                                <label>What is the nature and purpose of your relationship KVB? 您与KVB 昆仑国际建立关系的目的是什么？ *</label>
+                                {source && CreateRadios(source.InvestmentTypes, 'InvestmentTypesId')}
                             </div>
                             <hr/>
                         </div>
                         <div id="1" className="steps">
-                            <h3>Currency Type 开户币种</h3>
+                            <h3>Currency Type 开户币种 *</h3>
                             <div className="form-group">
                                 <label>Currency Type 开户币种*</label>
-                                <div className="form-check-inline">
-                                    <Field type="radio" component="input" name="gender" value="male"/>
-                                    USD 美元
-                                    <Field type="radio" component="input" name="gender" value="female"/>
-                                    NZD 纽元
-                                    <Field type="radio" component="input" name="gender" value="female"/>
-                                    AUD 澳元
-                                    <Field type="radio" component="input" name="gender" value="female"/>
-                                    JPY 日元
-                                </div>
+                                {source && CreateRadios(source.CurrencyTypes, 'CurrencyTypesId')}
                             </div>
                             <hr/>
                         </div>
@@ -106,17 +85,17 @@ class CnAccountInformation extends Component {
                             <h3>Account type 帐户类别
                             </h3>
                             <div className="form-group">
-                                <label>Account type 帐户类别*</label>
-                                {source && CreateRadios(source.AccountType, 'AccountType')}
+                                <label>Account type 帐户类别 *</label>
+                                {source && CreateRadios(source.AccountType, 'AccountTypeId')}
                             </div>
                             <hr/>
                         </div>
                         <div id="3" className="steps">
                             <h3>Market access 交易市場</h3>
                             <div className="form-group">
-                                <label>Market access 交易市場*</label>
+                                <label>Market access 交易市場 *</label>
                                 <div className="form-check-inline">
-                                    <Field component="select" name="MarketAccess">
+                                    <Field component="select" name="MarketAccessId">
                                         <optgroup label="North America 北美洲">
                                             <option value="1">United States 美国</option>
                                             <option value="2">Canada 加拿大</option>
@@ -155,9 +134,8 @@ class CnAccountInformation extends Component {
 
                         <div className="text-center">
                             <button onClick={this.handlePrevPage} className="btn btn-primary">返回 </button>
-                            <button onClick={this.handleNextPage} className="btn btn-primary">下一步 </button>
-                           
-                        </div>
+                            <button onClick={this.handleNextPage} className="btn btn-primary">下一步 ></button>
+                            </div>
                     </form>
                 </div>
             </div>

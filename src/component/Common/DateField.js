@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import DatePicker from 'react-datepicker';
-
+import moment from 'moment';
 class DateField extends Component {
     render() {
         const {label, labelInfo, meta, placeholder, input, disabled, children} = this.props
-        
+        moment(input.value)
         return (
             <div
                 className={meta.touched && meta.error
@@ -24,10 +24,12 @@ class DateField extends Component {
 
                 <DatePicker
                     className="form-control"
-                    {...input}
+                    onChange={input.onChange}
+                    
                     selected={input.value
-                    ? input.value
-                    : null}
+                        ? input.value
+                        : null}
+                  
                     placeholderText="dd/mm/YYYY"/> 
                     
                 {meta.touched && meta.error

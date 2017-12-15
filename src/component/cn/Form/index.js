@@ -24,6 +24,7 @@ class FormIndex extends Component {
         super(props);
         this.state = {
             page: 'personal-detail'
+            //page: 'security-question'
         }
         autoBind(this);
     }
@@ -45,10 +46,9 @@ class FormIndex extends Component {
         const hide = {
             display: 'none'
         }
-        console.log("FORMINDEX", this.props)
         return (
             <div>
-                <CnPersonalDetail
+                 <CnPersonalDetail
                     style={page === 'personal-detail'
                     ? show
                     : hide}
@@ -60,19 +60,19 @@ class FormIndex extends Component {
                     : hide}
                     prevPage='personal-detail'
                     nextPage='investment-background'
-                    handleRenderPage={this.handleRenderPage}/>
-                {/* <CnInvestmentBackground
+                    handleRenderPage={this.handleRenderPage}/> 
+                <CnInvestmentBackground
                     style={page === 'investment-background'
                     ? show
                     : hide}
                     prevPage='investment-background'
                     nextPage='security-question'
-                    handleRenderPage={this.handleRenderPage}/>
+                    handleRenderPage={this.handleRenderPage}/> 
                 <CnSecurityQuestions
                     style={page === 'security-question'
                     ? show
                     : hide}
-                    prevPage='security-question'
+                    prevPage='investment-background'
                     nextPage='declaration'
                     handleRenderPage={this.handleRenderPage}/>
                 <CnDeclaration
@@ -85,7 +85,7 @@ class FormIndex extends Component {
                 <CnFinish
                     style={page === 'finish'
                     ? show
-                    : hide}/> */}
+                    : hide}/>
             </div>
         )
 

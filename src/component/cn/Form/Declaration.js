@@ -4,6 +4,7 @@ import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import {InputField} from '../../Common';
 import autoBind from 'auto-bind';
+import {connect} from 'react-redux';
 
 const validate = values => {
     const errors = {}
@@ -16,33 +17,31 @@ const validate = values => {
     return errors
 }
 
-class CnDeclaration extends Component {
+class Declaration extends Component {
     constructor(props) {
         super(props);
         autoBind(this);
-        
+
     }
 
     handleChange(event, index, value) {
         console.log(event, index, value)
         // this.setState({loc:value})
     }
-    handleNextPage(e){
+    handleNextPage(e) {
         e.preventDefault();
         this.props.handleRenderPage(this.props.nextPage);
     }
-    handlePrevPage(e){
+    handlePrevPage(e) {
         e.preventDefault();
         this.props.handleRenderPage(this.props.prevPage);
     }
     render() {
         const steps = [
             {
-                html: "<font class='hidden-lg-down'>Accuracy and Notification</font><br/>信息准确性及通知</font" +
-                        ">"
+                html: "<font class='hidden-lg-down'>Accuracy and Notification</font><br/>信息准确性及通知</font>"
             }, {
-                html: "<font class='hidden-lg-down'>KVB Terms & Conditions</font><br/>KVB昆仑国际条款及细则</fon" +
-                        "t>"
+                html: "<font class='hidden-lg-down'>KVB Terms & Conditions</font><br/>KVB昆仑国际条款及细则</font>"
             }, {
                 cn: "风险",
                 en: "Risks"
@@ -57,8 +56,8 @@ class CnDeclaration extends Component {
         const {style} = this.props
         return (
             <div style={style}>
-                <FormHeader steps={steps} key={0}/>
-                <div className="form-page col-md-10 col-center" key={1}>
+                <FormHeader steps={steps}/>
+                <div className="form-page col-md-10 col-center">
                     <form onSubmit={this.handleSubmit}>
                         <div id="step1" className="steps">
                             <h3>Accuracy and Notification 信息准确性及通知</h3>
@@ -68,7 +67,12 @@ class CnDeclaration extends Component {
                                 本人确认所有提供的信息为真实准确。如该等资料有任何变更，本人将及时通知KVB昆仑国际。
                             </small>
                             <div className="text-center">
-                                <Field type="radio" component="input" value="Yes" onChange={this.handleChange}/>
+                                <Field
+                                    type="radio"
+                                    name="AgreeAccuracyAndNotification"
+                                    component="input"
+                                    value="1"
+                                    onChange={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -98,7 +102,12 @@ class CnDeclaration extends Component {
                                 我了解，本申请须遵守KVB开户准则，KVB保留以任何理由拒绝任何申请的权利。
                             </small>
                             <div className="text-center">
-                                <Field type="radio" component="input" value="Yes" onChange={this.handleChange}/>
+                                <Field
+                                    type="radio"
+                                    name="AgreeKVBTermsConditions"
+                                    component="input"
+                                    value="1"
+                                    onChange={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -132,7 +141,12 @@ class CnDeclaration extends Component {
                                 我理解并同意所有信息，价格和意见如有更改，恕不另行通知。 产品信息可能不适用于所有KVB昆仑公司，如果有任何疑问，我将联系我所在国家或地区的KVB代表。
                             </small>
                             <div className="text-center">
-                                <Field type="radio" component="input" value="Yes" onChange={this.handleChange}/>
+                                <Field
+                                    type="radio"
+                                    name="AgreeRisks"
+                                    component="input"
+                                    value="1"
+                                    onChange={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -147,7 +161,12 @@ class CnDeclaration extends Component {
                                 我已阅读，明白和同意包含在客户服务协议中隐私法例1993的条款。
                             </small>
                             <div className="text-center">
-                                <Field type="radio" component="input" value="Yes" onChange={this.handleChange}/>
+                                <Field
+                                    type="radio"
+                                    name="AgreePrivacy"
+                                    component="input"
+                                    value="1"
+                                    onChange={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -172,7 +191,12 @@ class CnDeclaration extends Component {
                             </small>
 
                             <div className="text-center">
-                                <Field type="radio" component="input" value="Yes" onChange={this.handleChange}/>
+                                <Field
+                                    type="radio"
+                                    name="AgreeOther"
+                                    component="input"
+                                    value="1"
+                                    onChange={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -182,7 +206,6 @@ class CnDeclaration extends Component {
                             </button>
                             <button onClick={this.handleNextPage} className="btn btn-primary">下一步
                             </button>
-
                         </div>
                     </form>
                 </div>
@@ -191,9 +214,22 @@ class CnDeclaration extends Component {
     }
 }
 
-CnDeclaration = reduxForm({
+Declaration = reduxForm({
     form: 'Declaration', validate
     // , asyncValidate
-})(CnDeclaration)
+})(Declaration)
+
+const CnDeclaration = connect(state => {
+    const source = state.info.source
+    const initialValues = {
+        AgreeAccuracyAndNotification: "1",
+        AgreeDisclosureInfoToServiceProviderId: "1",
+        AgreeKVBTermsConditions: "1",
+        AgreeOther: "1",
+        AgreePrivacy: "1",
+        AgreeRisks: "1"
+    }
+    return {source, initialValues};
+})(Declaration)
 
 export default CnDeclaration;

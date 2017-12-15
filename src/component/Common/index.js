@@ -3,8 +3,7 @@ import InputField from './InputField';
 import DateField from './DateField';
 import SelectField from './SelectField';
 import LocationOption from './LocationOption';
-
-import CreateRadios from './CreateRadios';
+import {CreateRadios,CreateOptions} from './CreateFields';
 
 export {
     Header,
@@ -12,6 +11,7 @@ export {
     DateField,
     SelectField,
     LocationOption,
-    CreateRadios
+    CreateRadios,
+    CreateOptions
 }
 

@@ -3,7 +3,6 @@
  */
 
 export const SET_LOCTION = 'SET_LOCTION';
-export const SET_PAGE = 'SET_PAGE';
 export const GET_SOURCE = 'GET_SOURCE';
 
 const headerConfig = (type, data) => {
@@ -26,13 +25,6 @@ export function sendLocation(data) {
 }
 
 
-export function renderPage(data) {
-    console.log(data)
-    return (dispatch) => {
-        dispatch({type: SET_PAGE, data});
-    }
-}
-
 
 /**
  * get select
@@ -42,6 +34,26 @@ export function getSource() {
     const ApiUrl = `${API_URL}/GetSource`
     return (dispatch) => {
         fetch(ApiUrl, headerConfig('GET'))
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (result) {
+                const data = result.returnValue
+                dispatch({type: GET_SOURCE, data})
+            });
+    }
+}
+
+
+
+/**
+ * Send Form
+ */
+
+export function sendForm() {
+    const ApiUrl = `${API_URL}/Apply`
+    return (dispatch) => {
+        fetch(ApiUrl, headerConfig('POST'))
             .then(function (response) {
                 return response.json();
             })

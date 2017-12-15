@@ -29,12 +29,9 @@ import './styles/bootstrap/bootstrap.scss';
 import './styles/app.scss';
 import {Provider} from 'react-redux';
 import store from './store';
-console.log("ENV => "+process.env.NODE_ENV)
-console.log("ROOT_PATH => "+ROOT_PATH)
-import {getSource} from './actions';
 
-
-getSource();
+// console.log("ENV => "+process.env.NODE_ENV)
+// console.log("ROOT_PATH => "+ROOT_PATH)
 const routes = [
     {
         path: process.env.NODE_ENV === 'develop' ?  ROOT_PATH : '/',

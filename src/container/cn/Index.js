@@ -14,9 +14,7 @@ class CnIndex extends Component {
     }
     
     render() {        
-        //console.log('Redirect:',ROOT_PATH)
-       const {location, source, routes,renderPage} = this.props
-       //console.log(">>>>>>>>>>",source)
+       const {location, source, routes} = this.props
        
         return (
             <div>

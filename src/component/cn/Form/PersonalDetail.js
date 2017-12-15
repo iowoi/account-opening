@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Field, reduxForm, formValueSelector} from 'redux-form';
-import {InputField, DateField, SelectField, LocationOption} from '../../Common';
+import {InputField, DateField, SelectField, LocationOption, CreateOptions} from '../../Common';
 import Stepper from './common/Stepper';
 import asyncValidate from '../../asyncValidate';
 import autoBind from 'auto-bind';
@@ -14,22 +14,46 @@ const validate = values => {
     const errors = {}
     const requiredFields = [
         'GendersId',
-        'firstName',
-        'surname',
-        'email',
-        'birth',
-        'countryOfBirth',
-        'nationality',
-        'address',
-        'city',
-        'country',
+        'TitleTypesId',
+        'FirstName',
+        'Surname',
+        'Email',
+        'Birthday',
+        'BirthCountryId',
+        'NationalityId',
+        'ResidentialAddress',
+        'City',
+        'CountryId',
+        'MailingAddress',
+        'ContactTypesId',
         'contactCountryCode',
-        'contactNumber',
-        'telPassword',
-        'companyName',
-        'employmentStatus',
-        'natureOfBusiness',
-        'taxResidentCountries'
+        'ContactNumber',
+        'TelephonePassword',
+        'MaritalStatusId',
+        'NumberOfDependents',
+        'TypeOfIdentificationId',
+        'IdentificationNumber',
+        // 银行帐户资料
+        'NameOfBank',
+        'BankAddress',
+        'BSB',
+        'BankAccountNumber',
+        'BankCurrencyId',
+        'BankAccountHolderName',
+        'SwiftCode',
+        // employment info
+        'EmploymentStatusesId',
+        'CompanyName',
+        'Occupation',
+        'BusinessTypesId',
+        'EmployerCountry',
+        'EmployerCity',
+        'EmployerProvince',
+        'EmployerPostalCode',
+        'EmployerStreet1',
+        'EmployerStreet2',
+        'CitizenOrTaxResidentOfUSAId',
+        'BornInUSAAndSurrenderedCitizenshipId',
     ]
     requiredFields.forEach(field => {
         if (!values[field]) {
@@ -64,15 +88,9 @@ class PersonalDetail extends Component {
             ? this.setState({show_EmploymentStatus: true})
             : this.setState({show_EmploymentStatus: false})
         }
-
-        // if(target.name === 'sameAddress' ){
-        //     target.value === '1' ?
-        // }
       //  console.log(target.name, target.value, this.state)
     }
-    componentWillReceiveProps(nextProps){
-        console.log("nextProps",nextProps)
-    }
+    
     addSelfCertification(e) {
         e.preventDefault();
         this.setState({
@@ -96,8 +114,7 @@ class PersonalDetail extends Component {
 
     render() {
         //console.log(this.state)
-        const {handleSubmit, pristine, reset, submitting, source, style, PersonalDetail
-        } = this.props
+        const {pristine, reset, source, style, submitting} = this.props
         const {selfCertificationKey} = this.state
         const steps = [
             {cn:"个人申请", en:"Individual Applicant"},
@@ -133,7 +150,7 @@ class PersonalDetail extends Component {
                                 component={SelectField}
                                 onChange={this.handleChange}
                                 label="Title 称谓*">
-                                {source && createOption(source.Title)}
+                                {source && CreateOptions(source.Title)}
                             </Field>
 
                             <Field
@@ -235,7 +252,7 @@ class PersonalDetail extends Component {
                                 component={SelectField}
                                 onChange={this.handleChange}
                                 label="Marital Status 婚姻状况 *">
-                                {source && createOption(source.MaritalStatus)
+                                {source && CreateOptions(source.MaritalStatus)
                                 }
                             </Field>
 
@@ -250,7 +267,7 @@ class PersonalDetail extends Component {
                                 component={SelectField}
                                 onChange={this.handleChange}
                                 label="Type of identification 身份证明文件类别 *">
-                                {source && createOption(source.TypeOfIdentification)
+                                {source && CreateOptions(source.TypeOfIdentification)
                                 }
                             </Field>
 
@@ -277,7 +294,7 @@ class PersonalDetail extends Component {
                 
                             <Field name="BankAddress" component={InputField} label="Bank address 银行地址 *"/>
 
-                            <Field name="BSB" component={InputField} label="BSB 区域代码"/>
+                            <Field name="BSB" component={InputField} label="BSB 区域代码 *"/>
 
                             <Field name="BankAccountNumber" component={InputField} label="Account number 银行帐号"/>
                           
@@ -293,11 +310,11 @@ class PersonalDetail extends Component {
                             <h3>Employment Information 就业资料</h3>
                         
                             <Field
-                                name="EmploymentStatuses"
+                                name="EmploymentStatusesId"
                                 component={SelectField}
                                 onChange={this.handleChange}
                                 label="Employment Status 就业情况 *">
-                                {source && createOption(source.EmploymentStatuses)
+                                {source && CreateOptions(source.EmploymentStatuses)
                                 }
                             </Field>
                            
@@ -307,9 +324,9 @@ class PersonalDetail extends Component {
 
                             <hr/> {/* ======================= Form Four ======================= */}
 
-                            <label className="d-block">Are you a citizen or a tax resident of the United States of America?
+                            <label className="d-block">Are you a citizen or a tax resident of the United States of America? *
                                 <br/>
-                                您是否是美国公民或纳税居民？
+                                您是否是美国公民或纳税居民？ *
                             </label>
                             <div className="form-check-inline">
                                 <Field
@@ -329,10 +346,9 @@ class PersonalDetail extends Component {
                             </div>
 
                             <label className="d-block">Are you born in the U.S. (or a U.S. territory) but am
-                                no longer a U.S. citizen as you have voluntarily surrendered your citizenship?
+                                no longer a U.S. citizen as you have voluntarily surrendered your citizenship? *
                                 <br/>
-                                您是否出生於美国 (或美国领土)，但本人以自愿放弃美国国籍，不在是美国公民？
-
+                                您是否出生於美国 (或美国领土)，但本人以自愿放弃美国国籍，不在是美国公民？ *
                             </label>
                             <div className="form-check-inline">
                                 <Field
@@ -354,28 +370,25 @@ class PersonalDetail extends Component {
                         <hr/> {/* ======================= Section Five ======================= */}
                        
                         <div className="steps last-step" id="3">
-                        <h3>Common Reporting Standard 普通报告标准
-                            <br/>Individual Self-Certification 个人认证</h3>
-                        <SelfCertification id="0" source={source}/>
-                        {SelfCertificationArr}
-                        <p>You can be a tax resident of more than one country. If you are a tax resident
-                            of another jurisdiction/country<br/>
-                            您可以是不止一个国家的税务居民。 如果您是其他管辖区/国家的税务居民，请点击更多
-                        </p>
-                        {selfCertificationKey === 3 ? null : <button
-                            onClick={this.addSelfCertification}
-                            className="btn btn-white">
-                            More 更多
-                        </button>}
+                            <h3>Common Reporting Standard 普通报告标准
+                                <br/>Individual Self-Certification 个人认证</h3>
+                            <SelfCertification id="0" source={source}/>
+                            {SelfCertificationArr}
+                            <p>You can be a tax resident of more than one country. If you are a tax resident
+                                of another jurisdiction/country<br/>
+                                您可以是不止一个国家的税务居民。 如果您是其他管辖区/国家的税务居民，请点击更多
+                            </p>
+                            {selfCertificationKey === 3 ? null : <button
+                                onClick={this.addSelfCertification}
+                                className="btn btn-white">
+                                More 更多
+                            </button>}
                         
                         
                         </div>
                        
-                        {/* <button type="submit" className="btn btn-primary">
-                            下一步 >
-                        </button> */}
-                        <div className=" text-center">
-                            <button onClick={this.handleNextPage} className="btn btn-primary">下一步 ></button>
+                        <div className="text-center">
+                            <button disabled={pristine || submitting}  onClick={this.handleNextPage} className="btn btn-primary">下一步 ></button>
                         </div>
                 </div>
             </div>
@@ -478,13 +491,13 @@ class SeniorInfo extends Component {
                     <small className="mt-2">Name of Director/Senior Management /Prescribed Person/PEP <br/> 董事/高级管理人员/“特定人员”/政治公众人物姓名"
                     </small>
                     <Field
-                        name="senior"
+                        name="NameOfDirector"
                         className="form-control"
                         component={InputField}/>
                     <small>Name of entity listed on Recognized Securities Exchange/Employer/Political Position Held <br/> 上市公司名称/相关公司或企业名称/现任职位"
                     </small>
                     <Field
-                        name="position"
+                        name="NameOfEntity"
                         className="form-control"
                         component={InputField}/>
                 </div>
@@ -499,6 +512,7 @@ class SelfCertification extends Component {
         autoBind(this);
         this.state = {
             haveTIN: true,
+            fillReason: false,
             expendStyle: props.id % 2 === 0
         }
     }
@@ -507,10 +521,14 @@ class SelfCertification extends Component {
         target.name.indexOf('haveTIN') != -1 && target.value === 'Yes'
             ? this.setState({haveTIN: true})
             : this.setState({haveTIN: false})
+         target.name.indexOf('TinUnavailableTypesId') != -1 && target.value === '2'
+            ? this.setState({fillReason: true})
+            : this.setState({fillReason: false})
+         
     }
     render() {
         const {removeSelfCertification,id,source} = this.props
-        const {haveTIN,expendStyle} = this.state
+        const {haveTIN,expendStyle,fillReason} = this.state
         return (
             <div className={!expendStyle?"expend":null}>
                 {id != 0?
@@ -520,7 +538,7 @@ class SelfCertification extends Component {
                 :null}
 
                
-                <LocationOption name={`taxResidentCountries[${id}]`} 
+                <LocationOption name={`CountryCodesId[${id}]`} 
                     label="Which country or countries are you a tax resident? 您是哪个或哪些国家的税务居民？*"
                     labelInfo="(Please notify KVB if there is any material change in circumstances. 如果有任何情况发生改变，请通知KVB)"
                     component={SelectField}>
@@ -536,10 +554,14 @@ class SelfCertification extends Component {
                 <label>I do not have TIN</label>
                 <p>If a TIN is unavailable, provide the appropriate reason: 如果您没有TIN号码，请提供适当的理由</p>
                 <Field 
-                name={`TinUnavailableReason_${id}`} component="select" className="mt-0 custom-select" disabled={haveTIN} >
+                name={`TinUnavailableTypesId_${id}`} component="select" className="mt-0 custom-select" onChange={this.handleChange} disabled={haveTIN} >
                     <option value="">-- Reason --</option>
-                    {source && createOption(source.TinUnavailableTypes)}
+                    {source && CreateOptions(source.TinUnavailableTypes)}
                 </Field>
+                {fillReason ? <Field
+                                name={`TinUnavailableReason[${id}]`}
+                                component={InputField}
+                                label="The account holder is unable to obtain a TIN. Please explain the reason: 账户持有人无法获得TIN，请说明原因"/>:null}
                 <hr/>
             </div>
         )
@@ -568,15 +590,15 @@ class EmploymentStatus extends Component {
             <div>
                 <Field name="CompanyName" component={InputField} label="Company Name 公司名称 *"/>
                
-                <Field name="Occupation" component={InputField} label="Occupation 职业*"/>
+                <Field name="Occupation" component={InputField} label="Occupation 职业 *"/>
 
                 <Field
                     name="BusinessTypesId"
                     component={SelectField}
                     onChange={this.handleChange}
-                    label="Nature of Business 业务性质*">
+                    label="Nature of Business 业务性质 *">
                     <option value="">-- Nature of Business --</option>
-                    {source && createOption(source.BusinessTypes)}
+                    {source && CreateOptions(source.BusinessTypes)}
                 </Field>
 
                 <LocationOption component={SelectField} label="Employer Country or Region 就业国家或地区 *" name="EmployerCountry">
@@ -587,7 +609,7 @@ class EmploymentStatus extends Component {
                 
                 <Field name="EmployerProvince" component={InputField} label="Employer Province 就业省份 *"/>
 
-                <Field name="EmployerPostalCode" component={InputField} label="Employer Postcode 就业地区邮政编号"/>
+                <Field name="EmployerPostalCode" component={InputField} label="Employer Postcode 就业地区邮政编号 *"/>
 
                 <Field name="EmployerStreet1" component={InputField} label="Employer Street#1 公司地址#1"/>
 
@@ -638,18 +660,17 @@ class SourceOfIncome extends Component {
                     <td width="30">
                         <Field name={"DataInfo_SourceOfIncomeId_"+data.code} component="input" className="checkbox" type="checkbox"/>
                     </td>
-                    <td>
+                    <td width="32%">
                         {data.TitleCn}  {data.TitleEn}
                     </td>
-                    <td>
+                    <td width="32%">
                         <Field name={"DataInfo_SourceOfIncomePercent_"+data.code} component="input"/> %
                     </td>
-                    <td>
+                    <td width="32%">
                         <Field name={"DataInfo_SourceOfIncomeDescription_"+data.code} component="input"/>
                     </td>
                 </tr>
             )
-            
         })
         
         return(
@@ -671,11 +692,6 @@ class SourceOfIncome extends Component {
 }
 
 
-const createOption = (source) => {
-    return source.map((data, index) => {
-        return <option key={data.code} value={data.code}>{data.TitleEn} {data.TitleCn}</option>
-    })
-}
 
 
 PersonalDetail = reduxForm({
