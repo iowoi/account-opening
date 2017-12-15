@@ -12,14 +12,13 @@ import {
     CnApply,
     CnApplyInfo,
     CnUpload,
-    CnAccountInformation,
     CnInvestmentBackground,
     CnSecurityQuestions,
     CnDeclaration,
     CnFinish,
     FormIndex,
 } from './component/index';
-import {CnIndex, CnPersonalDetail, CnSelectLocation} from './container';
+import {CnIndex, PersonalDetail, CnAccountInformation, CnSelectLocation} from './container';
 import {browserHistory} from 'react-router'
 
 import {BrowserRouter as Router, Switch, withRouter, Route, Redirect} from 'react-router-dom';
@@ -59,22 +58,27 @@ const routes = [
                 routes: [
                     {
                         path: ROOT_PATH + 'cn/form/personal-detail',
-                        component: CnPersonalDetail
+                        component: 'PersonalDetail',
+                        display: 'account-information'
                     },{
-                        path: ROOT_PATH + 'cn/form/account-information',
-                        component: CnAccountInformation
+                        path: ROOT_PATH + 'cn/form/personal-detail',
+                        component: 'CnAccountInformation',
+                        display: 'investment-background'
                     }, {
-                        path: ROOT_PATH + 'cn/form/investment-background',
-                        component: CnInvestmentBackground
+                        path: ROOT_PATH + 'cn/form/personal-detail',
+                        component: 'CnInvestmentBackground',
+                        display: 'security-question'
                     }, {
-                        path: ROOT_PATH + 'cn/form/security-question',
-                        component: CnSecurityQuestions
+                        path: ROOT_PATH + 'cn/form/personal-detail',
+                        component: 'CnSecurityQuestions',
+                        display: 'declaration'
                     }, {
-                        path: ROOT_PATH + 'cn/form/declaration',
-                        component: CnDeclaration
+                        path: ROOT_PATH + 'cn/form/personal-detail',
+                        component: 'CnDeclaration',
+                        display: 'finish'
                     }, {
-                        path: ROOT_PATH + 'cn/form/finish',
-                        component: CnFinish
+                        path: ROOT_PATH + 'cn/form/personal-detail',
+                        component: 'CnFinish'
                     }
                 ]                    
             }
@@ -85,10 +89,9 @@ const routes = [
 class App extends Component {
     
     render() {
-        console.log("APP",this.props)
         return (
             <Provider store={store}>
-                <Router history={browserHistory}>
+                <Router component={ScrollToTop}  history={browserHistory}>
                     {/* <RouteWithSubRoutes routes={routes}/> */}
                     <Switch>
                         {routes &&
@@ -105,5 +108,9 @@ class App extends Component {
 
 
 
-
+const ScrollToTop = () => {
+    window.scrollTo(0, 0);
+    return null;
+  };
+  
 export default App;

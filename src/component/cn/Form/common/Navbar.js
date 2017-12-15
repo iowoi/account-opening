@@ -4,7 +4,6 @@ import ActiveLabel from '../../../../assets/img/icon-triangle.png';
 class Navbar extends Component {
     
     render() {
-        console.log("THIS",this)
         const Navs = [
             {
                 pathName: '/personal-detail',

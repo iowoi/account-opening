@@ -1,24 +1,28 @@
 import {connect} from 'react-redux';
 import PersonalDetail from '../../component/cn/Form/PersonalDetail';
 
-const mapStateToPorps = (state) => ({
-    user: state,
-    initialValues: {
-        gender: "male",
-        contactType: "Work 办公室",
-        standadLotRadio: "0",
-        employmentStatus: "Employed 受雇",
-        isSenior: "No",
-        isUSA: "No",
-        bornInUSA: "No",
-        nationality: state.info.data ? state.info.data.loc : null,
-        country: state.info.data ? state.info.data.loc : null,        
-        taxResidentCountries: state.info.data ? state.info.data.loc : null
-    }
-})
 
 const CnPersonalDetail = connect(
-    mapStateToPorps
+    state => {
+        const initialValues = {
+            GendersId: "1",
+            ContactTypesId: "3",
+            standadLotRadio: "0",
+            employmentStatus: "Employed 受雇",
+            isSenior: "No",
+            isUSA: "No",
+            bornInUSA: "No",
+            CountryId: state.info.data ? state.info.data.loc : null,
+            NationalityId: state.info.data ? state.info.data.loc : null,
+            BirthCountryId: state.info.data ? state.info.data.loc : null,        
+            taxResidentCountries: state.info.data ? state.info.data.loc : null
+        }
+        const source =  state.info.source
+        const PersonalDetail = state.form.PersonalDetail
+        
+        return {source,PersonalDetail,initialValues};
+    }
 )(PersonalDetail)
+  
 
 export default CnPersonalDetail;

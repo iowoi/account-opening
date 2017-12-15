@@ -3,6 +3,7 @@ import FormHeader from './common/Header';
 import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import {InputField} from '../../Common';
+import autoBind from 'auto-bind';
 
 const validate = values => {
     const errors = {}
@@ -18,12 +19,22 @@ const validate = values => {
 class SecurityQuestions extends Component {
     constructor(props) {
         super(props);
-
+        autoBind(this);
+        
     }
 
     handleChange(event, index, value) {
         console.log(event, index, value)
         // this.setState({loc:value})
+    }
+
+    handleNextPage(e){
+        e.preventDefault();
+        this.props.handleRenderPage(this.props.nextPage);
+    }
+    handlePrevPage(e){
+        e.preventDefault();
+        this.props.handleRenderPage(this.props.prevPage);
     }
 
     render() {
@@ -33,8 +44,9 @@ class SecurityQuestions extends Component {
                 en: "Security Questions"
             }
         ]
+        const {style} = this.props
         return (
-            <div>
+            <div style={style}>
                 <FormHeader steps={steps} key={0}/>
                 <div className="form-page col-md-10 col-center" key={1}>
                     <form onSubmit={this.handleSubmit}>
@@ -74,11 +86,10 @@ class SecurityQuestions extends Component {
                                 <Field name="contactNumber" className="form-control" component={InputField}/>
                             </div>
                         </div>
-                        <div className="text-center">
-                            <Link to="investment-background" className="btn btn-primary">返回
-                            </Link>
-                            <Link to="declaration" className="btn btn-primary">下一步
-                            </Link>
+                       <div className="text-center">
+                            <button onClick={this.handlePrevPage} className="btn btn-primary">返回 </button>
+                            <button onClick={this.handleNextPage} className="btn btn-primary">下一步 </button>
+                           
                         </div>
                     </form>
                 </div>

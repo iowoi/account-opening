@@ -3,9 +3,10 @@ import {withRouter} from 'react-router';
 import {sendLocation} from '../../actions';
 import CnTerm from '../../component/cn/term';
 
-const mapStateToPorps = (state) => ({
+const mapStateToProps = (state) => ({
+    source: state.info.source,
     initialValues: {
-        loc: "China"
+        loc: "7"
     }
 })
 
@@ -16,6 +17,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default withRouter(connect(
-    mapStateToPorps,
+    mapStateToProps,
     mapDispatchToProps
 )(CnTerm))

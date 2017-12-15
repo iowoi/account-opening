@@ -10,18 +10,18 @@ class CnIndex extends Component {
         super(props);
     }
     componentDidMount(){
-        console.log(this)
         this.props.getSource();
     }
     
     render() {        
-        console.log('Redirect:',ROOT_PATH)
-       const {location, source, routes} = this.props
-       console.log(">>>>>>>>>>",source)
+        //console.log('Redirect:',ROOT_PATH)
+       const {location, source, routes,renderPage} = this.props
+       //console.log(">>>>>>>>>>",source)
+       
         return (
             <div>
                 {location.pathname.indexOf('form') != -1 ? null : <Header/>}
-                <RouteWithSubRoutes routes={routes} source={source}/>
+                <RouteWithSubRoutes routes={routes} source={source} />
                 <Route exact path={ROOT_PATH} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>
                 <Route exact path={ROOT_PATH+'cn'} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>
                 <Route exact path={ROOT_PATH+'cn/'} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>

@@ -16,11 +16,10 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath:'/'
-        //publicPath:'/Security' to production
-       // publicPath:'/Security/'
-        //publicPath: "/Security/"
-        
+        publicPath: '/'
+        //to production 
+        //publicPath:'/Security/' 
+
     },
     module: {
         rules: [
@@ -29,7 +28,7 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 query: {
-                    presets: ['es2015', 'react']
+                    presets: ['es2015', 'react', 'stage-2']
                 }
             }, {
                 test: /\.css$/,
@@ -58,8 +57,8 @@ module.exports = {
             },
 
             // {     test: /\.(png|jpg|gif)$/,     loader: 'url-loader?limit=100000',
-            // options: {         name: '[name].[ext]',         outputPath: '/assets/images/'
-            //     } },
+            // options: {         name: '[name].[ext]',         outputPath:
+            // '/assets/images/'     } },
             {
                 test: /\.svg$/,
                 loader: 'file-loader',
@@ -76,8 +75,5 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        ExtractMainCss
-    ]
+    plugins: [ExtractMainCss]
 };
-

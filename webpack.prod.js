@@ -5,6 +5,10 @@ const common = require('./webpack.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
+    devServer: {
+        contentBase: './Security',
+    },
+   
     devtool: 'cheap-module-source-map',
     output: {
         publicPath: '/Security'
@@ -14,7 +18,8 @@ module.exports = merge(common, {
             'process.env':{
                 'NODE_ENV': JSON.stringify('production'),                           
             },
-            ROOT_PATH: JSON.stringify('/Security/')
+            ROOT_PATH: JSON.stringify('/Security/'),
+            API_URL: JSON.stringify('https://testapi.kvbkunlun.com/api2/SecurityAccount')
         }),
         new HtmlWebpackPlugin({
             title: 'Account Opening', 

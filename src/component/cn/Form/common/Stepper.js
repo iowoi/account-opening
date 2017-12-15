@@ -4,31 +4,44 @@ import $ from 'jquery';
 class Stepper extends Component {
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll);
+        window.addEventListener('keydown', this.handleKeydown);
+     //   window.addEventListener('click', this.handleClick);
+        
     }
     
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('keydown', this.handleKeydown);
+    //    window.removeEventListener('click', this.handleClick);
+        
     }
-    
+    handleClick(event) {
+        const id = $(event.target).parents('.steps')[0].id;
+        $('#stepper'+id).addClass('active');
+        $('#stepper'+id).siblings().removeClass('active');
+    }
+    handleKeydown(event) {
+        const id = $(event.target).parents('.steps')[0].id;
+        $('#stepper'+id).addClass('active');
+        $('#stepper'+id).siblings().removeClass('active');
+      
+    }
     handleScroll(event) {
         const elms = $('.steps');
-        const stepArr = []
-        elms.map((steps)=>{
-            stepArr.push(elms[steps].id);
+        const headerHeight = $('header').height();
+        const stepArr = [];
+        elms.map((steps,index)=>{
+            stepArr.push(index);
         })
-        const bodyRect = document.body.getBoundingClientRect().top
-        
-        stepArr.map(function(id,index){
-            const domElm = document.getElementById(id).getBoundingClientRect()
-            const elmTop = domElm.top
-            const scrollPos = $(document).scrollTop()
-            let elmOffsetY = elmTop - bodyRect
-           // console.log(id,"scrollPos:"+scrollPos,domElm.height,$('#step3').offset())
-            if(elmOffsetY <= scrollPos ){
-                $('#stepper'+index).addClass('active');
-                $('#stepper'+index).siblings().removeClass('active');
+       
+        for(let i=0; i< stepArr.length; i++){
+            const domElm = $(`.steps`).get(i).offsetTop;
+            const scrollPos = $(document).scrollTop() + headerHeight + 150
+            if(domElm <= scrollPos ){
+                $('#stepper'+i).addClass('active');
+                $('#stepper'+i).siblings().removeClass('active');
             }
-        })
+        }
     }
 
     render() {

@@ -9,18 +9,19 @@ export class RouteWithSubRoutes extends Component {
         const {source} = this.props
         return (
             <Switch>
-                {this.props.routes
-                    .map((route, i) => (
-                        <SubRoutes key={i} {...route} />
-                    ))}
+                {this
+                    .props
+                    .routes
+                    .map((route, i) => (<SubRoutes key={i} {...route} />))}
             </Switch>
         );
     }
 }
 
 const SubRoutes = (route) => (
+
     <Route
         source={route.source}
         path={route.path}
-        render={props => (<route.component {...props} routes={route.routes}/>)}/>
+        render={props => (<route.component {...props}   routes={route.routes}/>)}/>
 )

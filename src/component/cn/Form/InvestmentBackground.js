@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import FormHeader from './common/Header';
+import autoBind from 'auto-bind';
 import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
+import FormHeader from './common/Header';
 
 const validate = values => {
     const errors = {}
@@ -38,12 +39,21 @@ const validate = values => {
 class CnInvestmentBackground extends Component {
     constructor(props) {
         super(props);
-
+        autoBind(this);
+        
     }
 
     handleChange(event, index, value) {
-        console.log(event, index, value)
+      //  console.log(event, index, value)
         // this.setState({loc:value})
+    }
+    handleNextPage(e){
+        e.preventDefault();
+        this.props.handleRenderPage(this.props.nextPage);
+    }
+    handlePrevPage(e){
+        e.preventDefault();
+        this.props.handleRenderPage(this.props.prevPage);
     }
 
     render() {
@@ -56,8 +66,9 @@ class CnInvestmentBackground extends Component {
                 en: "Products Features and Risks"
             }
         ]
+        const {style} = this.props
         return (
-            <div>
+            <div style={style}>
                 <FormHeader steps={steps} key={0}/>
                 <div className="form-page col-md-10 col-center" key={1}>
                     <form onSubmit={this.handleSubmit}>
@@ -168,11 +179,10 @@ class CnInvestmentBackground extends Component {
 
                             <p>外汇保证金、差价合约, 股票交易及衍生工具是由 KVB 昆仑国际纽西兰公司提供，而您同意接受纽西兰客户服务协议与纽西兰法律的制约。</p>
                         </div>
+                       
                         <div className="text-center">
-                            <Link to="account-information" className="btn btn-primary">返回
-                            </Link>
-                            <Link to="security-question" className="btn btn-primary">下一步
-                            </Link>
+                            <button onClick={this.handlePrevPage} className="btn btn-primary">返回 </button>
+                            <button onClick={this.handleNextPage} className="btn btn-primary">下一步 </button>
                         </div>
                     </form>
                 </div>

@@ -3,6 +3,7 @@
  */
 
 export const SET_LOCTION = 'SET_LOCTION';
+export const SET_PAGE = 'SET_PAGE';
 export const GET_SOURCE = 'GET_SOURCE';
 
 const headerConfig = (type, data) => {
@@ -14,9 +15,6 @@ const headerConfig = (type, data) => {
     })
 }
 
-
-
-
 /**
   * action creators
   */
@@ -27,12 +25,21 @@ export function sendLocation(data) {
     }
 }
 
+
+export function renderPage(data) {
+    console.log(data)
+    return (dispatch) => {
+        dispatch({type: SET_PAGE, data});
+    }
+}
+
+
 /**
  * get select
  */
 
 export function getSource() {
-    const ApiUrl = `${API_URL}GetSource`
+    const ApiUrl = `${API_URL}/GetSource`
     return (dispatch) => {
         fetch(ApiUrl, headerConfig('GET'))
             .then(function (response) {

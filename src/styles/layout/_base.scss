@@ -109,6 +109,10 @@ ul {
     -webkit-appearance: none;
 }
 
+button:focus {
+    outline: 0;
+}
+
 a.btn-primary,
 button.btn-primary {
     @include font-size(15);

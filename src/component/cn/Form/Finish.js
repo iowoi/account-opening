@@ -24,11 +24,12 @@ class Finish extends Component {
 
     render() {
        
+        const {style} = this.props
         return (
-            <div>
-                <FormHeader key={0}/>
+            <div style={style}>
+                <FormHeader/>
 
-                <div className="form-page normal-height col-md-10 col-center text-center" key={1}>
+                <div className="form-page normal-height col-md-10 col-center text-center" >
                     <h3 className="mt-0">Thank you! 谢谢您！</h3>
                     <p>KVB昆仑国际的代表已收到您的申请。 </p>
                     <p>申请参考号码: 11065989 </p>
@@ -38,7 +39,7 @@ class Finish extends Component {
                     <a href="#" className="btn btn-primary mb-5">打印您的申请</a>
                 </div>
 
-                <div className="form-page normal-height col-md-10 col-center" key={1}>
+                <div className="form-page normal-height col-md-10 col-center">
                     <h3 className="mt-0">下一步是什么？</h3>
                     <p>1. 请您将所需的证明文件制成扫描图像（JPG,GIF,DOC,PDF的文件格式——请不要设置密码保护）<br/>点击提交文件 </p>
                     <Link to="../upload" className="btn btn-primary mb-5">提交文件</Link>
