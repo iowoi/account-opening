@@ -2,37 +2,18 @@ import React, {Component} from 'react';
 import FormHeader from './common/Header';
 import {Field, reduxForm} from 'redux-form';
 import autoBind from 'auto-bind';
-import {connect} from 'react-redux';
+import {connect} from 'react-redux'; 
 
 import {InputField, DateField, SelectField, CreateRadios} from '../../Common';
 import {Link} from 'react-router-dom';
 const AreaArr = [];
 
-const validate = values => {
-    const errors = {}
-    const requiredFields = ['gender']
-    requiredFields.forEach(field => {
-        if (!values[field]) {
-            errors[field] = 'Required'
-        }
-    })
-    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
-    }
-    return errors
-}
-
-class AccountInformation extends Component {
+class AccountInformation extends Component { 
     constructor(props) {
         super(props);
         autoBind(this);
-        
     }
 
-    handleChange(event, index, value) {
-        //console.log(event, index, value)
-        // this.setState({loc:value})
-    }
     handleNextPage(e){
         e.preventDefault();
         this.props.handleRenderPage(this.props.nextPage);
@@ -144,22 +125,15 @@ class AccountInformation extends Component {
     }
 }
 
-AccountInformation = reduxForm({
-    form: 'PersonalDetail', validate
-    // , asyncValidate
-})(AccountInformation)
+AccountInformation = reduxForm({ 
+    form: 'PersonalDetail' 
+})(AccountInformation) 
 
+const CnAccountInformation = connect( 
+   state => { 
+       const source =  state.info.source 
+       return {source}; 
+   } 
+)(AccountInformation) 
 
-
-
-const CnAccountInformation = connect(
-    state => {
-      
-        const source =  state.info.source
-        return {source};
-    }
-)(AccountInformation)
-  
-
-
-export default CnAccountInformation;
+export default CnAccountInformation; 

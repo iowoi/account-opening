@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
-import {Field, reduxForm, formValueSelector} from 'redux-form';
 import {InputField, DateField, SelectField, LocationOption, CreateOptions} from '../../Common';
 import Stepper from './common/Stepper';
-import asyncValidate from '../../asyncValidate';
 import autoBind from 'auto-bind';
-import {Link} from 'react-router-dom';
-import { findDOMNode } from 'react-dom';
-import $ from 'jquery';
 import FormHeader from './common/Header';
-import {connect} from 'react-redux';
+import {Field, reduxForm} from 'redux-form';
 
 const validate = values => {
     const errors = {}
@@ -558,12 +553,12 @@ class SelfCertification extends Component {
                 <label>I do not have TIN</label>
                 <p>If a TIN is unavailable, provide the appropriate reason: 如果您没有TIN号码，请提供适当的理由</p>
                 <Field 
-                name={`Tax[${id}].TinUnavailableTypesId[${id}]`} component="select" className="mt-0 custom-select" onChange={this.handleChange} disabled={haveTIN} >
+                name={`Tax[${id}].TinUnavailableTypesId`} component="select" className="mt-0 custom-select" onChange={this.handleChange} disabled={haveTIN} >
                     <option value="">-- Reason --</option>
                     {source && CreateOptions(source.TinUnavailableTypes)}
                 </Field>
                 {fillReason ? <Field
-                                name={`Tax[${id}].TinUnavailableReason[${id}]`}
+                                name={`Tax[${id}].TinUnavailableReason`} 
                                 component={InputField}
                                 label="The account holder is unable to obtain a TIN. Please explain the reason: 账户持有人无法获得TIN，请说明原因"/>:null}
                 <hr/>
@@ -620,7 +615,7 @@ class EmploymentStatus extends Component {
                 <Field name="EmployerStreet2" component={InputField} label="Employer Street#2 公司地址#2"/>
                 
                 <hr/>
-                <h5>Source Of Income 收入来源</h5>
+                <label>Source Of Income 收入来源</label>
                 <SourceOfIncome source={source}/>
                 <hr/>
                 
@@ -661,18 +656,18 @@ class SourceOfIncome extends Component {
         source && source.SourceOfIncome.map((data,index)=>{
             DataRow.push( 
                 <tr key={index}>
-                    <td width="20">
-                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeId`} component="input" className="checkbox" type="checkbox"/>
-                    </td>
-                    <td width="150">
+                    <td width="20"> 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeId`} component="input" className="checkbox" type="checkbox"/> 
+                    </td> 
+                    <td width="150"> 
                         {data.TitleCn}  {data.TitleEn}
                     </td>
-                    <td width="50">
-                        <Field name={`SourceOfIncome[${index}].SourceOfIncomePercent`} component="input"/> %
-                    </td>
-                    <td width="59%">
-                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeDescription`} component="input"/>
-                    </td>
+                    <td width="50"> 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomePercent`} component="input"/> % 
+                    </td> 
+                    <td width="59%"> 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeDescription`} component="input"/> 
+                    </td> 
                 </tr>
             )
         })
