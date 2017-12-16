@@ -13,9 +13,10 @@ import {
     CnInvestmentBackground,
     CnSecurityQuestions,
     CnDeclaration,
-    CnFinish
+    CnFinish,
+    CnAccountInformation
 } from '../../index';
-import {CnIndex, CnPersonalDetail, CnAccountInformation, CnSelectLocation} from '../../../container';
+import {CnIndex, CnPersonalDetail, CnSelectLocation} from '../../../container';
 
 import {Switch} from 'react-router-dom';
 import {component} from 'react-router';

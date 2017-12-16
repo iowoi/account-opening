@@ -33,7 +33,7 @@ const validate = values => {
         'NumberOfDependents',
         'TypeOfIdentificationId',
         'IdentificationNumber',
-        // 银行帐户资料
+
         'NameOfBank',
         'BankAddress',
         'BSB',
@@ -41,7 +41,7 @@ const validate = values => {
         'BankCurrencyId',
         'BankAccountHolderName',
         'SwiftCode',
-        // employment info
+
         'EmploymentStatusesId',
         'CompanyName',
         'Occupation',
@@ -59,7 +59,12 @@ const validate = values => {
         if (!values[field]) {
             errors[field] = 'Required'
         }
+
+        
     })
+            console.log("values",values)
+        console.log("field",field)
+        console.log("errors",errors)
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
@@ -122,7 +127,6 @@ class PersonalDetail extends Component {
             {cn:"就业资料", en:"Employment Information"},
             {html:"<font className='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font className='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
         ]
-        console.log("PERSONAL DETAIL",this)
         const SelfCertificationArr = [];
         for (var i = 0; i < this.state.selfCertificationKey; i += 1) {
             SelfCertificationArr.push(<SelfCertification id={i+1}  source={source} key={i} removeSelfCertification={this.removeSelfCertification}/>);
@@ -538,7 +542,7 @@ class SelfCertification extends Component {
                 :null}
 
                
-                <LocationOption name={`CountryCodesId[${id}]`} 
+                <LocationOption name={`Tax[${id}].CountryCodesId`} 
                     label="Which country or countries are you a tax resident? 您是哪个或哪些国家的税务居民？*"
                     labelInfo="(Please notify KVB if there is any material change in circumstances. 如果有任何情况发生改变，请通知KVB)"
                     component={SelectField}>
@@ -549,17 +553,17 @@ class SelfCertification extends Component {
                 <small className="d-block">(For account holder who is tax resident of China, the TIN is the China National Identity Card Number. 对于中国税务居民的账户持有人，TIN号码就是中国的居民身份证号码)</small>
                 <Field name={`haveTIN${id}`} type="radio" component="input" value="Yes" onChange={this.handleChange} checked={haveTIN}/>
                 <label>I do have TIN</label>
-                <Field name={`TaxpayerIdentificationNumber_${id}`}component={InputField} disabled={!haveTIN}/>
+                <Field name={`Tax[${id}].TaxpayerIdentificationNumber`}component={InputField} disabled={!haveTIN}/>
                 <Field name={`haveTIN${id}`} type="radio" component="input" value="No" onChange={this.handleChange}/>
                 <label>I do not have TIN</label>
                 <p>If a TIN is unavailable, provide the appropriate reason: 如果您没有TIN号码，请提供适当的理由</p>
                 <Field 
-                name={`TinUnavailableTypesId_${id}`} component="select" className="mt-0 custom-select" onChange={this.handleChange} disabled={haveTIN} >
+                name={`Tax[${id}].TinUnavailableTypesId[${id}]`} component="select" className="mt-0 custom-select" onChange={this.handleChange} disabled={haveTIN} >
                     <option value="">-- Reason --</option>
                     {source && CreateOptions(source.TinUnavailableTypes)}
                 </Field>
                 {fillReason ? <Field
-                                name={`TinUnavailableReason[${id}]`}
+                                name={`Tax[${id}].TinUnavailableReason[${id}]`}
                                 component={InputField}
                                 label="The account holder is unable to obtain a TIN. Please explain the reason: 账户持有人无法获得TIN，请说明原因"/>:null}
                 <hr/>
@@ -657,17 +661,17 @@ class SourceOfIncome extends Component {
         source && source.SourceOfIncome.map((data,index)=>{
             DataRow.push( 
                 <tr key={index}>
-                    <td width="30">
-                        <Field name={"DataInfo_SourceOfIncomeId_"+data.code} component="input" className="checkbox" type="checkbox"/>
+                    <td width="20">
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeId`} component="input" className="checkbox" type="checkbox"/>
                     </td>
-                    <td width="32%">
+                    <td width="150">
                         {data.TitleCn}  {data.TitleEn}
                     </td>
-                    <td width="32%">
-                        <Field name={"DataInfo_SourceOfIncomePercent_"+data.code} component="input"/> %
+                    <td width="50">
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomePercent`} component="input"/> %
                     </td>
-                    <td width="32%">
-                        <Field name={"DataInfo_SourceOfIncomeDescription_"+data.code} component="input"/>
+                    <td width="59%">
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeDescription`} component="input"/>
                     </td>
                 </tr>
             )
@@ -695,7 +699,7 @@ class SourceOfIncome extends Component {
 
 
 PersonalDetail = reduxForm({
-    form: 'PersonalDetail', validate
+    form: 'PersonalDetail',validate
     // , asyncValidate
 })(PersonalDetail)
 

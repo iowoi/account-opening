@@ -28,7 +28,6 @@ class CnIndex extends Component {
     }
 }
 
-
 const mapStateToPorps = (state) => ({
     source: state.info.source
 })

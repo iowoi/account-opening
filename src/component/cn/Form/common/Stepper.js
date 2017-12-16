@@ -5,17 +5,18 @@ class Stepper extends Component {
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll);
         window.addEventListener('keydown', this.handleKeydown);
-     //   window.addEventListener('click', this.handleClick);
+        window.addEventListener('click', this.handleClick);
         
     }
     
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
         window.removeEventListener('keydown', this.handleKeydown);
-    //    window.removeEventListener('click', this.handleClick);
+        window.removeEventListener('click', this.handleClick);
         
     }
     handleClick(event) {
+        console.log( $(event.target).parents('.steps'))
         const id = $(event.target).parents('.steps')[0].id;
         $('#stepper'+id).addClass('active');
         $('#stepper'+id).siblings().removeClass('active');

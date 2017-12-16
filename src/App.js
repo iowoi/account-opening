@@ -17,8 +17,9 @@ import {
     CnDeclaration,
     CnFinish,
     FormIndex,
+    CnAccountInformation
 } from './component/index';
-import {CnIndex, PersonalDetail, CnAccountInformation, CnSelectLocation} from './container';
+import {CnIndex, PersonalDetail, CnSelectLocation} from './container';
 import {browserHistory} from 'react-router'
 
 import {BrowserRouter as Router, Switch, withRouter, Route, Redirect} from 'react-router-dom';
@@ -57,25 +58,6 @@ const routes = [
                         path: ROOT_PATH + 'cn/form/personal-detail',
                         component: 'PersonalDetail',
                         display: 'account-information'
-                    },{
-                        path: ROOT_PATH + 'cn/form/personal-detail',
-                        component: 'CnAccountInformation',
-                        display: 'investment-background'
-                    }, {
-                        path: ROOT_PATH + 'cn/form/personal-detail',
-                        component: 'CnInvestmentBackground',
-                        display: 'security-question'
-                    }, {
-                        path: ROOT_PATH + 'cn/form/personal-detail',
-                        component: 'CnSecurityQuestions',
-                        display: 'declaration'
-                    }, {
-                        path: ROOT_PATH + 'cn/form/personal-detail',
-                        component: 'CnDeclaration',
-                        display: 'finish'
-                    }, {
-                        path: ROOT_PATH + 'cn/form/personal-detail',
-                        component: 'CnFinish'
                     }
                 ]                    
             }

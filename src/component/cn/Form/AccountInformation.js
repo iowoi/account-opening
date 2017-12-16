@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import FormHeader from './common/Header';
 import {Field, reduxForm} from 'redux-form';
 import autoBind from 'auto-bind';
+import {connect} from 'react-redux';
 
 import {InputField, DateField, SelectField, CreateRadios} from '../../Common';
 import {Link} from 'react-router-dom';
@@ -21,7 +22,7 @@ const validate = values => {
     return errors
 }
 
-class CnAccountInformation extends Component {
+class AccountInformation extends Component {
     constructor(props) {
         super(props);
         autoBind(this);
@@ -143,9 +144,22 @@ class CnAccountInformation extends Component {
     }
 }
 
-CnAccountInformation = reduxForm({
-    form: 'AccountInformation', validate
+AccountInformation = reduxForm({
+    form: 'PersonalDetail', validate
     // , asyncValidate
-})(CnAccountInformation)
+})(AccountInformation)
+
+
+
+
+const CnAccountInformation = connect(
+    state => {
+      
+        const source =  state.info.source
+        return {source};
+    }
+)(AccountInformation)
+  
+
 
 export default CnAccountInformation;

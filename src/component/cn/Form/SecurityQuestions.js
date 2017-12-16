@@ -14,7 +14,9 @@ const validate = values => {
     const requiredFields = ['SecurityQuestionsAnswer']
     if (!values.SecurityQuestionsAnswer || !values.SecurityQuestionsAnswer.length) {
         errors.SecurityQuestionsAnswer = { _error: 'At least one member must be entered' }
-      }
+     
+    
+    }
 
       
     // requiredFields.forEach(field => {
