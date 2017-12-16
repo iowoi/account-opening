@@ -52,7 +52,7 @@ class SecurityQuestions extends Component {
             }
         ]
         const {pristine, submitting, source, style} = this.props
-        console.log(this.props)
+      //  console.log(this.props)
         return (
             <div style={style}>
                 <FormHeader steps={steps} key={0}/>

@@ -8,6 +8,7 @@ const CnPersonalDetail = connect(
     state => {
         const initialValues = {
             GendersId: "1",
+            TitleTypesId: "1",
             ContactTypesId: "3",
             standadLotRadio: "0",
             employmentStatus: "Employed 受雇",

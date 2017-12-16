@@ -5,7 +5,7 @@ import autoBind from 'auto-bind';
 import FormHeader from './common/Header';
 import {Field, reduxForm} from 'redux-form';
 
-const validate = values => {
+function validate(values){
     const errors = {}
     const requiredFields = [
         'GendersId',
@@ -53,18 +53,16 @@ const validate = values => {
     requiredFields.forEach(field => {
         if (!values[field]) {
             errors[field] = 'Required'
-        }
-
-        
+        }  
     })
-            console.log("values",values)
-        console.log("field",field)
-        console.log("errors",errors)
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
     return errors
 }
+// const validate = values => {
+    
+// }
 
 class PersonalDetail extends Component {
     constructor(props) {
@@ -104,17 +102,13 @@ class PersonalDetail extends Component {
         })
     }
     handleNextPage(e){
-        e.preventDefault();
         this.props.handleRenderPage(this.props.nextPage);
     }
-    handlePrevPage(e){
-        e.preventDefault();
-        this.props.handleRenderPage(this.props.prevPage);
-    }
-
+    
     render() {
+        
         //console.log(this.state)
-        const {pristine, reset, source, style, submitting} = this.props
+        const {pristine, reset, source, style, submitting,handleSubmit} = this.props
         const {selfCertificationKey} = this.state
         const steps = [
             {cn:"个人申请", en:"Individual Applicant"},
@@ -128,6 +122,7 @@ class PersonalDetail extends Component {
         };
         return (
             <div style={style}>
+                <form onSubmit={handleSubmit(this.handleNextPage)}>
                 <FormHeader steps={steps}/>
                 <div className="form-page col-md-10 col-center" >
                         <div className="steps" id="0" >
@@ -387,9 +382,10 @@ class PersonalDetail extends Component {
                         </div>
                        
                         <div className="text-center">
-                            <button disabled={pristine || submitting}  onClick={this.handleNextPage} className="btn btn-primary">下一步 ></button>
+                            <button type="submit" disabled={submitting} className="btn btn-primary">下一步 ></button> 
                         </div>
                 </div>
+                </form>
             </div>
                
         )
@@ -694,7 +690,8 @@ class SourceOfIncome extends Component {
 
 
 PersonalDetail = reduxForm({
-    form: 'PersonalDetail',validate
+    form: 'PersonalDetail',
+    validate
     // , asyncValidate
 })(PersonalDetail)
 
