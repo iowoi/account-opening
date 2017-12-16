@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
-import {Field, reduxForm, formValueSelector} from 'redux-form';
 import {InputField, DateField, SelectField, LocationOption, CreateOptions} from '../../Common';
 import Stepper from './common/Stepper';
-import asyncValidate from '../../asyncValidate';
 import autoBind from 'auto-bind';
-import {Link} from 'react-router-dom';
-import { findDOMNode } from 'react-dom';
-import $ from 'jquery';
 import FormHeader from './common/Header';
-import {connect} from 'react-redux';
+import {Field, reduxForm} from 'redux-form';
 
 const validate = values => {
     const errors = {}
@@ -122,7 +117,6 @@ class PersonalDetail extends Component {
             {cn:"就业资料", en:"Employment Information"},
             {html:"<font className='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font className='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
         ]
-        console.log("PERSONAL DETAIL",this)
         const SelfCertificationArr = [];
         for (var i = 0; i < this.state.selfCertificationKey; i += 1) {
             SelfCertificationArr.push(<SelfCertification id={i+1}  source={source} key={i} removeSelfCertification={this.removeSelfCertification}/>);
@@ -538,7 +532,7 @@ class SelfCertification extends Component {
                 :null}
 
                
-                <LocationOption name={`CountryCodesId[${id}]`} 
+                <LocationOption name={`Tax[${id}].CountryCodesId`} 
                     label="Which country or countries are you a tax resident? 您是哪个或哪些国家的税务居民？*"
                     labelInfo="(Please notify KVB if there is any material change in circumstances. 如果有任何情况发生改变，请通知KVB)"
                     component={SelectField}>
@@ -549,17 +543,17 @@ class SelfCertification extends Component {
                 <small className="d-block">(For account holder who is tax resident of China, the TIN is the China National Identity Card Number. 对于中国税务居民的账户持有人，TIN号码就是中国的居民身份证号码)</small>
                 <Field name={`haveTIN${id}`} type="radio" component="input" value="Yes" onChange={this.handleChange} checked={haveTIN}/>
                 <label>I do have TIN</label>
-                <Field name={`TaxpayerIdentificationNumber_${id}`}component={InputField} disabled={!haveTIN}/>
+                <Field name={`Tax[${id}].TaxpayerIdentificationNumber`}component={InputField} disabled={!haveTIN}/>
                 <Field name={`haveTIN${id}`} type="radio" component="input" value="No" onChange={this.handleChange}/>
                 <label>I do not have TIN</label>
                 <p>If a TIN is unavailable, provide the appropriate reason: 如果您没有TIN号码，请提供适当的理由</p>
                 <Field 
-                name={`TinUnavailableTypesId_${id}`} component="select" className="mt-0 custom-select" onChange={this.handleChange} disabled={haveTIN} >
+                name={`Tax[${id}].TinUnavailableTypesId`} component="select" className="mt-0 custom-select" onChange={this.handleChange} disabled={haveTIN} >
                     <option value="">-- Reason --</option>
                     {source && CreateOptions(source.TinUnavailableTypes)}
                 </Field>
                 {fillReason ? <Field
-                                name={`TinUnavailableReason[${id}]`}
+                                name={`Tax[${id}].TinUnavailableReason`} 
                                 component={InputField}
                                 label="The account holder is unable to obtain a TIN. Please explain the reason: 账户持有人无法获得TIN，请说明原因"/>:null}
                 <hr/>
@@ -616,7 +610,7 @@ class EmploymentStatus extends Component {
                 <Field name="EmployerStreet2" component={InputField} label="Employer Street#2 公司地址#2"/>
                 
                 <hr/>
-                <h5>Source Of Income 收入来源</h5>
+                <label>Source Of Income 收入来源</label>
                 <SourceOfIncome source={source}/>
                 <hr/>
                 
@@ -657,18 +651,18 @@ class SourceOfIncome extends Component {
         source && source.SourceOfIncome.map((data,index)=>{
             DataRow.push( 
                 <tr key={index}>
-                    <td width="30">
-                        <Field name={"DataInfo_SourceOfIncomeId_"+data.code} component="input" className="checkbox" type="checkbox"/>
-                    </td>
-                    <td width="32%">
+                    <td width="20"> 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeId`} component="input" className="checkbox" type="checkbox"/> 
+                    </td> 
+                    <td width="150"> 
                         {data.TitleCn}  {data.TitleEn}
                     </td>
-                    <td width="32%">
-                        <Field name={"DataInfo_SourceOfIncomePercent_"+data.code} component="input"/> %
-                    </td>
-                    <td width="32%">
-                        <Field name={"DataInfo_SourceOfIncomeDescription_"+data.code} component="input"/>
-                    </td>
+                    <td width="50"> 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomePercent`} component="input"/> % 
+                    </td> 
+                    <td width="59%"> 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeDescription`} component="input"/> 
+                    </td> 
                 </tr>
             )
         })

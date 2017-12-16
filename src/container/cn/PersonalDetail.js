@@ -1,5 +1,7 @@
-import {connect} from 'react-redux';
+import React, {Component} from 'react';
 import PersonalDetail from '../../component/cn/Form/PersonalDetail';
+import {connect} from 'react-redux';
+
 
 
 const CnPersonalDetail = connect(
@@ -16,7 +18,12 @@ const CnPersonalDetail = connect(
             CountryId: state.info.data ? state.info.data.loc : null,
             NationalityId: state.info.data ? state.info.data.loc : null,
             BirthCountryId: state.info.data ? state.info.data.loc : null,        
-            taxResidentCountries: state.info.data ? state.info.data.loc : null
+            taxResidentCountries: state.info.data ? state.info.data.loc : null,
+            //account information
+            InvestmentTypesId: "1", 
+            CurrencyTypesId: "1", 
+            AccountTypeId: "1", 
+            MarketAccessId:"1" 
         }
         const source =  state.info.source
         const PersonalDetail = state.form.PersonalDetail
