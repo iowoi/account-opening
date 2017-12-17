@@ -4,6 +4,7 @@ import Stepper from './common/Stepper';
 import autoBind from 'auto-bind';
 import FormHeader from './common/Header';
 import {Field, reduxForm} from 'redux-form';
+import $ from 'jquery';
 
 function validate(values){
     const errors = {}
@@ -50,19 +51,28 @@ function validate(values){
         'CitizenOrTaxResidentOfUSAId',
         'BornInUSAAndSurrenderedCitizenshipId',
     ]
-    requiredFields.forEach(field => {
+    requiredFields.map((field,index)=>{
         if (!values[field]) {
             errors[field] = 'Required'
         }  
     })
+    // requiredFields.forEach(field,index => {
+    //     if (!values[field]) {
+    //         if(index===0){
+    //             console.log(index)
+                
+    //         }
+    //         errors[field] = 'Required'
+    //     }  
+
+    //     // $($('.has-danger')[0]).find('input').focus()
+        
+    // })
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
     return errors
 }
-// const validate = values => {
-    
-// }
 
 class PersonalDetail extends Component {
     constructor(props) {
@@ -101,14 +111,14 @@ class PersonalDetail extends Component {
             selfCertificationKey: this.state.selfCertificationKey - 1
         })
     }
-    handleNextPage(e){
+    handleNextPage(){
         this.props.handleRenderPage(this.props.nextPage);
     }
     
+
     render() {
-        
         //console.log(this.state)
-        const {pristine, reset, source, style, submitting,handleSubmit} = this.props
+        const {pristine, reset, source, style, submitting, handleSubmit, PersonalDetail} = this.props
         const {selfCertificationKey} = this.state
         const steps = [
             {cn:"个人申请", en:"Individual Applicant"},
@@ -122,7 +132,9 @@ class PersonalDetail extends Component {
         };
         return (
             <div style={style}>
+                
                 <form onSubmit={handleSubmit(this.handleNextPage)}>
+              
                 <FormHeader steps={steps}/>
                 <div className="form-page col-md-10 col-center" >
                         <div className="steps" id="0" >
@@ -201,7 +213,7 @@ class PersonalDetail extends Component {
                                 <div className="d-block">
                                     <Field type="radio" component="input" name="SameAddress" value="yes"/>
                                     Yes 是
-                                    <Field type="text" className="ml-4" component="input" name="MailingAddress"/>
+                                    <Field type="text" className="ml-4" component="input" name="MailingAddress" id="MailingAddress"/>
                                 </div>
                                 <div className="d-block">
                                     <Field type="radio" component="input" name="SameAddress" value="no"/>
@@ -381,9 +393,10 @@ class PersonalDetail extends Component {
                         
                         </div>
                        
-                        <div className="text-center">
+                       <div className="text-center">
                             <button type="submit" disabled={submitting} className="btn btn-primary">下一步 ></button> 
                         </div>
+
                 </div>
                 </form>
             </div>
@@ -691,7 +704,10 @@ class SourceOfIncome extends Component {
 
 PersonalDetail = reduxForm({
     form: 'PersonalDetail',
-    validate
+    validate,
+    onSubmitFail: function(form){
+        $(`#${Object.keys(form)[0]}`).focus()
+    }
     // , asyncValidate
 })(PersonalDetail)
 
