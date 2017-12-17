@@ -43,17 +43,14 @@
         cursor: not-allowed;
     }
     input[type=radio] {
-        width: 17px;
-        height: 17px;
+        width: 17px !important;
+        height: 17px !important;
         position: relative;
         top: 2px;
     }
     .col-inputs {
         display: table;
-        input[type=radio] {
-            display: table-cell;
-            vertical-align: middle;
-        }
+       
         select,
         input {
             width: initial;
@@ -61,10 +58,7 @@
     }
     .form-inline {
         display: table;
-        input[type=radio] {
-            display: table-cell;
-            vertical-align: middle;
-        }
+    
         .form-group {
             margin: 0 0 0 1rem;
             padding: 1rem 0;

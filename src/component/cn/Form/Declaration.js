@@ -5,10 +5,9 @@ import {Link} from 'react-router-dom';
 import {InputField} from '../../Common';
 import autoBind from 'auto-bind';
 import {connect} from 'react-redux';
-
+import {sendForm} from '../../../actions';
 const validate = values => {
     const errors = {}
-    const requiredFields = ['gender']
     requiredFields.forEach(field => {
         if (!values[field]) {
             errors[field] = 'Required'
@@ -28,14 +27,17 @@ class Declaration extends Component {
         console.log(event, index, value)
         // this.setState({loc:value})
     }
-    handleNextPage(e) {
-        e.preventDefault();
-        this.props.handleRenderPage(this.props.nextPage);
-    }
     handlePrevPage(e) {
         e.preventDefault();
         this.props.handleRenderPage(this.props.prevPage);
     }
+    handleNextPage(e) {
+        e.preventDefault();
+        console.log(this.props)
+        this.props.sendForm(this.props.dataForm)
+        //this.props.handleRenderPage(this.props.nextPage);
+    }
+   
     render() {
         const steps = [
             {
@@ -215,21 +217,26 @@ class Declaration extends Component {
 }
 
 Declaration = reduxForm({
-    form: 'Declaration', validate
+    form: 'PersonalDetail'
     // , asyncValidate
 })(Declaration)
 
-const CnDeclaration = connect(state => {
+const mapStateToProps = (state) => {
     const source = state.info.source
-    const initialValues = {
-        AgreeAccuracyAndNotification: "1",
-        AgreeDisclosureInfoToServiceProviderId: "1",
-        AgreeKVBTermsConditions: "1",
-        AgreeOther: "1",
-        AgreePrivacy: "1",
-        AgreeRisks: "1"
+    const dataForm = state.form
+    return {source, dataForm};
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    sendForm:(data) => {
+        dispatch(sendForm(data))
     }
-    return {source, initialValues};
-})(Declaration)
+})
+
+
+const CnDeclaration = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Declaration)
 
 export default CnDeclaration;

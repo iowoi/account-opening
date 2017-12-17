@@ -4,16 +4,6 @@ import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import {InputField} from '../../Common';
 
-const validate = values => {
-    const errors = {}
-    const requiredFields = ['gender']
-    requiredFields.forEach(field => {
-        if (!values[field]) {
-            errors[field] = 'Required'
-        }
-    })
-    return errors
-}
 
 class Finish extends Component {
     constructor(props) {
@@ -57,10 +47,5 @@ class Finish extends Component {
         );
     }
 }
-
-Finish = reduxForm({
-    form: 'Declaration', validate
-    // , asyncValidate
-})(Finish)
 
 export default Finish;

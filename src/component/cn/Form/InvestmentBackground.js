@@ -6,20 +6,6 @@ import FormHeader from './common/Header';
 import {connect} from 'react-redux';
 import {CreateRadios} from '../../Common';
 
-const validate = values => {
-    const errors = {}
-    const requiredFields = ['ExchangeExperenceId']
-    requiredFields.forEach(field => {
-        if (!values[field]) {
-            errors[field] = 'Required'
-        }
-    })
-    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
-    }
-    return errors
-}
-
 class InvestmentBackground extends Component {
     constructor(props) {
         super(props);
@@ -117,20 +103,12 @@ class InvestmentBackground extends Component {
 }
 
 InvestmentBackground = reduxForm({
-    form: 'InvestmentBackground', validate
-    // , asyncValidate
+    form: 'PersonalDetail'
 })(InvestmentBackground)
 
 const CnInvestmentBackground = connect(state => {
-    const initialValues = {
-        ExchangeExperenceId: "1",
-        SharesOrBondsExperenceId: "1",
-        IncomeLevelsId: "1",
-        FundSourceTypesId: "1",
-        ClearUnderstandingId: '1'
-    }
     const source = state.info.source
-    return {source, initialValues};
+    return {source};
 })(InvestmentBackground)
 
 export default CnInvestmentBackground;

@@ -9,67 +9,56 @@ import $ from 'jquery';
 function validate(values){
     const errors = {}
     const requiredFields = [
-        'GendersId',
-        'TitleTypesId',
-        'FirstName',
-        'Surname',
-        'Email',
-        'Birthday',
-        'BirthCountryId',
-        'NationalityId',
+        // 'GendersId',
+        // 'TitleTypesId',
+        // 'FirstName',
+        // 'Surname',
+        // 'Email',
+        // 'Birthday',
+        // 'BirthCountryId',
+        // 'NationalityId',
         'ResidentialAddress',
-        'City',
-        'CountryId',
+        // 'City',
+        // 'CountryId',
         'MailingAddress',
-        'ContactTypesId',
-        'contactCountryCode',
-        'ContactNumber',
-        'TelephonePassword',
-        'MaritalStatusId',
-        'NumberOfDependents',
-        'TypeOfIdentificationId',
-        'IdentificationNumber',
+        // 'ContactTypesId',
+        // 'contactCountryCode',
+        // 'ContactNumber',
+        // 'TelephonePassword',
+        // 'MaritalStatusId',
+        // 'NumberOfDependents',
+        // 'TypeOfIdentificationId',
+        // 'IdentificationNumber',
 
-        'NameOfBank',
-        'BankAddress',
-        'BSB',
-        'BankAccountNumber',
-        'BankCurrencyId',
-        'BankAccountHolderName',
-        'SwiftCode',
+        // 'NameOfBank',
+        // 'BankAddress',
+        // 'BSB',
+        // 'BankAccountNumber',
+        // 'BankCurrencyId',
+        // 'BankAccountHolderName',
+        // 'SwiftCode',
 
-        'EmploymentStatusesId',
-        'CompanyName',
-        'Occupation',
-        'BusinessTypesId',
-        'EmployerCountry',
-        'EmployerCity',
-        'EmployerProvince',
-        'EmployerPostalCode',
-        'EmployerStreet1',
-        'EmployerStreet2',
-        'CitizenOrTaxResidentOfUSAId',
-        'BornInUSAAndSurrenderedCitizenshipId',
+        // 'EmploymentStatusesId',
+        // 'CompanyName',
+        // 'Occupation',
+        // 'BusinessTypesId',
+        // 'EmployerCountry',
+        // 'EmployerCity',
+        // 'EmployerProvince',
+        // 'EmployerPostalCode',
+        // 'EmployerStreet1',
+        // 'EmployerStreet2',
+        // 'CitizenOrTaxResidentOfUSAId',
+        // 'BornInUSAAndSurrenderedCitizenshipId'
     ]
     requiredFields.map((field,index)=>{
         if (!values[field]) {
             errors[field] = 'Required'
         }  
     })
-    // requiredFields.forEach(field,index => {
-    //     if (!values[field]) {
-    //         if(index===0){
-    //             console.log(index)
-                
-    //         }
-    //         errors[field] = 'Required'
-    //     }  
 
-    //     // $($('.has-danger')[0]).find('input').focus()
-        
-    // })
-    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
+    if (values.Email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
+        errors.Email = 'Invalid email address'
     }
     return errors
 }
@@ -81,7 +70,9 @@ class PersonalDetail extends Component {
         this.state = {
             show_ShareTransWithAgent: false,
             show_EmploymentStatus: true,
-            selfCertificationKey: 0
+            selfCertificationKey: 0,
+            show_anotherMailAdd: false,
+            ResidentialAddress:""
         };
     }
 
@@ -96,7 +87,17 @@ class PersonalDetail extends Component {
             ? this.setState({show_EmploymentStatus: true})
             : this.setState({show_EmploymentStatus: false})
         }
-      //  console.log(target.name, target.value, this.state)
+        if(target.name === 'ResidentialAddress') {
+            const DiffrentAddress = $('input[name="DiffrentAddress"]:checked').val()
+            if(DiffrentAddress === 'No'){
+                this.props.change('MailingAddress', target.value);
+            }
+        }
+        if(target.name === 'DiffrentAddress'){
+            target.value === 'Yes' 
+            ? this.setState({ show_anotherMailAdd: true})
+            : this.setState({show_anotherMailAdd: false})
+        }
     }
     
     addSelfCertification(e) {
@@ -117,14 +118,16 @@ class PersonalDetail extends Component {
     
 
     render() {
-        //console.log(this.state)
         const {pristine, reset, source, style, submitting, handleSubmit, PersonalDetail} = this.props
-        const {selfCertificationKey} = this.state
+        const {selfCertificationKey, show_anotherMailAdd, ResidentialAddress} 
+        = this.state
+        //console.log(this.props)
+       
         const steps = [
             {cn:"个人申请", en:"Individual Applicant"},
             {cn:"银行帐户资料", en:"Settlement details"},
             {cn:"就业资料", en:"Employment Information"},
-            {html:"<font className='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font className='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
+            {html:"<font class='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font class='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
         ]
         const SelfCertificationArr = [];
         for (var i = 0; i < this.state.selfCertificationKey; i += 1) {
@@ -197,6 +200,7 @@ class PersonalDetail extends Component {
                             <Field
                                 name="ResidentialAddress"
                                 component={InputField}
+                                onChange={this.handleChange}
                                 label="Residential Address (P.O. Box Addresses are not acceptable) 通讯地址 (邮政信箱将不予接受) *"/>
 
                             <Field name="City" component={InputField} label="Town/City 城镇/城市 *"/>
@@ -210,13 +214,18 @@ class PersonalDetail extends Component {
                             <div className="form-group">
                                 <label>Mailing address 邮寄地址 *</label>
                                 <small>Is your mailing address different from the address provided above? 您的邮寄地址是否与居住地址不同?</small>
-                                <div className="d-block">
-                                    <Field type="radio" component="input" name="SameAddress" value="yes"/>
+                                <div className="form-inline col-inputs" style={{width:"100%"}}>
+                                <Field type="radio" component="input" 
+                                onChange={this.handleChange}
+                                name="DiffrentAddress" value="Yes"/>
                                     Yes 是
-                                    <Field type="text" className="ml-4" component="input" name="MailingAddress" id="MailingAddress"/>
+                                    {show_anotherMailAdd?
+                                    <Field name="MailingAddress" component={InputField} customCss={{width:"80%"}} customInputCss={{width:"100%"}}  />:null}
                                 </div>
                                 <div className="d-block">
-                                    <Field type="radio" component="input" name="SameAddress" value="no"/>
+                                    <Field type="radio" component="input" 
+                                    onChange={this.handleChange}
+                                    name="DiffrentAddress" value="No"/>
                                     No 否
                                 </div>
                             </div>
@@ -231,17 +240,15 @@ class PersonalDetail extends Component {
                                     </Field>
                                     <Field
                                         name="contactCountryCode"
-                                        className="form-control"
                                         placeholder="Country Code 国家码"
                                         component={InputField}/>
                                     <Field
                                         name="contactAreaCode"
-                                        className="form-control"
                                         placeholder="Area Code 区码"
                                         component={InputField}/>
                                     <Field
-                                        name="ContactNumber"
-                                        className="form-control"
+                                        onChange={this.handleChange}
+                                        name="contactNumber"
                                         placeholder="Number 电话号码"
                                         component={InputField}/>
                                 </div>
@@ -302,13 +309,13 @@ class PersonalDetail extends Component {
 
                             <Field name="BSB" component={InputField} label="BSB 区域代码 *"/>
 
-                            <Field name="BankAccountNumber" component={InputField} label="Account number 银行帐号"/>
+                            <Field name="BankAccountNumber" component={InputField} label="Account number 银行帐号 *"/>
                           
-                            <Field name="BankCurrencyId" component={InputField} label="Currency 货币 "/>
+                            <Field name="BankCurrencyId" component={InputField} label="Currency 货币 *"/>
 
-                            <Field name="BankAccountHolderName" component={InputField} label="Account holder’s name 银行帐户名"/>
+                            <Field name="BankAccountHolderName" component={InputField} label="Account holder’s name 银行帐户名 *"/>
 
-                            <Field name="SwiftCode" component={InputField} label="SWIFT code国际汇款代码"/>
+                            <Field name="SwiftCode" component={InputField} label="SWIFT code国际汇款代码 *"/>
                 
                         </div>
                         <hr/> {/* ======================= Section Five ======================= */}

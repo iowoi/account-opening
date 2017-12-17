@@ -11,12 +11,12 @@ const validate = values => {
     const errors = {}  
      console.log(values)
 
-    const requiredFields = ['SecurityQuestionsAnswer']
-    if (!values.SecurityQuestionsAnswer || !values.SecurityQuestionsAnswer.length) {
-        errors.SecurityQuestionsAnswer = { _error: 'At least one member must be entered' }
+    // const requiredFields = ['SecurityQuestions']
+    // if (!values.SecurityQuestionsAnswer || !values.SecurityQuestionsAnswer.length) {
+    //     errors.SecurityQuestionsAnswer = { _error: 'At least one member must be entered' }
      
     
-    }
+    // }
 
       
     // requiredFields.forEach(field => {
@@ -55,38 +55,38 @@ class SecurityQuestions extends Component {
       //  console.log(this.props)
         return (
             <div style={style}>
-                <FormHeader steps={steps} key={0}/>
-                <div className="form-page col-md-10 col-center" key={1}>
+                <FormHeader steps={steps}/>
+                <div className="form-page col-md-10 col-center">
                     <div id="step1" className="steps">
                         <h3>Security Questions 安全问题</h3>
                         <Field
-                            name="SecurityQuestionsId[0]"
+                            name="SecurityQuestions[0].SecurityQuestionsId"
                             component={SelectField}
                             label="Security Question 1 安全问题 1*">
                             {source && CreateOptions(source.SecurityQuestions)}
                         </Field>
-                        <Field name="SecurityQuestionsAnswer" component={InputField}/>
+                        <Field name="SecurityQuestions[0].SecurityQuestionsAnswer" component={InputField}/>
 
                         <Field
-                            name="SecurityQuestionsId[1]"
+                            name="SecurityQuestions[1].SecurityQuestionsId"
                             component={SelectField}
                             label="Security Question 2 安全问题 2*">
                             {source && CreateOptions(source.SecurityQuestions)}
                         </Field>
-                        <Field name="SecurityQuestionsAnswer[1]" component={InputField}/>
+                        <Field name="SecurityQuestions[1].SecurityQuestionsAnswer" component={InputField}/>
 
                         <Field
-                            name="SecurityQuestionsId[2]"
+                            name="SecurityQuestions[2].SecurityQuestionsId"
                             component={SelectField}
                             label="Security Question 3 安全问题 3*">
                             {source && CreateOptions(source.SecurityQuestions)}
                         </Field>
-                        <Field name="SecurityQuestionsAnswer[2]" component={InputField}/>
+                        <Field name="SecurityQuestions[2].SecurityQuestionsAnswer" component={InputField}/>
                     </div>
                    <div className="text-center">
                         <button onClick={this.handlePrevPage} className="btn btn-primary">返回
                         </button>
-                        <button disabled={pristine || submitting}  onClick={this.handleNextPage} className="btn btn-primary">下一步</button>
+                        <button disabled={pristine}  onClick={this.handleNextPage} className="btn btn-primary">下一步</button>
                     </div>
                 </div>
             </div>

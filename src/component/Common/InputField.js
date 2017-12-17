@@ -10,13 +10,15 @@ class inputField extends Component {
             meta,
             placeholder,
             input,
-            disabled
+            disabled,
+            customInputCss,
+            customCss,
+            defaultValue
         } = this.props
-
-        return (
-            <div
+        return ( <div
+                style={customCss}
                 className={meta.touched && meta.error
-                ? "has-danger form-group"
+                ? "has-danger form-group "
                 : "form-group"}>
 
                 {label
@@ -37,12 +39,14 @@ class inputField extends Component {
                     disabled={disabled}
                     value={disabled
                     ? ""
-                    : input.value}
+                    : defaultValue
+                        ? defaultValue
+                        : input.value}
+                    style={customInputCss}
                     placeholder={placeholder}/> {meta.touched && meta.error
                     ? <div className="error-text">{meta.touched && meta.error}</div>
                     : null}
-            </div>
-        );
+            </div>);
     }
 }
 

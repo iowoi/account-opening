@@ -80,7 +80,7 @@ class FormIndex extends Component {
                     style={page === 'declaration'
                     ? show
                     : hide}
-                    nextPage='security-questio'
+                    nextPage='security-question'
                     nextPage='finish'
                     handleRenderPage={this.handleRenderPage}/>
                 <CnFinish
