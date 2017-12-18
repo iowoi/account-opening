@@ -21,7 +21,7 @@ class SelectField extends Component {
                         }}></small>
                     : null}
 
-                <select className="custom-select"
+                <select className="custom-select" 
                     {...input}  >
                     {children}
                 </select> 

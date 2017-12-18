@@ -9,7 +9,7 @@ import {CreateRadios, SelectField, CreateOptions} from '../../Common';
 
 const validate = values => {
     const errors = {}  
-     console.log(values)
+    // console.log(values)
 
     // const requiredFields = ['SecurityQuestions']
     // if (!values.SecurityQuestionsAnswer || !values.SecurityQuestionsAnswer.length) {
@@ -45,17 +45,10 @@ class SecurityQuestions extends Component {
     }
 
     render() {
-        const steps = [
-            {
-                cn: "安全问题",
-                en: "Security Questions"
-            }
-        ]
-        const {pristine, submitting, source, style} = this.props
+        const {pristine, className, submitting, source, style} = this.props
       //  console.log(this.props)
         return (
-            <div style={style}>
-                <FormHeader steps={steps}/>
+            <div className={className}>
                 <div className="form-page col-md-10 col-center">
                     <div id="step1" className="steps">
                         <h3>Security Questions 安全问题</h3>
@@ -63,6 +56,7 @@ class SecurityQuestions extends Component {
                             name="SecurityQuestions[0].SecurityQuestionsId"
                             component={SelectField}
                             label="Security Question 1 安全问题 1*">
+                            <option>-- select --</option>
                             {source && CreateOptions(source.SecurityQuestions)}
                         </Field>
                         <Field name="SecurityQuestions[0].SecurityQuestionsAnswer" component={InputField}/>
@@ -71,6 +65,7 @@ class SecurityQuestions extends Component {
                             name="SecurityQuestions[1].SecurityQuestionsId"
                             component={SelectField}
                             label="Security Question 2 安全问题 2*">
+                            <option>-- select --</option>
                             {source && CreateOptions(source.SecurityQuestions)}
                         </Field>
                         <Field name="SecurityQuestions[1].SecurityQuestionsAnswer" component={InputField}/>
@@ -79,6 +74,7 @@ class SecurityQuestions extends Component {
                             name="SecurityQuestions[2].SecurityQuestionsId"
                             component={SelectField}
                             label="Security Question 3 安全问题 3*">
+                            <option>-- select --</option>
                             {source && CreateOptions(source.SecurityQuestions)}
                         </Field>
                         <Field name="SecurityQuestions[2].SecurityQuestionsAnswer" component={InputField}/>

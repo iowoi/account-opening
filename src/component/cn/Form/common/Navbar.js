@@ -2,35 +2,38 @@ import React, {Component} from 'react';
 import ActiveLabel from '../../../../assets/img/icon-triangle.png';
 
 class Navbar extends Component {
-    
+    constructor(props){
+        super(props);
+    }
     render() {
         const Navs = [
             {
-                pathName: '/personal-detail',
+                pathName: 'personal-detail',
                 en: 'Personal Detail',
                 cn: '个人资料'
             }, {
-                pathName: '/account-information',
+                pathName: 'account-information',
                 en: 'Account Information',
                 cn: '帐户资料'
             }, {
-                pathName: '/investment-background',
+                pathName: 'investment-background',
                 en: 'Investment Background',
                 cn: '投资背景'
             }, {
-                pathName: '/security-question',
+                pathName: 'security-question',
                 en: 'Security Question',
                 cn: '安全问题'
             }, {
-                pathName: '/declaration',
+                pathName: 'declaration',
                 en: 'Declaration',
                 cn: '声明'
             }, {
-                pathName: '/finish',
+                pathName: 'finish',
                 en: 'Finish',
                 cn: '完成'
             }
         ]
+        const {currentPage} = this.props
         return (
             <div>
                 <div className="navbar hidden-md-down">
@@ -39,6 +42,7 @@ class Navbar extends Component {
                                 <Panel
                                     key={index}
                                     pathName={nabs.pathName}
+                                    active={currentPage === nabs.pathName ? "active" : null}
                                     title={'<span>' + nabs.en + '</span><br/>' + nabs.cn}/>
                             )}
                     </nav>
@@ -46,7 +50,7 @@ class Navbar extends Component {
                 
                 <div className="mb-navbar hidden-lg-up">
                     {Navs.map( (nabs,index) => {
-                        if(window.location.pathname
+                        if(currentPage && currentPage
                             .indexOf(nabs.pathName) > -1){
                                 return (
                                     <div key={index}>
@@ -63,6 +67,7 @@ class Navbar extends Component {
                                 if(index<5){
                                     return (
                                         <MbPanel
+                                            active={currentPage === nabs.pathName ? "active" : null}
                                             key={index}
                                             id={index}
                                             pathName={nabs.pathName}
@@ -81,17 +86,9 @@ class Navbar extends Component {
 class Panel extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            active: window
-                .location
-                .pathname
-                .indexOf(props.pathName) !== -1
-                ? "active"
-                : ""
-        }
     }
     render() {
-        const {active} = this.state
+        const {active} = this.props
         return (
             <div className={`${active} panel-list`}>
                 <div
@@ -112,19 +109,11 @@ class Panel extends Component {
 class MbPanel extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            active: window
-                .location
-                .pathname
-                .indexOf(props.pathName) !== -1
-                ? "active "
-                : ""
-        }
     }
     render() {
-        const {active} = this.state
+        const {active} = this.props
         return (
-            <div className={`${active}nav-dash`}></div>
+            <div className={`${active} nav-dash`}></div>
         )
     }
 }

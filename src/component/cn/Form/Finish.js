@@ -13,12 +13,10 @@ class Finish extends Component {
 
 
     render() {
-       
-        const {style} = this.props
+       console.log("Finish",this.props)
+        const {className} = this.props
         return (
-            <div style={style}>
-                <FormHeader/>
-
+            <div className={className}>
                 <div className="form-page normal-height col-md-10 col-center text-center" >
                     <h3 className="mt-0">Thank you! 谢谢您！</h3>
                     <p>KVB昆仑国际的代表已收到您的申请。 </p>

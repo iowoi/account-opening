@@ -4,6 +4,8 @@ import {Route, Redirect} from 'react-router-dom';
 import NavBar from './common/Navbar';
 import {findDOMNode} from 'react-dom';
 import autoBind from 'auto-bind';
+import FormHeader from './common/Header';
+import {getSource} from '../../../actions';
 
 import {
     CnTerm,
@@ -20,6 +22,55 @@ import {CnIndex, CnPersonalDetail, CnSelectLocation} from '../../../container';
 
 import {Switch} from 'react-router-dom';
 import {component} from 'react-router';
+
+
+const steps = [
+    {cn:"个人申请", en:"Individual Applicant"},
+    {cn:"银行帐户资料", en:"Settlement details"},
+    {cn:"就业资料", en:"Employment Information"},
+    {html:"<font class='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font class='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
+]
+const pageInfo = {
+    'personal-detail':{
+        steps : [
+            {cn:"个人申请", en:"Individual Applicant"},
+            {cn:"银行帐户资料", en:"Settlement details"},
+            {cn:"就业资料", en:"Employment Information"},
+            {html:"<font class='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font class='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
+        ]
+    },
+    'account-information':{
+        steps : [
+            {cn: "投资性质与目的", en: "Nature and Purpose"}, 
+            {cn: "开户币种", en: "Currency Type"}, 
+            {cn: "帐户类别", en: "Account type"},
+            {cn: "交易市場", en: "Market access"}
+        ]
+    },
+    'investment-background':{
+        steps : [
+            {cn: "金融市场投资经验等级", en: "Level of Experience Investing in Financial Markets"}, 
+            {cn: "产品特点及风险", en: "Products Features and Risks"}
+        ]
+    },
+    'security-question': {
+        steps : [
+            {cn: "安全问题", en: "Security Questions"}
+        ]
+    },
+    'declaration' :{
+        steps : [
+            {html: "<font class='hidden-lg-down'>Accuracy and Notification</font><br/>信息准确性及通知</font>"},
+            {html: "<font class='hidden-lg-down'>KVB Terms & Conditions</font><br/>KVB昆仑国际条款及细则</font>"}, 
+            {cn: "风险", en: "Risks"},
+            {cn: "隐私", en: "Privacy"}, 
+            {cn: "其他", en: "Other"}
+        ]
+    },
+    'finish' : {
+        step : []
+    }
+}
 class FormIndex extends Component {
     constructor(props) {
         super(props);
@@ -29,8 +80,10 @@ class FormIndex extends Component {
         }
         autoBind(this);
     }
+    componentDidUpdate(){
+        //console.log('componentDidUpdate')
+    }
     handleRenderPage(page) {
-        console.log(page)
         this.setState({page: page})
         window.scrollTo(0,0)
 
@@ -47,46 +100,54 @@ class FormIndex extends Component {
         const hide = {
             display: 'none'
         }
+        console.log(pageInfo.page)
         return (
             <div>
-                 <CnPersonalDetail
-                    style={page === 'personal-detail'
-                    ? show
-                    : hide}
+                <FormHeader steps={pageInfo[page].steps} currentPage={page}/> 
+
+                <CnPersonalDetail
+                    className={page === 'personal-detail'
+                    ? "d-block"
+                    : "d-none"}
                     nextPage='account-information'
+                    currentPage={page}
                     handleRenderPage={this.handleRenderPage}/>
                 <CnAccountInformation
-                    style={page === 'account-information'
-                    ? show
-                    : hide}
+                    className={page === 'account-information'
+                    ? "d-block"
+                    : "d-none"}
                     prevPage='personal-detail'
                     nextPage='investment-background'
+                    currentPage={page}
                     handleRenderPage={this.handleRenderPage}/> 
                 <CnInvestmentBackground
-                    style={page === 'investment-background'
-                    ? show
-                    : hide}
-                    prevPage='investment-background'
+                    className={page === 'investment-background'
+                    ? "d-block"
+                    : "d-none"}
+                    prevPage='account-information'
                     nextPage='security-question'
+                    currentPage={page}
                     handleRenderPage={this.handleRenderPage}/> 
                 <CnSecurityQuestions
-                    style={page === 'security-question'
-                    ? show
-                    : hide}
+                    className={page === 'security-question'
+                    ? "d-block"
+                    : "d-none"}
                     prevPage='investment-background'
                     nextPage='declaration'
+                    currentPage={page}
                     handleRenderPage={this.handleRenderPage}/>
                 <CnDeclaration
-                    style={page === 'declaration'
-                    ? show
-                    : hide}
-                    nextPage='security-question'
+                    className={page === 'declaration'
+                    ? "d-block"
+                    : "d-none"}
+                    prevPage='security-question'
                     nextPage='finish'
+                    currentPage={page}
                     handleRenderPage={this.handleRenderPage}/>
                 <CnFinish
-                    style={page === 'finish'
-                    ? show
-                    : hide}/>
+                    className={page === 'finish'
+                    ? "d-block"
+                    : "d-none"}/>
             </div>
         )
 

@@ -25,26 +25,10 @@ class AccountInformation extends Component {
 
 
     render() {
-        const steps = [
-            {
-                cn: "投资性质与目的",
-                en: "Nature and Purpose"
-            }, {
-                cn: "开户币种",
-                en: "Currency Type"
-            }, {
-                cn: "帐户类别",
-                en: "Account type"
-            }, {
-                cn: "交易市場",
-                en: "Market access"
-            }
-        ]
-        const {handleSubmit, pristine, reset, submitting, source, style} = this.props
+        const {handleSubmit, className, pristine, reset, submitting, source} = this.props
         
         return (
-            <div style={style}>
-                <FormHeader steps={steps} key={0}/>
+            <div className={className}>
                 <div className="form-page col-md-10 col-center" key={1}>
                     <form onSubmit={this.handleSubmit}>
                         <div id="0" className="steps">

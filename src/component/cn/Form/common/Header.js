@@ -26,11 +26,11 @@ class FormHeader extends Component {
     }
 
     render() {
-        const {steps} = this.props
+        const {steps, currentPage} = this.props
         return (
             <header className="fixed">
                 <Header/>
-                <Navbar/>
+                <Navbar currentPage={currentPage}/>
                 {steps ? <Stepper titles={steps}/>:null}
                 
             </header>

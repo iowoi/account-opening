@@ -5,6 +5,60 @@ import {Link} from 'react-router-dom';
 import FormHeader from './common/Header';
 import {connect} from 'react-redux';
 import {CreateRadios} from '../../Common';
+import {InputField} from '../../Common';
+function validate(values){
+    const errors = {}
+    const requiredFields = [
+        'GendersId',
+        'TitleTypesId',
+        'FirstName',
+        'Surname',
+        'Email',
+        'Birthday',
+        'BirthCountryId',
+        'NationalityId',
+        'ResidentialAddress',
+        'City',
+        'CountryId',
+        'MailingAddress',
+        'ContactTypesId',
+        'contactCountryCode',
+        'ContactNumber',
+        'TelephonePassword',
+        'MaritalStatusId',
+        'NumberOfDependents',
+        'TypeOfIdentificationId',
+        'IdentificationNumber',
+
+        'NameOfBank',
+        'BankAddress',
+        'BSB',
+        'BankAccountNumber',
+        'BankCurrencyId',
+        'BankAccountHolderName',
+        'SwiftCode',
+
+        'EmploymentStatusesId',
+        'CompanyName',
+        'Occupation',
+        'BusinessTypesId',
+        'EmployerCountry',
+        'EmployerCity',
+        'EmployerProvince',
+        'EmployerPostalCode',
+        'EmployerStreet1',
+        'EmployerStreet2',
+        'CitizenOrTaxResidentOfUSAId',
+        'BornInUSAAndSurrenderedCitizenshipId',
+        'FundSourceTypesRemark'
+    ]
+    requiredFields.map((field,index)=>{
+        if (!values[field]) {
+            errors[field] = 'Required'
+        }  
+    })
+    return errors
+}
 
 class InvestmentBackground extends Component {
     constructor(props) {
@@ -25,21 +79,11 @@ class InvestmentBackground extends Component {
     }
 
     render() {
-        const steps = [
-            {
-                cn: "金融市场投资经验等级",
-                en: "Level of Experience Investing in Financial Markets"
-            }, {
-                cn: "产品特点及风险",
-                en: "Products Features and Risks"
-            }
-        ]
-        const {pristine, submitting, source, style} = this.props
+        const {pristine, submitting, source, className} = this.props
         return (
-            <div style={style}>
-                <FormHeader steps={steps}/>
+            <div className={className}>
                 <div className="form-page col-md-10 col-center">
-                    <div id="step1" className="steps">
+                    <div id="0" className="steps">
                         <h3>Level of Experience Investing in Financial Markets 金融市场投资经验等级</h3>
 
                         <div className="form-group">
@@ -63,13 +107,28 @@ class InvestmentBackground extends Component {
                                 {source && CreateRadios(source.FundsAvailableLevels, 'IncomeLevelsId')}
                             </div>
                         </div>
+
+                        <div className="form-group">
+                            <label>Funds Available for Investment 可用于投资的金额 </label>
+                            <div className="form-group">
+                                {source && CreateRadios(source.FundsAvailableLevels, 'FundsAvailableLevelsId')}
+                            </div>
+                        </div>
+
                         <div className="form-group">
                             <label>Source of funds for security trading 交易资金来源</label>
                             <div className="form-group">
                                 {source && CreateRadios(source.FundSourceTypes, 'FundSourceTypesId')}
                             </div>
                         </div>
+
+                        <Field
+                            name="FundSourceTypesRemark"
+                            component={InputField}
+                            label="Source of funds Remark 资金来源說明"/>
                         <hr/>
+                    </div>
+                    <div id="1" className="steps">
                         <h3>Products Features and Risks 产品特点及风险</h3>
                         <div className="form-group">
                             <label>I have clear understanding and knowledge that trading or investing in
@@ -79,17 +138,14 @@ class InvestmentBackground extends Component {
                             {source && CreateRadios(source.YesNoTypes, 'ClearUnderstandingId', 'inline')}
                         </div>
                         <hr/>
-
                         <p>外汇保证金交易、差价合约交易,
                             股票交易以及其他衍生工具交易涉及高风险，亏损风险可以相当巨大。投资者应谨慎考虑，并根据自身的财务状况和投资目标來评估是否合适订立任何交易。在作出该评估时，投资者也应考虑向专业顾问寻求意见。投资者在进行任何投资决定前，应仔细阅读KVB最新版本的
                             产品信息披露声明 。 产品信息披露声明 及 投资顾问披露声明 可向KVB昆仑国际免费索取。此产品披露声明亦备案于新西兰商务部官方网站
                             www.business.govt.nz/disclose</p>
 
                         <p>本网页内容提供之市场信息仅供参考，并不构成投资建议。所有数据、价格及意见均随时变更而不作另行通知。文中某些投资产品，信息和推广计划并不适于KVB昆仑国际所有公司，请与所在国家或地区的KVB昆仑国际代表作出查询。</p>
-
                         <p>外汇保证金、差价合约, 股票交易及衍生工具是由 KVB 昆仑国际纽西兰公司提供，而您同意接受纽西兰客户服务协议与纽西兰法律的制约。</p>
                     </div>
-
                     <div className="text-center">
                         <button onClick={this.handlePrevPage} className="btn btn-primary">返回
                         </button>

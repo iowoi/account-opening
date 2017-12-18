@@ -5,19 +5,18 @@ class Stepper extends Component {
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll);
         window.addEventListener('keydown', this.handleKeydown);
-       // window.addEventListener('click', this.handleClick);
+        window.addEventListener('click', this.handleClick);
         
     }
     
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
         window.removeEventListener('keydown', this.handleKeydown);
-     //   window.removeEventListener('click', this.handleClick);
+        window.removeEventListener('click', this.handleClick);
         
     }
     handleClick(event) {
-        console.log( $(event.target).parents('.steps'))
-        const id = $(event.target).parents('.steps')[0].id;
+        const id = $(event.target).parents('.steps')[0].id;    
         $('#stepper'+id).addClass('active');
         $('#stepper'+id).siblings().removeClass('active');
     }
@@ -28,7 +27,7 @@ class Stepper extends Component {
       
     }
     handleScroll(event) {
-        const elms = $('.steps');
+        const elms = $('.d-block .steps');
         const headerHeight = $('header').height();
         const stepArr = [];
         elms.map((steps,index)=>{
@@ -36,7 +35,7 @@ class Stepper extends Component {
         })
        
         for(let i=0; i< stepArr.length; i++){
-            const domElm = $(`.steps`).get(i).offsetTop;
+            const domElm = $(`.d-block .steps`).get(i).offsetTop;
             const scrollPos = $(document).scrollTop() + headerHeight + 150
             if(domElm <= scrollPos ){
                 $('#stepper'+i).addClass('active');
@@ -55,7 +54,7 @@ class Stepper extends Component {
                                 <div className={index === 0 ? "stepper-step active" : "stepper-step" } key={index} id={"stepper"+index}>
                                     {value.html ? [
                                         
-                                        <span key={1} dangerouslySetInnerHTML={{__html: value.html}}></span>,
+                                        <div key={1} dangerouslySetInnerHTML={{__html: value.html}}></div>,
                                         
                                         <div key={2} ><a className="btn btn-circle"></a></div>
                                     ]:[

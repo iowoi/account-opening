@@ -38,12 +38,15 @@
             background-color: #f18f16;
         }
     }
-    span {
+    span,div {
         color: #1e61b1;
         @include font-size(16);
         font {
             margin-right: 10px;
         }
+    }
+    span {
+        line-height: 40px;
     }
 }
 
@@ -65,7 +68,7 @@
         width: calc(100%);
         left: 0px;
         margin: 0;
-        top: 135px;
+        top: 131px;
         padding: 10px 0 20px;
         p {
             height: 25px;
@@ -74,7 +77,7 @@
     }
     .stepper-row {
         &:before {
-            top: 40px;
+            top: 55px;
         }
     }
     .btn-circle {
@@ -82,13 +85,13 @@
         height: 10px;
         padding: 3px 0;
         position: absolute;
-        top: 27px;
+        top: 42px;
     }
 }
 
 @include --below-mobile {
     .stepper,
     .stepper.fixed {
-        top: 120px;
+        top: 112px;
     }
 }

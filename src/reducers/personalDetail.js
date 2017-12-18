@@ -1,4 +1,4 @@
-import {SET_LOCTION, GET_SOURCE} from '../actions'
+import {SET_LOCTION, GET_SOURCE, SEND_FORM} from '../actions'
 
 const initState = []
 
@@ -10,6 +10,11 @@ const personalDetailReducer = (state = initState, action) => {
         data: action.data
       };
     case GET_SOURCE:
+      return {
+        ...state,
+        source: action.data
+      };
+    case SEND_FORM:
       return {
         ...state,
         source: action.data

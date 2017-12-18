@@ -90,7 +90,9 @@ ul {
     float: none;
     margin: 0 auto;
 }
-
+input[type="checkbox"] {
+    box-shadow: none;
+}
 .custom-select {
     @include font-size(16);
     height: calc(3rem + 2px);

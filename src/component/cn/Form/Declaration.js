@@ -33,32 +33,15 @@ class Declaration extends Component {
     }
     handleNextPage(e) {
         e.preventDefault();
-        console.log(this.props)
-        this.props.sendForm(this.props.dataForm)
-        //this.props.handleRenderPage(this.props.nextPage);
+        this.props.sendForm(this.props.dataForm);
+        this.props.handleRenderPage(this.props.nextPage);
+        
     }
    
     render() {
-        const steps = [
-            {
-                html: "<font class='hidden-lg-down'>Accuracy and Notification</font><br/>信息准确性及通知</font>"
-            }, {
-                html: "<font class='hidden-lg-down'>KVB Terms & Conditions</font><br/>KVB昆仑国际条款及细则</font>"
-            }, {
-                cn: "风险",
-                en: "Risks"
-            }, {
-                cn: "隐私",
-                en: "Privacy"
-            }, {
-                cn: "其他",
-                en: "Other"
-            }
-        ]
-        const {style} = this.props
+        const {className} = this.props
         return (
-            <div style={style}>
-                <FormHeader steps={steps}/>
+            <div className={className}>
                 <div className="form-page col-md-10 col-center">
                     <form onSubmit={this.handleSubmit}>
                         <div id="step1" className="steps">

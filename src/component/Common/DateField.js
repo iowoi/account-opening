@@ -4,10 +4,12 @@ import moment from 'moment';
 class DateField extends Component {
     render() {
         const {label, labelInfo, meta, placeholder, input, disabled, children} = this.props
-        moment(input.value)
+        console.log("meta.dirty",meta.dirty && meta.error)
+        console.log("meta",meta)
+        
         return (
             <div
-                className={meta.touched && meta.error
+                className={meta.touched && meta.error || meta.dirty && meta.error
                 ? "has-danger form-group"
                 : "form-group"}>
 
@@ -25,15 +27,15 @@ class DateField extends Component {
                 <DatePicker
                     className="form-control"
                     onChange={input.onChange}
-                    
+                    id={input.name}
                     selected={input.value
                         ? input.value
                         : null}
                   
                     placeholderText="dd/mm/YYYY"/> 
                     
-                {meta.touched && meta.error
-                    ? <div className="error-text">{meta.touched && meta.error}</div>
+                {meta.touched && meta.error || meta.dirty && meta.error
+                    ? <div className="error-text">{meta.touched && meta.error || meta.dirty && meta.error}</div>
                     : null}
             </div>
         );

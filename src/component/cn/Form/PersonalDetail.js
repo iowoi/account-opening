@@ -1,55 +1,56 @@
 import React, {Component} from 'react';
-import {InputField, DateField, SelectField, LocationOption, CreateOptions} from '../../Common';
+import {InputField, DateField,CreateRadios, SelectField, LocationOption, CreateOptions} from '../../Common';
 import Stepper from './common/Stepper';
 import autoBind from 'auto-bind';
 import FormHeader from './common/Header';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, FieldArray} from 'redux-form';
 import $ from 'jquery';
-
+import moment from 'moment';
 function validate(values){
     const errors = {}
     const requiredFields = [
-        // 'GendersId',
-        // 'TitleTypesId',
-        // 'FirstName',
-        // 'Surname',
-        // 'Email',
-        // 'Birthday',
-        // 'BirthCountryId',
-        // 'NationalityId',
+        'GendersId',
+        'TitleTypesId',
+        'FirstName',
+        'Surname',
+        'Email',
+        'Birthday',
+        'BirthCountryId',
+        'NationalityId',
         'ResidentialAddress',
-        // 'City',
-        // 'CountryId',
+        'City',
+        'CountryId',
         'MailingAddress',
-        // 'ContactTypesId',
-        // 'contactCountryCode',
-        // 'ContactNumber',
-        // 'TelephonePassword',
-        // 'MaritalStatusId',
-        // 'NumberOfDependents',
-        // 'TypeOfIdentificationId',
-        // 'IdentificationNumber',
+        'ContactTypesId',
+        'contactCountryCode',
+        'ContactNumber',
+        'TelephonePassword',
+        'MaritalStatusId',
+        'NumberOfDependents',
+        'TypeOfIdentificationId',
+        'IdentificationNumber',
 
-        // 'NameOfBank',
-        // 'BankAddress',
-        // 'BSB',
-        // 'BankAccountNumber',
-        // 'BankCurrencyId',
-        // 'BankAccountHolderName',
-        // 'SwiftCode',
+        'NameOfBank',
+        'BankAddress',
+        'BSB',
+        'BankAccountNumber',
+        'BankCurrencyId',
+        'BankAccountHolderName',
+        'SwiftCode',
 
-        // 'EmploymentStatusesId',
-        // 'CompanyName',
-        // 'Occupation',
-        // 'BusinessTypesId',
-        // 'EmployerCountry',
-        // 'EmployerCity',
-        // 'EmployerProvince',
-        // 'EmployerPostalCode',
-        // 'EmployerStreet1',
-        // 'EmployerStreet2',
-        // 'CitizenOrTaxResidentOfUSAId',
-        // 'BornInUSAAndSurrenderedCitizenshipId'
+        'EmploymentStatusesId',
+        'CompanyName',
+        'Occupation',
+        'BusinessTypesId',
+        'EmployerCountry',
+        'EmployerCity',
+        'EmployerProvince',
+        'EmployerPostalCode',
+        'EmployerStreet1',
+        'EmployerStreet2',
+        'CitizenOrTaxResidentOfUSAId',
+        'BornInUSAAndSurrenderedCitizenshipId',
+        'SourceOfIncome'
     ]
     requiredFields.map((field,index)=>{
         if (!values[field]) {
@@ -57,9 +58,26 @@ function validate(values){
         }  
     })
 
+    if (values.Birthday) {
+        const age = moment().diff(values.Birthday, 'years');
+        if(age < 18) {
+            errors.Birthday = 'Must > 18 years old'
+        }
+    }
     if (values.Email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
         errors.Email = 'Invalid email address'
     }
+
+    const SourceOfIncomeErrors = [];
+    if (!values.SourceOfIncome || !values.SourceOfIncome.length) {
+        errors.SourceOfIncome =  'At least one member must be entered'
+    }else{
+        const SourceOfIncomeErrors = []
+        values.SourceOfIncome.forEach((SourceOfIncome, SourceOfIncomeIndex) => {
+            console.log("SourceOfIncome",SourceOfIncome,SourceOfIncomeIndex)
+        })
+    }
+   
     return errors
 }
 
@@ -118,10 +136,10 @@ class PersonalDetail extends Component {
     
 
     render() {
-        const {pristine, reset, source, style, submitting, handleSubmit, PersonalDetail} = this.props
+        const {pristine, reset, source, className, submitting, handleSubmit, PersonalDetail} = this.props
         const {selfCertificationKey, show_anotherMailAdd, ResidentialAddress} 
         = this.state
-        //console.log(this.props)
+        console.log(this.props)
        
         const steps = [
             {cn:"个人申请", en:"Individual Applicant"},
@@ -134,11 +152,10 @@ class PersonalDetail extends Component {
             SelfCertificationArr.push(<SelfCertification id={i+1}  source={source} key={i} removeSelfCertification={this.removeSelfCertification}/>);
         };
         return (
-            <div style={style}>
+            <div className={className}>
                 
                 <form onSubmit={handleSubmit(this.handleNextPage)}>
               
-                <FormHeader steps={steps}/>
                 <div className="form-page col-md-10 col-center" >
                         <div className="steps" id="0" >
                             <h3>Individual Applicant 个人申请</h3>
@@ -248,7 +265,7 @@ class PersonalDetail extends Component {
                                         component={InputField}/>
                                     <Field
                                         onChange={this.handleChange}
-                                        name="contactNumber"
+                                        name="ContactNumber"
                                         placeholder="Number 电话号码"
                                         component={InputField}/>
                                 </div>
@@ -311,8 +328,11 @@ class PersonalDetail extends Component {
 
                             <Field name="BankAccountNumber" component={InputField} label="Account number 银行帐号 *"/>
                           
-                            <Field name="BankCurrencyId" component={InputField} label="Currency 货币 *"/>
-
+                            <div className="form-group">
+                                <label>Currency 货币 *</label>
+                                {source && CreateRadios(source.CurrencyTypes, 'BankCurrencyId')}
+                            </div>
+                            
                             <Field name="BankAccountHolderName" component={InputField} label="Account holder’s name 银行帐户名 *"/>
 
                             <Field name="SwiftCode" component={InputField} label="SWIFT code国际汇款代码 *"/>
@@ -332,7 +352,7 @@ class PersonalDetail extends Component {
                             </Field>
                            
                             {this.state.show_EmploymentStatus
-                                ? <EmploymentStatus source={source}/>
+                                ? <EmploymentStatus source={source} PersonalDetail={PersonalDetail}/>
                                 : null}
 
                             <hr/> {/* ======================= Form Four ======================= */}
@@ -594,13 +614,13 @@ class EmploymentStatus extends Component {
 
     handleChange(e) {
         const target = e.target
-        target.name === 'isSenior' && target.value === 'Yes'
+        target.name === 'PrescribedPersonId' && target.value === '1'
             ? this.setState({show_SeniorInfo: true})
             : this.setState({show_SeniorInfo: false})
     }
 
     render() {
-        const {source} = this.props
+        const {source,PersonalDetail} = this.props
         return (
             <div>
                 <Field name="CompanyName" component={InputField} label="Company Name 公司名称 *"/>
@@ -646,15 +666,15 @@ class EmploymentStatus extends Component {
                         type="radio"
                         component="input"
                         onChange={this.handleChange}
-                        name="isSenior"
-                        value="Yes"/>
+                        name="PrescribedPersonId"
+                        value="1"/>
                     Yes 是
                     <Field
                         type="radio"
                         component="input"
                         onChange={this.handleChange}
-                        name="isSenior"
-                        value="No"/>
+                        name="PrescribedPersonId"
+                        value="2"/>
                     No 否
                 </div>
                 {this.state.show_SeniorInfo
@@ -698,7 +718,7 @@ class SourceOfIncome extends Component {
                         <td>Description</td>
                     </tr>
                 </thead>
-                <tbody id="dspSourceOfIncomeList">
+                <tbody>
                    {DataRow}
                 </tbody>
             </table>
@@ -713,6 +733,7 @@ PersonalDetail = reduxForm({
     form: 'PersonalDetail',
     validate,
     onSubmitFail: function(form){
+        console.log("form",form)
         $(`#${Object.keys(form)[0]}`).focus()
     }
     // , asyncValidate
