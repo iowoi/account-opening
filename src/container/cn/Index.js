@@ -12,6 +12,15 @@ class CnIndex extends Component {
     componentDidMount(){
         this.props.getSource();
     }
+   
+    componentDidUpdate(){
+        const {history,location} = this.props
+        if(history.action === 'PUSH' && location.pathname.indexOf('personal-detail') != -1 ){
+            window.scrollTo(0, 0)
+        }else if (history.action === 'POP' && location.pathname.indexOf('personal-detail') != -1){
+            window.scrollTo(0, 0)
+        }
+    }
     
     render() {        
        const {location, source, routes} = this.props

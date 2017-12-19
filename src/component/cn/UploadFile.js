@@ -52,20 +52,19 @@ class Upload extends Component {
         const forms = document.getElementsByTagName('form')
         for(let i = 0; i < forms.length; i++){
             forms[i].submit();
-            if(i = forms.length-1){
-                if(confirm("上傳成功")){
-                    console.log('confirm 上傳成功')
-                    window.close();
-                }
-            }
+            if(i = forms.length-1){ 
+                forms[i].submit();
+                setTimeout(function(){
+                    if(confirm("上傳成功")){ 
+                        window.close(); 
+                    } 
+                }, 3000);  
+            } 
         }
     }
-
-  
-
     render() {
-        const {Email,No,file1,file2,file3,file4,file5}= this.state
-        
+        const {Email,No,file1,file2,file3,file4,file5,Uploaded}= this.state
+
         return (
 
             <div className="apply-info-wrap uploadFile-wrap">

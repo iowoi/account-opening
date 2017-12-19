@@ -22,13 +22,13 @@ class Finish extends Component {
                 </div>
 
                 <div className="text-center">
-                    <a href="#" className="btn btn-primary mb-5">打印您的申请</a>
+                    <a href={`http://testaccountopen.kvbkunlun.com/api/SecurityAccount/DetailsCn/?Guid=${getCookie('Guid')}`} target="_blank"  className="btn btn-primary mb-5">打印您的申请</a>
                 </div>
 
                 <div className="form-page normal-height col-md-10 col-center">
                     <h3 className="mt-0">下一步是什么？</h3>
                     <p>1. 请您将所需的证明文件制成扫描图像（JPG,GIF,DOC,PDF的文件格式——请不要设置密码保护）<br/>点击提交文件 </p>
-                    <a onClick={OPEN_UPLOAD} href="javascript:void(0);" target="_blank" className="btn btn-primary mb-5">
+                    <a onClick={OPEN_CN_UPLOAD} href="javascript:void(0);" target="_blank" className="btn btn-primary mb-5">
                         提交文件
                     </a>
                     <p>或者邮寄到以下地址：<br/>

@@ -6,7 +6,7 @@ class Header extends Component {
     render() {
         return (
             <div className="app-header">
-                <Link to={ROOT_PATH}><img src={logo} className="logo"/></Link>
+                <a href={ROOT_PATH}><img src={logo} className="logo"/></a>
                 <span className="short-line">|</span>
                 <span className="title">
                 <font>Open an Account</font>开立帐户</span>

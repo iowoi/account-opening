@@ -12,7 +12,13 @@ module.exports = {
         hot: true
     },
     devtool: 'eval-source-map',
-    entry: ["babel-polyfill", "./src/index.js"],
+    entry: [
+        'babel-polyfill', // Load this first
+        'react-hot-loader/patch', // This package already requires/loads react (but not react-dom). It must be loaded after babel-polyfill to ensure both react and react-dom use the same Symbol.
+        'react', // Include this to enforce order
+        'react-dom', // Include this to enforce order
+        './src/index.js' // Path to your app's entry file
+    ],
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
@@ -40,7 +46,7 @@ module.exports = {
                 })
             }, {
                 test: /\.(ttf|eot|otf|woff|woff2)$/,
-                loader: 'url-loader?limit=100000',
+                loader: 'url-loader?limit=5000',
                 options: {
                     name: '[name].[ext]',
                     outputPath: '/assets/fonts/'

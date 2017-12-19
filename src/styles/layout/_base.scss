@@ -2,19 +2,19 @@
 @font-face {
     font-family: 'Noto Sans SC';
     font-style: normal;
-    src: url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff2") format('woff2'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
+    src: url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.woff2") format('woff2'), url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
 }
 
 @font-face {
     font-family: 'Noto Sans SC';
     font-style: normal;
-    src: url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff2") format('woff2'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("../assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
+    src: url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.woff2") format('woff2'), url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
 }
 
 @font-face {
     font-family: 'Roboto';
     font-style: normal;
-    src: url("../assets/fonts/Roboto/Roboto-Regular.ttf") format('truetype');
+    src: url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/Roboto/Roboto-Regular.ttf") format('truetype');
 }
 
 html {
@@ -44,7 +44,7 @@ html {
 body {
     height: 100%;
     margin: 0;
-    font-family: "Noto Sans SC", "Roboto";
+    font-family: "Noto Sans SC","微軟雅黑體", "Microsoft YaHei", "Roboto";
     padding: 0;
     background: linear-gradient(to right, #c8deed, #d4e7f7 29%, #e0ecf6 59%, #e6f0f9 79%, #e4edf5 91%, #e7f0f7, #e7f0f7);
     @include --below-mobile {
@@ -53,7 +53,7 @@ body {
 }
 
 #root {
-    background: url("../assets/img/web-bg.png") no-repeat;
+    background: url("http://testaccountopen.kvbkunlun.com/Security/assets/img/web-bg.png") no-repeat;
     background-size: 100% auto; //height: 100%;
     min-height: 100vh;
 }

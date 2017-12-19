@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 import React, {Component} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import logo from './assets/svg/icn-logo.svg';
@@ -66,16 +68,15 @@ const routes = [
 ]
 
 class App extends Component {
-    
     render() {
         return (
             <Provider store={store}>
-                <Router component={ScrollToTop}  history={browserHistory}>
+                <Router   history={browserHistory}>
                     {/* <RouteWithSubRoutes routes={routes}/> */}
                     <Switch>
                         {routes &&
                         routes.map((route, i) => (
-                            <Route path={route.path} key={i} render={props => (<route.component {...props} routes={route.routes}/>)}/>
+                            <Route  path={route.path} key={i} render={props => (<route.component {...props} routes={route.routes}/>)}/>
                         ))}`
                        
                     </Switch>

@@ -15,8 +15,8 @@ module.exports = merge(common,{
             },
             ROOT_PATH: JSON.stringify('/'),
             API_URL: JSON.stringify('http://testapi.kvbkunlun.com/api2/SecurityAccount'),
-            OPEN_UPLOAD: function(){
-                window.open('./upload')
+            OPEN_CN_UPLOAD: function(){
+                window.open(window.location.hostname+'/Security/cn/upload')
             }
         }),
         new HtmlWebpackPlugin({

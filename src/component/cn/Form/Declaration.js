@@ -29,7 +29,7 @@ class Declaration extends Component {
     }
     handleNextPage(e) {
         e.preventDefault();
-        setCookie('No','S100078',cookieDate)
+        //setCookie('No','S100078',cookieDate)
         this.props.sendForm(this.props.dataForm);
         this.props.handleRenderPage(this.props.nextPage);
     }

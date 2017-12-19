@@ -109,21 +109,33 @@ export function sendForm(dataForm) {
     return (dispatch) => {
         
         $.ajax({
-            url: "/api/HttpPost/"
-            , type: "POST"
-            , dataType: "json"
-            , data: {
+            url: "/api/HttpPost/", 
+            type: "POST", 
+            dataType: "json", 
+            data: {
                 "ApiUrl": ApiUrl, 
                 "Param": JSON.stringify(Param)
-            }
-            , success: function (response) {
-                
+            }, 
+            success: function (response) {
                 response.Param = Param
                 response.renderPage = 'finish'
-                setCookie('Email', response.returnValue.Email, cookieDate)
-                setCookie('Guid', response.returnValue.Guid, cookieDate)
-                setCookie('No', response.returnValue.No, cookieDate)
-                console.log("response",response)
+                const _email = response.returnValue.Email 
+                const _guid = response.returnValue.Guid 
+                const _no = response.returnValue.No 
+                setCookie('Email', _email, cookieDate)
+                setCookie('Guid', _guid, cookieDate)
+                setCookie('No', _no, cookieDate)
+                $.ajax({
+                    url: `${API_URL}/GeneratePDF?Guid=${_guid}&No=${_no}`, 
+                    type: "POST",
+                    success: function (resp) {
+                        console.log(resp)
+                    }
+                })
+                $.ajax({
+                    url: `${API_URL}/WelcomeMail/send/?No=${_no}&Email=${_email}`, 
+                    type: "POST"
+                })
                 dispatch({type: SEND_FORM, response})
                 
             }
