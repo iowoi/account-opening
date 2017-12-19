@@ -4,8 +4,8 @@ import moment from 'moment';
 class DateField extends Component {
     render() {
         const {label, labelInfo, meta, placeholder, input, disabled, children} = this.props
-        console.log("meta.dirty",meta.dirty && meta.error)
-        console.log("meta",meta)
+        //("meta.dirty",meta.dirty && meta.error)
+        //console.log("meta",meta)
         
         return (
             <div

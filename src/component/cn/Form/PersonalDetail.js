@@ -55,7 +55,11 @@ function validate(values){
     requiredFields.map((field,index)=>{
         if (!values[field]) {
             errors[field] = 'Required'
-        }  
+        } 
+        // if (values[field] && /[^%&',;=?$x22]+/.test(values[field])){
+        //     console.log( /[^%&',;=?$x22]+/.test(values[field]))
+        //     errors[field] = 'has not allowed symbol like "<>()"'
+        // }
     })
 
     if (values.Birthday) {
@@ -70,13 +74,16 @@ function validate(values){
 
     const SourceOfIncomeErrors = [];
     if (!values.SourceOfIncome || !values.SourceOfIncome.length) {
-        errors.SourceOfIncome =  'At least one member must be entered'
+        errors.SourceOfIncome =  '請至少填入一種收入来源' 
     }else{
         const SourceOfIncomeErrors = []
         values.SourceOfIncome.forEach((SourceOfIncome, SourceOfIncomeIndex) => {
-            console.log("SourceOfIncome",SourceOfIncome,SourceOfIncomeIndex)
+          //  console.log("SourceOfIncome",SourceOfIncome,SourceOfIncomeIndex)
         })
     }
+    if (!values.Tax || !values.Tax.length) { 
+        errors.Tax =  '請至少提供一種纳税人识别号码' 
+    } 
    
     return errors
 }
@@ -130,7 +137,15 @@ class PersonalDetail extends Component {
             selfCertificationKey: this.state.selfCertificationKey - 1
         })
     }
-    handleNextPage(){
+    handleNextPage(values){
+        if(!values.SourceOfIncome) {
+            alert(validate(values).SourceOfIncome)
+            return false;
+        }
+        if(!values.Tax) {
+            alert(validate(values).Tax)
+            return false;
+        }
         this.props.handleRenderPage(this.props.nextPage);
     }
     
@@ -139,7 +154,7 @@ class PersonalDetail extends Component {
         const {pristine, reset, source, className, submitting, handleSubmit, PersonalDetail} = this.props
         const {selfCertificationKey, show_anotherMailAdd, ResidentialAddress} 
         = this.state
-        console.log(this.props)
+        //console.log(this.props)
        
         const steps = [
             {cn:"个人申请", en:"Individual Applicant"},
@@ -733,7 +748,7 @@ PersonalDetail = reduxForm({
     form: 'PersonalDetail',
     validate,
     onSubmitFail: function(form){
-        console.log("form",form)
+       // console.log("form",form)
         $(`#${Object.keys(form)[0]}`).focus()
     }
     // , asyncValidate

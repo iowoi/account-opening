@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Field, reduxForm} from 'redux-form';
 import {InputField} from '../Common';
+import {getCookie} from '../../actions';
+import {connect} from 'react-redux';
 
 const validate = values => {
     const errors = {}
@@ -22,14 +24,23 @@ class Upload extends Component {
     render() {
         return (
 
-            <div className="apply-info-wrap">
+            <div className="apply-info-wrap uploadFile-wrap">
                 <section className="col-lg-8 left-border col-center">
                     <h3>提交证明文件</h3>
-
-                    <Field name="city" component={InputField} label="姓名"/>
-                    <Field name="city" component={InputField} label="电子邮件"/>
-                    <Field name="postcode" component={InputField} label="申请参考号码"/>
-
+                    <div className="form-group">
+                        <label>
+                            电子邮件
+                        </label>
+                        <input className="form-control"
+                        name="DocumentUpload_Email"/>
+                    </div>
+                    <div className="form-group">
+                        <label>
+                        申请参考号码
+                        </label>
+                        <input className="form-control"
+                        name="DocumentUpload_No"/>
+                    </div>
                     <hr/>
                 </section>
                 <section className="col-lg-8 left-border col-center apply-text">
@@ -41,7 +52,7 @@ class Upload extends Component {
                         <div className="row">
                             <h4>1. 您需要下载W-8BEN表格填写后再上传</h4>
                             <div className="left-border ">
-                                <a href="#" target="_blank" className="btn btn-primary">下载W-8BEN表格</a>
+                                <a href="w8ben.pdf" target="_blank" className="btn btn-primary">下载W-8BEN表格</a>
                             </div>
                             <div className="col-sm-10">
                                 <a href="#" target="_blank" className="btn btn-primary ">上传附件</a>
@@ -181,9 +192,24 @@ class Upload extends Component {
     }
 }
 
+
+
 Upload = reduxForm({
     form: 'Upload', validate
     // , asyncValidate
 })(Upload)
 
-export default Upload;
+
+const CnUpload = connect(
+    state => {
+        const initialValues = {
+            DocumentUpload_Email: getCookie('Email'),
+            DocumentUpload_No: getCookie('No')
+        }
+        const source =  state.info.source
+        
+        return {source,initialValues};
+    }
+)(Upload)
+
+export default CnUpload;

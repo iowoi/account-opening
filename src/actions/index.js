@@ -120,6 +120,10 @@ export function sendForm(dataForm) {
                 
                 response.Param = Param
                 response.renderPage = 'finish'
+                setCookie('Email', response.returnValue.Email, cookieDate)
+                setCookie('Guid', response.returnValue.Guid, cookieDate)
+                setCookie('No', response.returnValue.No, cookieDate)
+                console.log("response",response)
                 dispatch({type: SEND_FORM, response})
                 
             }
@@ -153,3 +157,28 @@ const StrToBase64 = (str) => {
 //     , data: PARAM
 //     , success: SendForm_finish
 // });
+
+
+
+
+export const cookieDate = moment().add(6, 'days').toDate()
+
+
+export function setCookie(name, value, expires) {
+	document.cookie = `${name}=${value}; expires=${expires}; path=/`
+}
+
+export function getCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for (var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+	}
+	return null;
+}
+
+export function delCookie(name) {
+	setCookie(name, "", -1);
+}

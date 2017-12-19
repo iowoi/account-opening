@@ -5,14 +5,14 @@ class Stepper extends Component {
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll);
         window.addEventListener('keydown', this.handleKeydown);
-        window.addEventListener('click', this.handleClick);
+      //  $('input').addEventListener('click', this.handleClick);
         
     }
     
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
         window.removeEventListener('keydown', this.handleKeydown);
-        window.removeEventListener('click', this.handleClick);
+      // d  window.removeEventListener('click', this.handleClick);
         
     }
     handleClick(event) {

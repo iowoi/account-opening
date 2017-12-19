@@ -3,24 +3,22 @@ import FormHeader from './common/Header';
 import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import {InputField} from '../../Common';
-
+import {getCookie} from '../../../actions';
 
 class Finish extends Component {
     constructor(props) {
         super(props);
-
     }
-
-
     render() {
-       console.log("Finish",this.props)
+        //console.log("getCookie",getCookie('No'))
+       
         const {className} = this.props
         return (
             <div className={className}>
                 <div className="form-page normal-height col-md-10 col-center text-center" >
                     <h3 className="mt-0">Thank you! 谢谢您！</h3>
                     <p>KVB昆仑国际的代表已收到您的申请。 </p>
-                    <p>申请参考号码: 11065989 </p>
+                    <p>申请参考号码: {getCookie('No')} </p>
                 </div>
 
                 <div className="text-center">

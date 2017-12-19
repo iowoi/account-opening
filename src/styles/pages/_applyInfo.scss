@@ -26,6 +26,11 @@
         font-style: italic;
         font-weight: bolder;
     }
+    input[type=radio] {
+        width: 17px !important;
+        height: 17px !important;
+        position: relative;
+    }
     .icon-btns {
         text-align: center;
         a {
@@ -200,3 +205,4 @@
         }
     }
 }
+

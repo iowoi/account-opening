@@ -100,7 +100,7 @@ class FormIndex extends Component {
         const hide = {
             display: 'none'
         }
-        console.log(pageInfo.page)
+        //console.log(pageInfo.page)
         return (
             <div>
                 <FormHeader steps={pageInfo[page].steps} currentPage={page}/> 

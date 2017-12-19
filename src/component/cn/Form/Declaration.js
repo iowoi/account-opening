@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {InputField} from '../../Common';
 import autoBind from 'auto-bind';
 import {connect} from 'react-redux';
-import {sendForm} from '../../../actions';
+import {sendForm,setCookie,cookieDate} from '../../../actions';
 const validate = values => {
     const errors = {}
     requiredFields.forEach(field => {
@@ -23,19 +23,15 @@ class Declaration extends Component {
 
     }
 
-    handleChange(event, index, value) {
-        console.log(event, index, value)
-        // this.setState({loc:value})
-    }
     handlePrevPage(e) {
         e.preventDefault();
         this.props.handleRenderPage(this.props.prevPage);
     }
     handleNextPage(e) {
         e.preventDefault();
+        setCookie('No','S100078',cookieDate)
         this.props.sendForm(this.props.dataForm);
         this.props.handleRenderPage(this.props.nextPage);
-        
     }
    
     render() {
