@@ -1,4 +1,7 @@
 .apply-info-wrap {
+    [hidden] {
+        display: none !important;
+    }
     padding-bottom: 180px;
     @include font-size(16);
     hr {
@@ -94,7 +97,6 @@
                     margin-left: 35px;
                 }
             }
-            
         }
         .col-md-10 {
             .btn {
@@ -205,4 +207,3 @@
         }
     }
 }
-

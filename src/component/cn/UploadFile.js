@@ -1,26 +1,38 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {Field, reduxForm} from 'redux-form';
-import {InputField} from '../Common';
+import {Inputinput} from '../Common';
 import {getCookie} from '../../actions';
 import {connect} from 'react-redux';
-
-const validate = values => {
-    const errors = {}
-    const requiredFields = ['gender', 'firstName', 'taxResidentCountries']
-    requiredFields.forEach(field => {
-        if (!values[field]) {
-            errors[field] = 'Required'
-        }
-    })
-    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
-    }
-    return errors
-}
+import autoBind from 'auto-bind';
 
 class Upload extends Component {
+    constructor(props) {
+        super(props);
+        autoBind(this);
+        this.state = { 
+            userName : '',
+            comment : '',
+            questionType : 'Web',
+            public : ''
+          }
+    }
 
+    handleChange(e){
+        const target = e.target
+        const value = target.type === 'radio' ? target.checked : target.value;
+        const inputName = target.name;
+        
+        this.setState({
+          [inputName]: value
+        });
+        
+    }
+    handleSubmit(e){
+        console.log('NAME: ' + this.state.userName,
+              'QUESTION TYPE: '+ this.state.questionType,
+              'COMMENT: ' + this.state.comment,
+              'PUBLIC: ' + this.state.public)
+      }
     render() {
         return (
 
@@ -32,14 +44,14 @@ class Upload extends Component {
                             电子邮件
                         </label>
                         <input className="form-control"
-                        name="DocumentUpload_Email"/>
+                        name="DocumentUpload_Email" value={getCookie('Email')} onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
                         <label>
                         申请参考号码
                         </label>
                         <input className="form-control"
-                        name="DocumentUpload_No"/>
+                        name="DocumentUpload_No" value={getCookie('No')} onChange={this.handleChange}/>
                     </div>
                     <hr/>
                 </section>
@@ -52,10 +64,12 @@ class Upload extends Component {
                         <div className="row">
                             <h4>1. 您需要下载W-8BEN表格填写后再上传</h4>
                             <div className="left-border ">
-                                <a href="w8ben.pdf" target="_blank" className="btn btn-primary">下载W-8BEN表格</a>
+                                <a href="../w8ben.pdf" target="_blank" className="btn btn-primary">下载W-8BEN表格</a>
                             </div>
                             <div className="col-sm-10">
-                                <a href="#" target="_blank" className="btn btn-primary ">上传附件</a>
+                            <label className="btn btn-primary">
+                                上传附件 <input type="file" hidden/>
+                            </label>
                                 <small className="ml-3 mt-1">上传文件需小于4MB；JPG,JPEG,GIF,DOC,PDF的文件格式，请不要设置密码保护</small>
                             </div>
                         </div>
@@ -78,13 +92,13 @@ class Upload extends Component {
                                     <label>A.身份证明（该文件必须包括您的姓名，出生日期和照片，并且当前有效。中国大陆的客户如果提交了身分证的正反面就不需要提交地址证明。）</label>
 
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="female"/>护照
+                                        <input type="radio" component="input" name="gender" value="female"/>护照
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>居民身份证
+                                        <input type="radio" component="input" name="gender" value="male"/>居民身份证
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>
+                                        <input type="radio" component="input" name="gender" value="male"/>
                                         新西兰或澳大利亚有效驾照及以下任何一份文件
                                         <ol>
                                             <li>由本地注册银行发行的，载有持卡人姓名及签署样本的信用卡、借记卡或储蓄账户卡片(EFTPOS)</li>
@@ -109,28 +123,28 @@ class Upload extends Component {
                                     <label>B. 地址证明 （该文件必须清楚地列出客户姓名和地址。不接受邮政信箱</label>
 
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="female"/>按揭单，房产契约或其他房产证明
+                                        <input type="radio" component="input" name="gender" value="female"/>按揭单，房产契约或其他房产证明
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>当前租约 (租赁单 / 抵押金单等)
+                                        <input type="radio" component="input" name="gender" value="male"/>当前租约 (租赁单 / 抵押金单等)
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>当前的房主或承租人的保险单文件，需注明受保的客户姓名和住址
+                                        <input type="radio" component="input" name="gender" value="male"/>当前的房主或承租人的保险单文件，需注明受保的客户姓名和住址
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>由政府或国家机构出示的文件（有效期在近6个月内）
+                                        <input type="radio" component="input" name="gender" value="male"/>由政府或国家机构出示的文件（有效期在近6个月内）
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>公用事业单，网络费用单或电话单（有效期在近6个月内）
+                                        <input type="radio" component="input" name="gender" value="male"/>公用事业单，网络费用单或电话单（有效期在近6个月内）
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>由在该客户居住国注册的经纪 / 交易商发出的交易结单
+                                        <input type="radio" component="input" name="gender" value="male"/>由在该客户居住国注册的经纪 / 交易商发出的交易结单
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>银行账户账单、银行信用卡账单、银行借记卡账单或由银行开立的地址证明（需由银行抬头纸开立）账单签发日或地址证明签发日。必须在近六个月之内
+                                        <input type="radio" component="input" name="gender" value="male"/>银行账户账单、银行信用卡账单、银行借记卡账单或由银行开立的地址证明（需由银行抬头纸开立）账单签发日或地址证明签发日。必须在近六个月之内
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>载有地址信息的政府信函或声明（签发日必须在近六个月之内）
+                                        <input type="radio" component="input" name="gender" value="male"/>载有地址信息的政府信函或声明（签发日必须在近六个月之内）
                                         <br/>例如:
                                         <ol>
                                             <li>课税信函 / 通知</li>
@@ -143,11 +157,11 @@ class Upload extends Component {
                                     <label>另外可使用的地址证明文件——只适用于中国大陆开户客户</label>
 
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>
+                                        <input type="radio" component="input" name="gender" value="male"/>
                                         手机账单（六个月内出具的）
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>载有现居住地址的户口证明文件</div>
+                                        <input type="radio" component="input" name="gender" value="male"/>载有现居住地址的户口证明文件</div>
                                 </div>
                             </div>
 
@@ -161,13 +175,13 @@ class Upload extends Component {
                                     <label>C. 银行账户证明（文件签发日必须在12个月之内，且清晰载有客户姓名、银行账号和银行名称）</label>
 
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="female"/>载有银行账号、银行名称和银行账户持有人姓名的银行账单
+                                        <input type="radio" component="input" name="gender" value="female"/>载有银行账号、银行名称和银行账户持有人姓名的银行账单
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>银行出示的有效存款单证明
+                                        <input type="radio" component="input" name="gender" value="male"/>银行出示的有效存款单证明
                                     </div>
                                     <div className="d-block">
-                                        <Field type="radio" component="input" name="gender" value="male"/>
+                                        <input type="radio" component="input" name="gender" value="male"/>
                                         有效银行卡（适用于中国大陆申请人）
                                         
                                     </div>
@@ -193,23 +207,22 @@ class Upload extends Component {
 }
 
 
+const mapStateToProps = (state) => {
+    const source = state.info.source
+    return {source};
+}
 
-Upload = reduxForm({
-    form: 'Upload', validate
-    // , asyncValidate
-})(Upload)
+const mapDispatchToProps = (dispatch) => ({
+    sendForm:(data) => {
+        dispatch(sendForm(data))
+    }
+})
 
 
 const CnUpload = connect(
-    state => {
-        const initialValues = {
-            DocumentUpload_Email: getCookie('Email'),
-            DocumentUpload_No: getCookie('No')
-        }
-        const source =  state.info.source
-        
-        return {source,initialValues};
-    }
+    mapStateToProps,
+    mapDispatchToProps
 )(Upload)
+
 
 export default CnUpload;

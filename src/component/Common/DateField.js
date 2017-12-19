@@ -28,6 +28,8 @@ class DateField extends Component {
                     className="form-control"
                     onChange={input.onChange}
                     id={input.name}
+                    showYearDropdown 
+                    scrollableYearDropdown 
                     selected={input.value
                         ? input.value
                         : null}

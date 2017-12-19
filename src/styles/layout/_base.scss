@@ -116,6 +116,7 @@ button:focus {
 }
 
 a.btn-primary,
+label.btn-primary,
 button.btn-primary {
     @include font-size(15);
     width: 150px;
