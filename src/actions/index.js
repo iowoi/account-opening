@@ -96,15 +96,15 @@ export function sendForm(dataForm) {
     Param["DATA"] = StrToBase64(PersonalDetail);
     console.log("Email",Param["Email"])
     console.log("Param",Param)
-    const response ={
+    // const response ={
 
-        code:"0",
-        message:"finish",
-        returnValue:{Email: "martina.lin@bancklogix.com", Guid: "9e360c12-f4d4-4683-b0a9-0d5b23206df9", No: "S100075"},
-        Email:"martina.lin@bancklogix.com",
-        Guid:"9e360c12-f4d4-4683-b0a9-0d5b23206df9",
-        No:"S100075"
-    }
+    //     code:"0",
+    //     message:"finish",
+    //     returnValue:{Email: "martina.lin@bancklogix.com", Guid: "9e360c12-f4d4-4683-b0a9-0d5b23206df9", No: "S100075"},
+    //     Email:"martina.lin@bancklogix.com",
+    //     Guid:"9e360c12-f4d4-4683-b0a9-0d5b23206df9",
+    //     No:"S100075"
+    // }
     
     return (dispatch) => {
         

@@ -28,7 +28,7 @@ class Finish extends Component {
                 <div className="form-page normal-height col-md-10 col-center">
                     <h3 className="mt-0">下一步是什么？</h3>
                     <p>1. 请您将所需的证明文件制成扫描图像（JPG,GIF,DOC,PDF的文件格式——请不要设置密码保护）<br/>点击提交文件 </p>
-                    <Link to="../upload" className="btn btn-primary mb-5">提交文件</Link>
+                    <Link to="../upload" target="_blank" className="btn btn-primary mb-5">提交文件</Link>
                     <p>或者邮寄到以下地址：<br/>
                         New Accounts Department <br/>
                         KVB Kunlun New Zealand Limited <br/>

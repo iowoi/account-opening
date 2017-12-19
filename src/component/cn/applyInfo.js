@@ -29,7 +29,7 @@ class ApplyInfo extends Component {
                             <div className="step-card">
                                 <img src={IconStep2}/>
                                 <p>提交证明文件及W-8BEN表格<br/>
-                                    <Link to="/upload">
+                                    <Link to="upload" target="_blank">
                                         点击上传
                                     </Link>
                                 </p>

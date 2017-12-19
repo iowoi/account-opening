@@ -109,6 +109,9 @@
             }
         }
     }
+    iframe {
+        display: none;
+    }
 }
 
 @include --below-small {
