@@ -55,7 +55,7 @@ export function getSource() {
  * Send Form
  */
 
-export function sendForm(dataForm) {
+export function sendForm(dataForm,dispatch) {
     const ApiUrl = `${API_URL}/Apply`
     
     const PersonalDetail = dataForm.PersonalDetail.values

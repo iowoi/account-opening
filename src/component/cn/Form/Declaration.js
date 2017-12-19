@@ -37,10 +37,12 @@ class Declaration extends Component {
     handlePrevPage(e) {
         this.props.handleRenderPage(this.props.prevPage);
     }
-    handleNextPage() {
-        this.props.handleRenderPage(this.props.nextPage);
+    handleNextPage(values,dispatch,props) {
+        console.log(values,dispatch,props)
+        props.sendForm(values,dispatch,props);
+        
+        //this.props.handleRenderPage(this.props.nextPage);
         return;
-        this.props.sendForm(this.props.dataForm);
     }
    
     render() {
