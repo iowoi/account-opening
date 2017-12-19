@@ -58,7 +58,7 @@ class ApplyInfo extends Component {
                         <div className="col-md-2 vcenter">
                             W-8BEN表格</div>
                         <div className="col-md-10 vcenter">
-                            <a href="#" target="_blank" className="btn btn-primary">下载W-8BEN表格</a>
+                            <a href="../w8ben.pdf" target="_blank" className="btn btn-primary">下载W-8BEN表格</a>
                         </div>
                     </div>
 

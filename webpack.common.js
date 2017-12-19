@@ -12,13 +12,15 @@ module.exports = {
         hot: true
     },
     devtool: 'eval-source-map',
-    entry: './src/index.js',
+    entry: ["babel-polyfill", "./src/index.js"],
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/'
+        publicPath:'/' 
+        
+       // publicPath: '/'
         //to production 
-        //publicPath:'/Security/' 
+       // publicPath:'/Security/' 
 
     },
     module: {
