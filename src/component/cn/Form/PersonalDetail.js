@@ -49,8 +49,8 @@ function validate(values){
         'EmployerStreet1',
         'EmployerStreet2',
         'CitizenOrTaxResidentOfUSAId',
-        'BornInUSAAndSurrenderedCitizenshipId',
-        'SourceOfIncome'
+        'BornInUSAAndSurrenderedCitizenshipId'
+
     ]
     requiredFields.map((field,index)=>{
         if (!values[field]) {
@@ -70,12 +70,15 @@ function validate(values){
 
     const SourceOfIncomeErrors = [];
     if (!values.SourceOfIncome || !values.SourceOfIncome.length) {
-        errors.SourceOfIncome =  'At least one member must be entered'
+        errors.SourceOfIncome =  '請至少填入一種收入来源'
     }else{
         const SourceOfIncomeErrors = []
         values.SourceOfIncome.forEach((SourceOfIncome, SourceOfIncomeIndex) => {
-            console.log("SourceOfIncome",SourceOfIncome,SourceOfIncomeIndex)
+           // console.log("SourceOfIncome",SourceOfIncome,SourceOfIncomeIndex)
         })
+    }
+    if (!values.Tax || !values.Tax.length) {
+        errors.Tax =  '請至少提供一種纳税人识别号码'
     }
    
     return errors
@@ -130,7 +133,15 @@ class PersonalDetail extends Component {
             selfCertificationKey: this.state.selfCertificationKey - 1
         })
     }
-    handleNextPage(){
+    handleNextPage(values){
+        if(!values.SourceOfIncome) {
+            alert(validate(values).SourceOfIncome)
+            return false;
+        }
+        if(!values.Tax) {
+            alert(validate(values).Tax)
+            return false;
+        }
         this.props.handleRenderPage(this.props.nextPage);
     }
     
@@ -139,14 +150,11 @@ class PersonalDetail extends Component {
         const {pristine, reset, source, className, submitting, handleSubmit, PersonalDetail} = this.props
         const {selfCertificationKey, show_anotherMailAdd, ResidentialAddress} 
         = this.state
+        console.log('------PersonalDetail------')
         console.log(this.props)
-       
-        const steps = [
-            {cn:"个人申请", en:"Individual Applicant"},
-            {cn:"银行帐户资料", en:"Settlement details"},
-            {cn:"就业资料", en:"Employment Information"},
-            {html:"<font class='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font class='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
-        ]
+        console.log('------PersonalDetail------')
+        
+      
         const SelfCertificationArr = [];
         for (var i = 0; i < this.state.selfCertificationKey; i += 1) {
             SelfCertificationArr.push(<SelfCertification id={i+1}  source={source} key={i} removeSelfCertification={this.removeSelfCertification}/>);
@@ -732,9 +740,8 @@ class SourceOfIncome extends Component {
 PersonalDetail = reduxForm({
     form: 'PersonalDetail',
     validate,
-    onSubmitFail: function(form){
-        console.log("form",form)
-        $(`#${Object.keys(form)[0]}`).focus()
+    onSubmitFail: function(error){
+        $(`#${Object.keys(error)[0]}`).focus()    
     }
     // , asyncValidate
 })(PersonalDetail)

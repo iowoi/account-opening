@@ -4,9 +4,6 @@ import moment from 'moment';
 class DateField extends Component {
     render() {
         const {label, labelInfo, meta, placeholder, input, disabled, children} = this.props
-        console.log("meta.dirty",meta.dirty && meta.error)
-        console.log("meta",meta)
-        
         return (
             <div
                 className={meta.touched && meta.error || meta.dirty && meta.error
@@ -27,6 +24,8 @@ class DateField extends Component {
                 <DatePicker
                     className="form-control"
                     onChange={input.onChange}
+                    showYearDropdown
+                    scrollableYearDropdown
                     id={input.name}
                     selected={input.value
                         ? input.value

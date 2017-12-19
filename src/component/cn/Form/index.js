@@ -14,12 +14,12 @@ import {
     CnUpload,
     CnInvestmentBackground,
     CnSecurityQuestions,
-    CnDeclaration,
+   // CnDeclaration,
     CnFinish,
     CnAccountInformation
 } from '../../index';
 import {CnIndex, CnPersonalDetail, CnSelectLocation} from '../../../container';
-
+import CnDeclaration from '../../../container/cn/Declaration';
 import {Switch} from 'react-router-dom';
 import {component} from 'react-router';
 
@@ -94,13 +94,8 @@ class FormIndex extends Component {
         // this.props.routes
         const {routes, handleRenderPage} = this.props
         const {page} = this.state
-        const show = {
-            display: 'block'
-        }
-        const hide = {
-            display: 'none'
-        }
-        console.log(pageInfo.page)
+   
+        //console.log(pageInfo.page)
         return (
             <div>
                 <FormHeader steps={pageInfo[page].steps} currentPage={page}/> 

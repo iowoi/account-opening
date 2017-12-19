@@ -6,13 +6,24 @@ import {InputField} from '../../Common';
 import autoBind from 'auto-bind';
 import {connect} from 'react-redux';
 import {sendForm} from '../../../actions';
+
 const validate = values => {
-    const errors = {}
-    requiredFields.forEach(field => {
-        if (!values[field]) {
-            errors[field] = 'Required'
-        }
-    })
+    const errors = {}  
+    // console.log(values)
+
+    // const requiredFields = ['SecurityQuestions']
+    // if (!values.SecurityQuestionsAnswer || !values.SecurityQuestionsAnswer.length) {
+    //     errors.SecurityQuestionsAnswer = { _error: 'At least one member must be entered' }
+     
+    
+    // }
+
+      
+    // requiredFields.forEach(field => {
+    //     if (!values[field]) {
+    //         errors[field] = 'Required'
+    //     }
+    // })
     return errors
 }
 
@@ -23,27 +34,22 @@ class Declaration extends Component {
 
     }
 
-    handleChange(event, index, value) {
-        console.log(event, index, value)
-        // this.setState({loc:value})
-    }
     handlePrevPage(e) {
-        e.preventDefault();
         this.props.handleRenderPage(this.props.prevPage);
     }
-    handleNextPage(e) {
-        e.preventDefault();
-        this.props.sendForm(this.props.dataForm);
+    handleNextPage() {
         this.props.handleRenderPage(this.props.nextPage);
-        
+        return;
+        this.props.sendForm(this.props.dataForm);
     }
    
     render() {
-        const {className} = this.props
+        console.log(this.props)
+        const {className,handleSubmit} = this.props
         return (
             <div className={className}>
                 <div className="form-page col-md-10 col-center">
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={handleSubmit(this.handleNextPage)}>
                         <div id="step1" className="steps">
                             <h3>Accuracy and Notification 信息准确性及通知</h3>
                             <small className="mt-2">I confirm that all the details provided are true and
@@ -189,7 +195,7 @@ class Declaration extends Component {
                         <div className="text-center">
                             <button onClick={this.handlePrevPage} className="btn btn-primary">返回
                             </button>
-                            <button onClick={this.handleNextPage} className="btn btn-primary">下一步
+                            <button  type="submit" className="btn btn-primary">下一步
                             </button>
                         </div>
                     </form>
@@ -200,26 +206,14 @@ class Declaration extends Component {
 }
 
 Declaration = reduxForm({
-    form: 'PersonalDetail'
-    // , asyncValidate
+    form: 'Declaration',
+    validate,
+    onSubmitFail: function(error){
+        console.log('------Declaration------')
+        console.log("onSubmitFail",error);
+        console.log('===================================='); 
+    }
 })(Declaration)
 
-const mapStateToProps = (state) => {
-    const source = state.info.source
-    const dataForm = state.form
-    return {source, dataForm};
-}
 
-const mapDispatchToProps = (dispatch) => ({
-    sendForm:(data) => {
-        dispatch(sendForm(data))
-    }
-})
-
-
-const CnDeclaration = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Declaration)
-
-export default CnDeclaration;
+export default Declaration;

@@ -105,7 +105,11 @@ export function sendForm(dataForm) {
         Guid:"9e360c12-f4d4-4683-b0a9-0d5b23206df9",
         No:"S100075"
     }
-    
+    return (dispatch) => {
+        
+        dispatch({type: SEND_FORM, response})
+    }
+    return;    
     return (dispatch) => {
         
         $.ajax({
