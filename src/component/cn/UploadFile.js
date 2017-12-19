@@ -54,6 +54,7 @@ class Upload extends Component {
             forms[i].submit();
             if(i = forms.length-1){
                 if(confirm("上傳成功")){
+                    console.log('confirm 上傳成功')
                     window.close();
                 }
             }

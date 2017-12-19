@@ -19,7 +19,10 @@ module.exports = merge(common, {
                 'NODE_ENV': JSON.stringify('production'),                           
             },
             ROOT_PATH: JSON.stringify('/Security/'),
-            API_URL: JSON.stringify('http://testapi.kvbkunlun.com/api2/SecurityAccount')
+            API_URL: JSON.stringify('http://testapi.kvbkunlun.com/api2/SecurityAccount'),
+            OPEN_UPLOAD: function(){
+                window.open('./upload')
+            }
         }),
         new HtmlWebpackPlugin({
             title: 'Account Opening', 
