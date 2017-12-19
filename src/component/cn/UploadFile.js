@@ -13,14 +13,25 @@ class Upload extends Component {
             IdsUpload: false,
             ProofOfIdentity: '1',
             ProofOfAddress: '1',
-            ProofOfBankAccount:'1',
-            No: getCookie('No') ? getCookie('No'):"",
-            Email: getCookie('Email') ? getCookie('Email'):"",
+            ProofOfBankAccount: '1',
+            No: getCookie('No')
+                ? getCookie('No')
+                : "",
+            Email: getCookie('Email')
+                ? getCookie('Email')
+                : "",
             file1: "",
             file2: "",
             file3: "",
             file4: "",
-            file5: ""
+            file5: "",
+            error_file1: null,
+            error_file2: null,
+            error_file3: null,
+            error_file4: null,
+            error_file5: null,
+            error_No: null,
+            error_Email: null
         }
     }
 
@@ -28,44 +39,83 @@ class Upload extends Component {
         const target = e.target
         const value = target.value;
         const inputName = target.name;
-
-        this.setState({[inputName]: value});
-        if (inputName === 'DataInfo_ProofOfIdentity_ProofTypesId') {
-            if(value == "2"){
-                this.setState({IdsUpload: true});
-            }
-            this.setState({ProofOfIdentity:value})
-        }else{
-            this.setState({IdsUpload: false});
-            
-        }
-
-    }
-    handleUploadFile(e){
-        const filename = $(e.target).val().replace(/^.*[\\\/]/, '')
-        const inputName = e.target.name
+        console.log(inputName)
         this.setState({
-            [inputName] : filename
-        })
+            [inputName]: value,
+            ['error_' + inputName]: null
+        });
+
+        if (inputName === 'DataInfo_ProofOfIdentity_ProofTypesId') {
+            if (value == "2") {
+                this.setState({IdsUpload: true});
+            }else{
+                this.setState({IdsUpload: false});
+            }
+            this.setState({ProofOfIdentity: value})
+        } 
     }
+
+    handleUploadFile(e) {
+        const filename = $(e.target)
+            .val()
+            .replace(/^.*[\\\/]/, '')
+        const inputName = e.target.name
+        this.setState({[inputName]: filename})
+    }
+
     submitUploadFileForms(e) {
+        // input valid
+        const Inputs = document.getElementsByClassName('required')
+        console.log(Inputs)
+        for (let i = 0; i < Inputs.length; i++) {
+            // Inputs[i]
+            if (!Inputs[i].value) {
+                this.setState({
+                    ['error_' + Inputs[i].name]: "required"
+                })
+                Inputs[i].focus();
+            }
+        }
+        // file valid
+        for (let i = 1; i <= 5; i++) {
+            if (i != 3 && !this.state["file" + i]) {
+                this.setState({
+                    ['error_file' + i]: "required"
+                })
+                return;
+            }
+        }
         const forms = document.getElementsByTagName('form')
-        
-        for(let i = 0; i < forms.length; i++){
-            console.log(i)
+
+        for (let i = 0; i < forms.length; i++) {
             forms[i].submit();
         }
-            setTimeout(function(){
-                if(confirm("上傳成功")){ 
-                    window.close(); 
-                } 
-            }, 3000);  
-        
-
+        setTimeout(function () {
+            if (confirm("上傳成功")) {
+                window.close();
+            }
+        }, 3000);
     }
-    render() {
-        const {Email,No,file1,file2,file3,file4,file5,Uploaded}= this.state
 
+    render() {
+        const {
+            Email,
+            No,
+            file1,
+            file2,
+            file3,
+            file4,
+            file5,
+            Uploaded,
+            error_No,
+            error_Email,
+            error_file1,
+            error_file2,
+            error_file3,
+            error_file4,
+            error_file5
+        } = this.state
+        console.log(this.state)
         return (
 
             <div className="apply-info-wrap uploadFile-wrap">
@@ -76,25 +126,46 @@ class Upload extends Component {
                 <iframe id="UploadiFrame" name="UploadiFrame_ProofOfBankAccount"></iframe>
                 <section className="col-lg-8 left-border col-center">
                     <h3>提交证明文件</h3>
-                    <div className="form-group">
+                    <div
+                        className={error_Email
+                        ? "has-danger form-group "
+                        : "form-group"}>
                         <label>
                             电子邮件
                         </label>
                         <input
-                            className="form-control"
                             name="Email"
                             value={Email}
-                            onChange={this.handleChange}/>
+                            onChange={this.handleChange}
+                            className="form-control required"/> {error_Email
+                            ? <div
+                                    className="error-text"
+                                    style={{
+                                    position: "relative",
+                                    bottom: "-5px"
+                                }}>{error_Email}</div>
+                            : null}
                     </div>
-                    <div className="form-group">
+
+                    <div
+                        className={error_No
+                        ? "has-danger form-group "
+                        : "form-group"}>
                         <label>
                             申请参考号码
                         </label>
                         <input
-                            className="form-control"
                             name="No"
                             value={No}
-                            onChange={this.handleChange}/>
+                            onChange={this.handleChange}
+                            className="form-control required"/> {error_No
+                            ? <div
+                                    className="error-text"
+                                    style={{
+                                    position: "relative",
+                                    bottom: "-5px"
+                                }}>{error_No}</div>
+                            : null}
                     </div>
                     <hr/>
                 </section>
@@ -124,6 +195,14 @@ class Upload extends Component {
                                         <input type="file" name="file1" hidden onChange={this.handleUploadFile}/>
                                     </label>
                                     <small className="ml-3 mt-1">{file1}</small>
+                                    {error_file1
+                                        ? <div
+                                                className="error-text"
+                                                style={{
+                                                position: "relative",
+                                                bottom: "-5px"
+                                            }}>required</div>
+                                        : null}
                                 </div>
                             </div>
                             <HiddenFields Email={Email} No={No} DocumentTypesId="1" ProofTypesId=""/>
@@ -196,7 +275,18 @@ class Upload extends Component {
                                     </label>
                                     <small className="ml-3 mt-1">{file2}</small>
 
-                                    <HiddenFields Email={Email} No={No} DocumentTypesId="2" ProofTypesId={this.state.ProofOfIdentity}/>
+                                    <HiddenFields
+                                        Email={Email}
+                                        No={No}
+                                        DocumentTypesId="2"
+                                        ProofTypesId={this.state.ProofOfIdentity}/> {error_file2
+                                        ? <div
+                                                className="error-text"
+                                                style={{
+                                                position: "relative",
+                                                bottom: "-5px"
+                                            }}>required</div>
+                                        : null}
                                 </form>
                             </div>
 
@@ -208,8 +298,12 @@ class Upload extends Component {
                                         method="post"
                                         encType="multipart/form-data"
                                         target="UploadiFrame_ProofOfIdentityBack">
-                                        <input name="DataInfo_ProofOfIdentityBack_ProofTypesId" hidden readOnly value={this.state.ProofOfIdentity} />
-                                    
+                                        <input
+                                            name="DataInfo_ProofOfIdentityBack_ProofTypesId"
+                                            hidden
+                                            readOnly
+                                            value={this.state.ProofOfIdentity}/>
+
                                         <label
                                             className="btn btn-primary"
                                             style={{
@@ -218,9 +312,25 @@ class Upload extends Component {
                                             上传身份证明-反面
                                             <input type="file" name="file3" hidden onChange={this.handleUploadFile}/>
                                         </label>
-                                        <small className="ml-3" style={{position:"relative",top:"-15px"}}>{file3}</small>
+                                        <small
+                                            className="ml-3"
+                                            style={{
+                                            position: "relative",
+                                            top: "-15px"
+                                        }}>{file3}</small>
 
-                                        <HiddenFields Email={Email} No={No} DocumentTypesId="3" ProofTypesId={this.state.ProofOfIdentity}/>
+                                        <HiddenFields
+                                            Email={Email}
+                                            No={No}
+                                            DocumentTypesId="3"
+                                            ProofTypesId={this.state.ProofOfIdentity}/> {error_file3
+                                            ? <div
+                                                    className="error-text"
+                                                    style={{
+                                                    position: "relative",
+                                                    bottom: "-5px"
+                                                }}>required</div>
+                                            : null}
                                     </form>
                                 : null
 }
@@ -236,11 +346,7 @@ class Upload extends Component {
                                         <label>B. 地址证明 （该文件必须清楚地列出客户姓名和地址。不接受邮政信箱</label>
 
                                         <div className="d-block">
-                                            <input
-                                                type="radio"
-                                                name="ProofOfAddress"
-                                                defaultChecked
-                                                value="1"/>按揭单，房产契约或其他房产证明
+                                            <input type="radio" name="ProofOfAddress" defaultChecked value="1"/>按揭单，房产契约或其他房产证明
                                         </div>
                                         <div className="d-block">
                                             <input type="radio" name="ProofOfAddress" value="2"/>当前租约 (租赁单 / 抵押金单等)
@@ -286,12 +392,24 @@ class Upload extends Component {
                                     <small className="ml-2 mt-1 d-block">上传文件需小于4MB；JPG,JPEG,GIF,DOC,PDF的文件格式，请不要设置密码保护</small>
                                     <label className="btn btn-primary">
                                         上传附件
-                                        <input type="file" name="file4" hidden onChange={this.handleUploadFile}/>                                    </label>
+                                        <input type="file" name="file4" hidden onChange={this.handleUploadFile}/>
+                                    </label>
                                     <small className="ml-3 mt-1">{file4}</small>
 
                                 </div>
-                                <HiddenFields Email={Email} No={No} DocumentTypesId="4" ProofTypesId={this.state.ProofOfAddress}/>
-                                
+                                <HiddenFields
+                                    Email={Email}
+                                    No={No}
+                                    DocumentTypesId="4"
+                                    ProofTypesId={this.state.ProofOfAddress}/> {error_file4
+                                    ? <div
+                                            className="error-text"
+                                            style={{
+                                            position: "relative",
+                                            bottom: "-5px"
+                                        }}>required</div>
+                                    : null}
+
                             </form>
                             <form
                                 id="DocumentUpload_5"
@@ -306,11 +424,7 @@ class Upload extends Component {
                                         <label>C. 银行账户证明（文件签发日必须在12个月之内，且清晰载有客户姓名、银行账号和银行名称）</label>
 
                                         <div className="d-block">
-                                            <input
-                                                type="radio"
-                                                name="ProofOfBankAccount"
-                                                defaultChecked
-                                                value="1"/>载有银行账号、银行名称和银行账户持有人姓名的银行账单
+                                            <input type="radio" name="ProofOfBankAccount" defaultChecked value="1"/>载有银行账号、银行名称和银行账户持有人姓名的银行账单
                                         </div>
                                         <div className="d-block">
                                             <input type="radio" name="ProofOfBankAccount" value="2"/>银行出示的有效存款单证明
@@ -326,16 +440,31 @@ class Upload extends Component {
 
                                     <label className="btn btn-primary">
                                         上传附件
-                                        <input type="file" name="file5" hidden onChange={this.handleUploadFile}/>                                    </label>
+                                        <input type="file" name="file5" hidden onChange={this.handleUploadFile}/>
+                                    </label>
                                     <small className="ml-3 mt-1">{file5}</small>
 
                                 </div>
-                                <HiddenFields Email={Email} No={No} DocumentTypesId="5" ProofTypesId={this.state.ProofOfBankAccount}/>
+                                <HiddenFields
+                                    Email={Email}
+                                    No={No}
+                                    DocumentTypesId="5"
+                                    ProofTypesId={this.state.ProofOfBankAccount}/> 
+                                {error_file5
+                                    ? <div
+                                            className="error-text"
+                                            style={{
+                                            position: "relative",
+                                            bottom: "-5px"
+                                        }}>required</div>
+                                    : null}
                             </form>
                         </div>
                     </div>
                     <div className="text-center">
-                        <button onClick={this.submitUploadFileForms} className="btn btn-primary col-center">递交</button>
+                        <button
+                            onClick={this.submitUploadFileForms}
+                            className="btn btn-primary col-center">递交</button>
                     </div>
                 </section>
             </div>
@@ -344,10 +473,12 @@ class Upload extends Component {
 }
 class HiddenFields extends Component {
     render() {
-        const {Email,No,DocumentTypesId,ProofTypesId}= this.props
-        return (
-            <input name="ApiUrl" readOnly hidden value={`${API_URL}/DocumentUpload?Email=${Email}&No=${No}&DocumentTypesId=${DocumentTypesId}&ProofTypesId=${ProofTypesId}`}/>
-        );
+        const {Email, No, DocumentTypesId, ProofTypesId} = this.props
+        return (<input
+            name="ApiUrl"
+            readOnly
+            hidden
+            value={`${API_URL}/DocumentUpload?Email=${Email}&No=${No}&DocumentTypesId=${DocumentTypesId}&ProofTypesId=${ProofTypesId}`}/>);
     }
 }
 

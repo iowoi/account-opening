@@ -4,7 +4,7 @@ import IconStep1 from '../../assets/svg/apply/icon-step1.svg';
 import IconStep2 from '../../assets/svg/apply/icon-step2.svg';
 import IconStep3 from '../../assets/svg/apply/icon-step3.svg';
 import IconArrowLeft from '../../assets/svg/apply/icon-arrow-left.svg';
-import IconArrowDown from '../../assets/svg/apply/icon-arrow-down.svg';
+import IconArrowDown from '../../assets/svg/apply/icon-arrow-down.svg';
 
 class ApplyInfo extends Component {
     render() {
