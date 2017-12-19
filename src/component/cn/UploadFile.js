@@ -50,17 +50,18 @@ class Upload extends Component {
     }
     submitUploadFileForms(e) {
         const forms = document.getElementsByTagName('form')
+        
         for(let i = 0; i < forms.length; i++){
+            console.log(i)
             forms[i].submit();
-            if(i = forms.length-1){ 
-                forms[i].submit();
-                setTimeout(function(){
-                    if(confirm("上傳成功")){ 
-                        window.close(); 
-                    } 
-                }, 3000);  
-            } 
         }
+            setTimeout(function(){
+                if(confirm("上傳成功")){ 
+                    window.close(); 
+                } 
+            }, 3000);  
+        
+
     }
     render() {
         const {Email,No,file1,file2,file3,file4,file5,Uploaded}= this.state
@@ -125,7 +126,7 @@ class Upload extends Component {
                                     <small className="ml-3 mt-1">{file1}</small>
                                 </div>
                             </div>
-                            <HiddenFields Email={Email} No={No} DocumentTypesId="1"/>
+                            <HiddenFields Email={Email} No={No} DocumentTypesId="1" ProofTypesId=""/>
                         </form>
 
                         <div className="row">

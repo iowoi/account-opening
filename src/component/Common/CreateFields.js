@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Field} from 'redux-form';
 export const CreateRadios = (source, name, style) => {
     return style === 'inline'
-        ? <div className="form-check-inline">
+        ? <div className="form-check-inline radio-field">
                 {source.map((data, index) => {
                     return [
                         <Field
@@ -18,7 +18,7 @@ export const CreateRadios = (source, name, style) => {
         : <div>
             {source.map((data, index) => {
                 return (
-                    <div key={data.code}>
+                    <div key={data.code} className="radio-field">
                         <Field
                             type="radio"
                             component="input"

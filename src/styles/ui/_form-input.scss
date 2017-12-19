@@ -18,7 +18,10 @@ input{
     -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
-
+.radio-field, .col-inputs {
+    font-size: 16px;
+    font-weight: 500;
+}
 .has-danger {
     position: relative;
     input,select {
