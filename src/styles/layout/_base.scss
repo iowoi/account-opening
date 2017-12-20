@@ -2,19 +2,19 @@
 @font-face {
     font-family: 'Noto Sans SC';
     font-style: normal;
-    src: url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
+    src: url("/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
 }
 
 @font-face {
     font-family: 'Noto Sans SC';
     font-style: normal;
-    src: url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
+    src: url("/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.woff") format('woff'), url("/Security/assets/fonts/NotoSansSC/NotoSansSC-Light.otf") format('opentype');
 }
 
 @font-face {
     font-family: 'Roboto';
     font-style: normal;
-    src: url("http://testaccountopen.kvbkunlun.com/Security/assets/fonts/Roboto/Roboto-Regular.ttf") format('truetype');
+    src: url("/Security/assets/fonts/Roboto/Roboto-Regular.ttf") format('truetype');
 }
 
 html {
@@ -53,7 +53,7 @@ body {
 }
 
 #root {
-    background: url("http://testaccountopen.kvbkunlun.com/Security/assets/img/web-bg.png") no-repeat;
+    background: url("/Security/assets/img/web-bg.png") no-repeat;
     background-size: 100% auto; //height: 100%;
     min-height: 100vh;
 }

@@ -94,7 +94,7 @@ class Upload extends Component {
             forms[i].submit();
         }
         setTimeout(function () {
-            if (confirm("上傳成功")) {
+            if (confirm("上传成功")) {
                 window.close();
             }
         }, 3000);

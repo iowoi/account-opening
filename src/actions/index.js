@@ -68,11 +68,11 @@ export function sendForm(dataForm) {
             newSourceOfIncome.push(incomeData)
         })
     }else{
-        alert('至少選擇一種以上的Source Of Income 收入来源')
+        alert('至少选择一种以上的 Source Of Income 收入来源')
         return;
     }
     if(!PersonalDetail.Tax){
-        alert('至少填寫一種Individual Self-Certification 个人认证')
+        alert('至少填写一种 Individual Self-Certification 个人认证')
         return;
     }
     PersonalDetail.Birthday = moment(PersonalDetail.Birthday,'dd/mm/YYYY')
@@ -113,11 +113,11 @@ export function sendForm(dataForm) {
                 setCookie('Guid', _guid, cookieDate)
                 setCookie('No', _no, cookieDate)
                 $.ajax({
-                    url: `${API_URL}/GeneratePDF?Guid=${_guid}&No=${_no}`, 
+                    url: `/api/SecurityAccount/GeneratePDF/?Guid=${_guid}&No=${_no}`, 
                     type: "POST"
                 })
                 $.ajax({
-                    url: `${API_URL}/WelcomeMail/send/?No=${_no}&Email=${_email}`, 
+                    url: `/api/SecurityAccount/WelcomeMail/send/?No=${_no}&Email=${_email}`, 
                     type: "POST"
                 })
                 dispatch({type: SEND_FORM, response})
