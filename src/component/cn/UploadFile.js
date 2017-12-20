@@ -39,7 +39,6 @@ class Upload extends Component {
         const target = e.target
         const value = target.value;
         const inputName = target.name;
-        console.log(inputName)
         this.setState({
             [inputName]: value,
             ['error_' + inputName]: null
@@ -69,7 +68,6 @@ class Upload extends Component {
     submitUploadFileForms(e) {
         // input valid
         const Inputs = document.getElementsByClassName('required')
-        console.log(Inputs)
         for (let i = 0; i < Inputs.length; i++) {
             // Inputs[i]
             if (!Inputs[i].value) {
@@ -120,7 +118,6 @@ class Upload extends Component {
             error_file4,
             error_file5
         } = this.state
-        console.log(this.state)
         return (
 
             <div className="apply-info-wrap uploadFile-wrap">

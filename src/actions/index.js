@@ -62,9 +62,6 @@ export function sendForm(dataForm) {
     const SecurityQuestions = dataForm.SecurityQuestions.values.SecurityQuestions
     const newSourceOfIncome = [];
 
-    console.log('====================================');
-    console.log('PersonalDetail.Tax',PersonalDetail.Tax);
-    console.log('====================================');
     if(PersonalDetail.SourceOfIncome){
         PersonalDetail.SourceOfIncome.map((incomeData)=>{
             newSourceOfIncome.push(incomeData)
@@ -85,7 +82,6 @@ export function sendForm(dataForm) {
     Param["TaxResidents"] = StrToBase64(PersonalDetail.Tax);
     Param["IBQuestions"] = StrToBase64(SecurityQuestions);
     Param["SourceOfIncome"] = StrToBase64(newSourceOfIncome);
-    console.log("DATA",PersonalDetail)
     
     delete PersonalDetail.Tax;
     delete PersonalDetail.isSenior;
@@ -94,17 +90,7 @@ export function sendForm(dataForm) {
     delete PersonalDetail.SourceOfIncome;
     
     Param["DATA"] = StrToBase64(PersonalDetail);
-    console.log("Email",Param["Email"])
-    console.log("Param",Param)
-    // const response ={
-
-    //     code:"0",
-    //     message:"finish",
-    //     returnValue:{Email: "martina.lin@bancklogix.com", Guid: "9e360c12-f4d4-4683-b0a9-0d5b23206df9", No: "S100075"},
-    //     Email:"martina.lin@bancklogix.com",
-    //     Guid:"9e360c12-f4d4-4683-b0a9-0d5b23206df9",
-    //     No:"S100075"
-    // }
+    
     
     return (dispatch) => {
         
@@ -127,10 +113,7 @@ export function sendForm(dataForm) {
                 setCookie('No', _no, cookieDate)
                 $.ajax({
                     url: `${API_URL}/GeneratePDF?Guid=${_guid}&No=${_no}`, 
-                    type: "POST",
-                    success: function (resp) {
-                        console.log(resp)
-                    }
+                    type: "POST"
                 })
                 $.ajax({
                     url: `${API_URL}/WelcomeMail/send/?No=${_no}&Email=${_email}`, 
