@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form'
-import {Link} from 'react-router-dom';
-import autoBind from 'auto-bind';
 import {connect} from 'react-redux';
 
 
 class LocationOption extends Component {
     constructor(props) {
         super(props);
-        autoBind(this)
     }
 
     render() {

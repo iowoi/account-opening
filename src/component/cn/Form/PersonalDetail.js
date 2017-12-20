@@ -404,14 +404,14 @@ class PersonalDetail extends Component {
                                     component="input"
                                     onChange={this.handleChange}
                                     name="CitizenOrTaxResidentOfUSAId"
-                                    value="0"/>
+                                    value="1"/>
                                 Yes 是
                                 <Field
                                     type="radio"
                                     component="input"
                                     onChange={this.handleChange}
                                     name="CitizenOrTaxResidentOfUSAId"
-                                    value="1"/>
+                                    value="2"/>
                                 No 否
                             </div>
 
@@ -426,14 +426,14 @@ class PersonalDetail extends Component {
                                     component="input"
                                     onChange={this.handleChange}
                                     name="BornInUSAAndSurrenderedCitizenshipId"
-                                    value="0"/>
+                                    value="1"/>
                                 Yes 是
                                 <Field
                                     type="radio"
                                     component="input"
                                     onChange={this.handleChange}
                                     name="BornInUSAAndSurrenderedCitizenshipId"
-                                    value="1"/>
+                                    value="2"/>
                                 No 否
                             </div>
                         </div>
