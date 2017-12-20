@@ -134,37 +134,40 @@ class PersonalDetail extends Component {
         })
     }
     handleNextPage(values){
+        let validError = false;
         if(!values.SourceOfIncome) {
             alert(validate(values).SourceOfIncome)
-            
+            $('html, body').animate({
+                scrollTop: $("#SourceOfIncome").offset().top-300
+            });
             return false;
-        }else {
-            
+        }else if(values.SourceOfIncome){
             values.SourceOfIncome && values.SourceOfIncome.map((data,index)=>{
-                console.log("values",!values.SourceOfIncome[index].SourceOfIncomePercent,data,index)
                 const sId = data.SourceOfIncomeId 
-                 if (!values.SourceOfIncome[index].SourceOfIncomePercent) {
+                if (!values.SourceOfIncome[index].SourceOfIncomePercent) {
                     const $input = $(`input[name="SourceOfIncome[${index}].SourceOfIncomePercent"]`)[0]
-                    console.log("$input",$input)
-                    $('.red').show();
+                    alert('请填写所勾选的收入来源所占百分比')
                     $input.focus();
-                    
-                   
-                }
-                if (!values.SourceOfIncome[sId].SourceOfIncomeDescription) {
-                    errors.SourceOfIncome = {
-                        SourceOfIncomeDescription: 'Required'
-                    }
+                    validError = true;
+                    return false;
+                }else if (!values.SourceOfIncome[index].SourceOfIncomeDescription) {
+                    const $input = $(`input[name="SourceOfIncome[${index}].SourceOfIncomeDescription"]`)[0]
+                    alert('请填写所勾选的收入来源描述')
+                    $input.focus();
+                    validError = true;
+                    return false;
                 }
             })
-            
         }
+
         if(!values.Tax) {
             alert(validate(values).Tax)
             return false;
         }
-        console.log(values)
-        return;
+
+        if(validError){
+            return false;
+        }
         this.props.handleRenderPage(this.props.nextPage);
     }
     
@@ -685,7 +688,7 @@ class EmploymentStatus extends Component {
                 <Field name="EmployerStreet2" component={InputField} label="Employer Street#2 公司地址#2"/>
                 
                 <hr/>
-                <label>Source Of Income 收入来源</label>
+                <label id="SourceOfIncome">Source Of Income 收入来源</label>
                 <SourceOfIncome source={source}/>
                 <hr/>
                 
