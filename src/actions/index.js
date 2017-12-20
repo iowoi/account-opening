@@ -63,7 +63,8 @@ export function sendForm(dataForm) {
     const newSourceOfIncome = [];
 
     if(PersonalDetail.SourceOfIncome){
-        PersonalDetail.SourceOfIncome.map((incomeData)=>{
+        PersonalDetail.SourceOfIncome.map((incomeData,index)=>{
+            incomeData.SourceOfIncomeId = index
             newSourceOfIncome.push(incomeData)
         })
     }else{
