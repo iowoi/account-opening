@@ -3,7 +3,7 @@ import FormHeader from './common/Header';
 import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import {InputField} from '../../Common';
-import autoBind from 'auto-bind';
+import autoBind from 'react-autobind';
 import {connect} from 'react-redux';
 import {sendForm,setCookie,cookieDate} from '../../../actions';
 const validate = values => {

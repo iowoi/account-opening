@@ -3,7 +3,7 @@ import {RouteWithSubRoutes} from '../../../route';
 import {Route, Redirect} from 'react-router-dom';
 import NavBar from './common/Navbar';
 import {findDOMNode} from 'react-dom';
-import autoBind from 'auto-bind';
+import autoBind from 'react-autobind';
 import FormHeader from './common/Header';
 import {getSource} from '../../../actions';
 

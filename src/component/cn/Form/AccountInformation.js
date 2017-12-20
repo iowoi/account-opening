@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import FormHeader from './common/Header';
 import {Field, reduxForm} from 'redux-form';
-import autoBind from 'auto-bind';
+import autoBind from 'react-autobind';
 import {connect} from 'react-redux'; 
 
 import {InputField, DateField, SelectField, CreateRadios} from '../../Common';

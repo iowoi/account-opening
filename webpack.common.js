@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // 使用 extract text webpack plugin
 
-const ExtractMainCss = new ExtractTextPlugin({filename: 'main.css'})
+const ExtractMainCss = new ExtractTextPlugin({ filename: 'main.css' })
 module.exports = {
     devServer: {
         historyApiFallback: true,
@@ -14,6 +14,7 @@ module.exports = {
     devtool: 'eval-source-map',
     entry: [
         'babel-polyfill', // Load this first
+        'whatwg-fetch',
         'react-hot-loader/patch', // This package already requires/loads react (but not react-dom). It must be loaded after babel-polyfill to ensure both react and react-dom use the same Symbol.
         'react', // Include this to enforce order
         'react-dom', // Include this to enforce order
@@ -22,16 +23,15 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath:'/' 
-        
-       // publicPath: '/'
+        publicPath: '/'
+
+        // publicPath: '/'
         //to production 
-       // publicPath:'/Security/' 
+        // publicPath:'/Security/' 
 
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.js?$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/,
@@ -53,15 +53,13 @@ module.exports = {
                 }
             }, {
                 test: /\.(png|jpg|gif)$/,
-                use: [
-                    {
-                        loader: 'url-loader?limit=100000',
-                        options: {
-                            name: '[name].[ext]',
-                            outputPath: '/assets/images/'
-                        }
+                use: [{
+                    loader: 'url-loader?limit=100000',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: '/assets/images/'
                     }
-                ]
+                }]
             },
 
             // {     test: /\.(png|jpg|gif)$/,     loader: 'url-loader?limit=100000',

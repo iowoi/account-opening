@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {Inputinput} from '../Common';
 import {getCookie} from '../../actions';
 import {connect} from 'react-redux';
-import autoBind from 'auto-bind';
+import autoBind from 'react-autobind';
 import $ from 'jquery';
 class Upload extends Component {
     constructor(props) {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {InputField, DateField,CreateRadios, SelectField, LocationOption, CreateOptions} from '../../Common';
 import Stepper from './common/Stepper';
-import autoBind from 'auto-bind';
+import autoBind from 'react-autobind';
 import FormHeader from './common/Header';
 import {Field, reduxForm, FieldArray} from 'redux-form';
 import $ from 'jquery';

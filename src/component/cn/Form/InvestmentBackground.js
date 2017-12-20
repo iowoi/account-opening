@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import autoBind from 'auto-bind';
+import autoBind from 'react-autobind';
 import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import FormHeader from './common/Header';
