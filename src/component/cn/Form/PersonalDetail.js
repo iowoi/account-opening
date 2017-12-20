@@ -73,13 +73,9 @@ function validate(values){
     }
 
     const SourceOfIncomeErrors = [];
+    
     if (!values.SourceOfIncome || !values.SourceOfIncome.length) {
         errors.SourceOfIncome =  '請至少填入一種收入来源' 
-    }else{
-        const SourceOfIncomeErrors = []
-        values.SourceOfIncome.forEach((SourceOfIncome, SourceOfIncomeIndex) => {
-          //  console.log("SourceOfIncome",SourceOfIncome,SourceOfIncomeIndex)
-        })
     }
     if (!values.Tax || !values.Tax.length) { 
         errors.Tax =  '請至少提供一種纳税人识别号码' 
@@ -120,7 +116,7 @@ class PersonalDetail extends Component {
         }
         if(target.name === 'DiffrentAddress'){
             target.value === 'Yes' 
-            ? this.setState({ show_anotherMailAdd: true})
+            ? this.setState({show_anotherMailAdd: true})
             : this.setState({show_anotherMailAdd: false})
         }
     }
@@ -138,12 +134,38 @@ class PersonalDetail extends Component {
         })
     }
     handleNextPage(values){
+        let validError = false;
         if(!values.SourceOfIncome) {
             alert(validate(values).SourceOfIncome)
+            $('html, body').animate({
+                scrollTop: $("#SourceOfIncome").offset().top-300
+            });
             return false;
+        }else if(values.SourceOfIncome){
+            values.SourceOfIncome && values.SourceOfIncome.map((data,index)=>{
+                const sId = data.SourceOfIncomeId 
+                if (!values.SourceOfIncome[index].SourceOfIncomePercent) {
+                    const $input = $(`input[name="SourceOfIncome[${index}].SourceOfIncomePercent"]`)[0]
+                    alert('请填写所勾选的收入来源所占百分比')
+                    $input.focus();
+                    validError = true;
+                    return false;
+                }else if (!values.SourceOfIncome[index].SourceOfIncomeDescription) {
+                    const $input = $(`input[name="SourceOfIncome[${index}].SourceOfIncomeDescription"]`)[0]
+                    alert('请填写所勾选的收入来源描述')
+                    $input.focus();
+                    validError = true;
+                    return false;
+                }
+            })
         }
+
         if(!values.Tax) {
             alert(validate(values).Tax)
+            return false;
+        }
+
+        if(validError){
             return false;
         }
         this.props.handleRenderPage(this.props.nextPage);
@@ -666,7 +688,7 @@ class EmploymentStatus extends Component {
                 <Field name="EmployerStreet2" component={InputField} label="Employer Street#2 公司地址#2"/>
                 
                 <hr/>
-                <label>Source Of Income 收入来源</label>
+                <label id="SourceOfIncome">Source Of Income 收入来源</label>
                 <SourceOfIncome source={source}/>
                 <hr/>
                 
@@ -700,6 +722,18 @@ class EmploymentStatus extends Component {
     }
 }
 class SourceOfIncome extends Component {
+    constructor(props) {
+        super(props);
+        autoBind(this);
+        this.state = {
+            error: false,
+            show_EmploymentStatus: true,
+            selfCertificationKey: 0,
+            show_anotherMailAdd: false,
+            ResidentialAddress:""
+        };
+    }
+   
     render (){
         const {source} = this.props
         const DataRow = [];
@@ -708,7 +742,7 @@ class SourceOfIncome extends Component {
             DataRow.push( 
                 <tr key={index}>
                     <td width="20"> 
-                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeId`} component="input" className="checkbox" type="checkbox"/> 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeId`} id={index} component="input" value={index+1} onClick={this.handleClick} className="checkbox" type="checkbox"/> 
                     </td> 
                     <td width="150"> 
                         {data.TitleCn}  {data.TitleEn}
@@ -723,8 +757,8 @@ class SourceOfIncome extends Component {
             )
         })
         
-        return(
-            <table width="100%">
+        return[
+            <table width="100%" key={1}>
                 <thead>
                     <tr>
                         <td> - </td>
@@ -736,8 +770,9 @@ class SourceOfIncome extends Component {
                 <tbody>
                    {DataRow}
                 </tbody>
-            </table>
-        )
+            </table>,
+            <div key={2} className="red d-none">请将勾选的项目填写完整</div>
+        ]
     }
 }
 
@@ -749,6 +784,7 @@ PersonalDetail = reduxForm({
     validate,
     onSubmitFail: function(form){
        // console.log("form",form)
+       if(form)
         $(`#${Object.keys(form)[0]}`).focus()
     }
     // , asyncValidate
