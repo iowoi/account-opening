@@ -25,11 +25,11 @@ class Upload extends Component {
             file3: "",
             file4: "",
             file5: "",
-            error_file1: null,
-            error_file2: null,
+            error_file1: '请下载W-8BEN表格填写后再上传',
+            error_file2: '请提供身份（姓名）和出生日期证明',
             error_file3: null,
-            error_file4: null,
-            error_file5: null,
+            error_file4: '请提供地址证明',
+            error_file5: '请提供银行账户证明',
             error_No: null,
             error_Email: null
         }
@@ -44,6 +44,9 @@ class Upload extends Component {
             [inputName]: value,
             ['error_' + inputName]: null
         });
+        if (inputName==='Email' && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(target.value)) {
+            this.setState({error_Email:'Invalid email address'})
+        }
 
         if (inputName === 'DataInfo_ProofOfIdentity_ProofTypesId') {
             if (value == "2") {
@@ -74,14 +77,16 @@ class Upload extends Component {
                     ['error_' + Inputs[i].name]: "required"
                 })
                 Inputs[i].focus();
+                return;
             }
         }
         // file valid
         for (let i = 1; i <= 5; i++) {
             if (i != 3 && !this.state["file" + i]) {
-                this.setState({
-                    ['error_file' + i]: "required"
-                })
+                alert(this.state['error_file' + i])
+                $('html, body').animate({
+                    scrollTop: $("#DocumentUpload_"+i).offset().top
+                });
                 return;
             }
         }
@@ -195,14 +200,6 @@ class Upload extends Component {
                                         <input type="file" name="file1" hidden onChange={this.handleUploadFile}/>
                                     </label>
                                     <small className="ml-3 mt-1">{file1}</small>
-                                    {error_file1
-                                        ? <div
-                                                className="error-text"
-                                                style={{
-                                                position: "relative",
-                                                bottom: "-5px"
-                                            }}>required</div>
-                                        : null}
                                 </div>
                             </div>
                             <HiddenFields Email={Email} No={No} DocumentTypesId="1" ProofTypesId=""/>
@@ -279,14 +276,7 @@ class Upload extends Component {
                                         Email={Email}
                                         No={No}
                                         DocumentTypesId="2"
-                                        ProofTypesId={this.state.ProofOfIdentity}/> {error_file2
-                                        ? <div
-                                                className="error-text"
-                                                style={{
-                                                position: "relative",
-                                                bottom: "-5px"
-                                            }}>required</div>
-                                        : null}
+                                        ProofTypesId={this.state.ProofOfIdentity}/> 
                                 </form>
                             </div>
 
@@ -323,14 +313,7 @@ class Upload extends Component {
                                             Email={Email}
                                             No={No}
                                             DocumentTypesId="3"
-                                            ProofTypesId={this.state.ProofOfIdentity}/> {error_file3
-                                            ? <div
-                                                    className="error-text"
-                                                    style={{
-                                                    position: "relative",
-                                                    bottom: "-5px"
-                                                }}>required</div>
-                                            : null}
+                                            ProofTypesId={this.state.ProofOfIdentity}/> 
                                     </form>
                                 : null
 }
@@ -401,14 +384,7 @@ class Upload extends Component {
                                     Email={Email}
                                     No={No}
                                     DocumentTypesId="4"
-                                    ProofTypesId={this.state.ProofOfAddress}/> {error_file4
-                                    ? <div
-                                            className="error-text"
-                                            style={{
-                                            position: "relative",
-                                            bottom: "-5px"
-                                        }}>required</div>
-                                    : null}
+                                    ProofTypesId={this.state.ProofOfAddress}/> 
 
                             </form>
                             <form
@@ -450,14 +426,7 @@ class Upload extends Component {
                                     No={No}
                                     DocumentTypesId="5"
                                     ProofTypesId={this.state.ProofOfBankAccount}/> 
-                                {error_file5
-                                    ? <div
-                                            className="error-text"
-                                            style={{
-                                            position: "relative",
-                                            bottom: "-5px"
-                                        }}>required</div>
-                                    : null}
+                               
                             </form>
                         </div>
                     </div>
