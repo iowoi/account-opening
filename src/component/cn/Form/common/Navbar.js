@@ -53,7 +53,7 @@ class Navbar extends Component {
                         if(currentPage && currentPage
                             .indexOf(nabs.pathName) > -1){
                                 return (
-                                    <div key={index}>
+                                    <div key={index} style={{position:"relative",top: "2px"}}>
                                         {nabs.en} {nabs.cn}
                                         <span>Step {index+1} of 5</span>
                                     </div>

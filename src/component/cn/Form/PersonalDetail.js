@@ -54,7 +54,7 @@ function validate(values){
     ]
     requiredFields.map((field,index)=>{
         if (!values[field]) {
-            errors[field] = 'Required'
+            errors[field] = 'Required 必填栏位'
         } 
         // if (values[field] && /[^%&',;=?$x22]+/.test(values[field])){
         //     console.log( /[^%&',;=?$x22]+/.test(values[field]))
@@ -69,16 +69,16 @@ function validate(values){
         }
     }
     if (values.Email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
-        errors.Email = 'Invalid email address'
+        errors.Email = 'Invalid email address 邮箱格式错误'
     }
 
     const SourceOfIncomeErrors = [];
     
     if (!values.SourceOfIncome || !values.SourceOfIncome.length) {
-        errors.SourceOfIncome =  '請至少填入一種收入来源' 
+        errors.SourceOfIncome =  '请至少填入一种收入来源' 
     }
     if (!values.Tax || !values.Tax.length) { 
-        errors.Tax =  '請至少提供一種纳税人识别号码' 
+        errors.Tax =  '请至少提供一种纳税人识别号码' 
     } 
    
     return errors
@@ -758,13 +758,13 @@ class SourceOfIncome extends Component {
         })
         
         return[
-            <table width="100%" key={1}>
+            <table width="100%" key={1} className="SourceOfIncome-table">
                 <thead>
                     <tr>
-                        <td> - </td>
-                        <td>Source of Income</td>
-                        <td>Percent of <br/>annual income</td>
-                        <td>Description</td>
+                        <th> - </th>
+                        <th>Source of Income</th>
+                        <th>Percent of <br/>annual income</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>

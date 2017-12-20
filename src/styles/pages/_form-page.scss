@@ -93,6 +93,31 @@
         margin: px-to-rem(20) -3rem -1.7rem;
         padding: 1px 3rem px-to-rem(15);
     }
+    .SourceOfIncome-table {
+        tr {
+            td {
+                input {
+                    margin-top: 0;
+                }
+                padding: 5px 0;
+                &:nth-child(4){
+                    input {
+                        width: 100%;
+                        margin-top: 0;
+                    }
+                }
+            }
+            
+        }
+    }
+    input[type="radio"],
+    input[type="checkbox"] {
+      margin-top: 0px;
+      min-height: 15px;
+      min-width: 15px;
+      width: 15px;
+      
+    }
 }
 
 @include --below-small {
@@ -136,8 +161,66 @@
         }
     }
 }
-
+@include --below-xs-mobile {
+    .form-page{
+        padding-top: 150px;
+        .SourceOfIncome-table {
+            tr {
+                th{
+                    display: inline-block;
+                    &:nth-child(1) {
+                        width: 10%;
+                    } 
+                    &:nth-child(2),&:nth-child(3){
+                        width: 45%;
+                    } 
+                    &:nth-child(4){
+                        display: none;
+                    }                    
+                }
+                td {
+                    display: inline-block;
+                    input {
+                        margin-top: 0;
+                    }
+                    padding: 5px 0;
+                    &:nth-child(1) {
+                        width: 10%;
+                    } 
+                    &:nth-child(2),&:nth-child(3){
+                        width: 45%;
+                    } 
+                    &:nth-child(4){
+                        display: block;
+                        width: 100%;
+                        position: relative;
+                        &::before{
+                            content: "Description";
+                            position: absolute;
+                            padding: 0 6px;
+                            line-height: 34px;
+                            font-size: 10px;
+                            color: #444;
+                            top: 6px;
+                            border-radius: 5px 0 0 5px;
+                            background: #cccccc;
+                        }
+                        input {
+                            width: 95%;
+                            margin-top: 0;
+                            padding-left:80px;
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
+}
+    
 .normal-height {
+    
     padding: 4rem 3rem 4rem;
     &:first-of-type {
         padding-top: 25rem;

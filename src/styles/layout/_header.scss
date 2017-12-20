@@ -74,9 +74,15 @@ header {
 }
 
 @include --below-xs-mobile {
-    .app-header {
-        .logo {
-            margin-top: 0px;
+    header {
+        .app-header {
+            padding: 1.3rem 1rem 1.3rem;
+            .logo {
+                margin-top: 0px;
+            }
+            .title {
+                display: none;
+            }
         }
     }
 }

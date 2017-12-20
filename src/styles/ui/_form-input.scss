@@ -18,6 +18,12 @@ input{
     -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
+
+// Position radios and checkboxes better
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0;
+}
 .radio-field, .col-inputs {
     font-size: 16px;
     font-weight: 500;
