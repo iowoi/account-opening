@@ -13,7 +13,11 @@ class inputField extends Component {
             disabled,
             customInputCss,
             customCss,
-            defaultValue
+            defaultValue,
+            type,
+            min,
+            max,
+            dataId
         } = this.props
         return ( <div
                 style={customCss}
@@ -36,7 +40,11 @@ class inputField extends Component {
                     className="form-control"
                     id={input.name}
                     {...input}
+                    type={type}
+                    min={min}
+                    max={max}
                     disabled={disabled}
+                    data-id={dataId}
                     value={disabled
                     ? ""
                     : defaultValue

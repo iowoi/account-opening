@@ -48,8 +48,7 @@ class AccountInformation extends Component {
                             <hr/>
                         </div>
                         <div id="2" className="steps">
-                            <h3>Account type 帐户类别
-                            </h3>
+                            <h3>Account type 帐户类别</h3>
                             <div className="form-group">
                                 <label>Account type 帐户类别 *</label>
                                 {source && CreateRadios(source.AccountType, 'AccountTypeId')}

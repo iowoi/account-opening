@@ -76,7 +76,7 @@ class FormIndex extends Component {
         super(props);
         this.state = {
             page: 'personal-detail'
-            //page: 'security-question'
+            //page: 'investment-background'
         }
         autoBind(this);
     }
@@ -86,7 +86,6 @@ class FormIndex extends Component {
     handleRenderPage(page) {
         this.setState({page: page})
         window.scrollTo(0,0)
-
     }
 
     render() {

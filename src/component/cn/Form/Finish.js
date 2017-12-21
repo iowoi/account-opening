@@ -37,7 +37,7 @@ class Finish extends Component {
                         PO Box 105438, Auckland City <br/>
                         Auckland <br/>
                         New Zealand</p>
-                    <p className="mt-5">2. 当您的账户开立后，您将通过电子邮件接收到ForexStar的账户及登录信息。
+                    <p className="mt-5">2. 当您的账户开立后，您将通过电子邮件接收到TradingStar的账户及登录信息。
 之后，您就可以存入资金并开始交易。
                         </p>
                 </div>

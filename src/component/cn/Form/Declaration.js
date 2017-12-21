@@ -5,15 +5,27 @@ import {Link} from 'react-router-dom';
 import {InputField} from '../../Common';
 import autoBind from 'react-autobind';
 import {connect} from 'react-redux';
-import {sendForm,setCookie,cookieDate} from '../../../actions';
+import {sendForm, setCookie, cookieDate} from '../../../actions';
+import $ from 'jquery';
 const validate = values => {
-    const errors = {}
-    requiredFields.forEach(field => {
+    const noError = true;
+    const requiredFields = ["AgreeAccuracyAndNotification", "AgreeKVBTermsConditions", "AgreeRisks", "AgreePrivacy", "AgreeOther"]
+    for(let i = 0; i < requiredFields.length; i++){
+        const field = requiredFields[i];
+        const $input = $(`input[name="${field}"]`)
+        
         if (!values[field]) {
-            errors[field] = 'Required'
+            $('html, body').animate({
+                scrollTop: $($input[0])
+                    .parents('.steps')
+                    .offset()
+                    .top - $('header').height()
+            });
+            $input.parent().addClass('error-check');
+            return false;
         }
-    })
-    return errors
+    }
+    return noError;
 }
 
 class Declaration extends Component {
@@ -22,7 +34,14 @@ class Declaration extends Component {
         autoBind(this);
 
     }
-
+    handleChange(e) {
+        const target = e.target;
+        const field = target.name;
+        const $input = $(`input[name="${field}"]`)
+        if( target.checked) {
+            $input.parent().removeClass('error-check');
+        }
+    }
     handlePrevPage(e) {
         e.preventDefault();
         this.props.handleRenderPage(this.props.prevPage);
@@ -30,15 +49,17 @@ class Declaration extends Component {
     handleNextPage(e) {
         e.preventDefault();
         //setCookie('No','S100078',cookieDate)
-        this.props.sendForm(this.props.dataForm);
-        this.props.handleRenderPage(this.props.nextPage);
+        if(validate(this.props.dataForm.PersonalDetail.values)){
+            this.props.sendForm(this.props.dataForm);
+            this.props.handleRenderPage(this.props.nextPage);
+        }
     }
-   
+
     render() {
         const {className} = this.props
         return (
             <div className={className}>
-                <div className="form-page col-md-10 col-center">
+                <div className="form-page col-md-10 col-center declaration">
                     <form onSubmit={this.handleSubmit}>
                         <div id="step1" className="steps">
                             <h3>Accuracy and Notification 信息准确性及通知</h3>
@@ -47,13 +68,13 @@ class Declaration extends Component {
                                 immediately.<br/>
                                 本人确认所有提供的信息为真实准确。如该等资料有任何变更，本人将及时通知KVB昆仑国际。
                             </small>
-                            <div className="text-center">
+                            <div className="text-center form-check-inline">
                                 <Field
-                                    type="radio"
+                                    type="checkbox"
                                     name="AgreeAccuracyAndNotification"
                                     component="input"
-                                    value="1"
-                                    onChange={this.handleChange}/>
+
+                                    onClick={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -82,13 +103,13 @@ class Declaration extends Component {
                                 <br/>
                                 我了解，本申请须遵守KVB开户准则，KVB保留以任何理由拒绝任何申请的权利。
                             </small>
-                            <div className="text-center">
+                            <div className="text-center form-check-inline">
                                 <Field
-                                    type="radio"
+                                    type="checkbox"
                                     name="AgreeKVBTermsConditions"
                                     component="input"
-                                    value="1"
-                                    onChange={this.handleChange}/>
+
+                                    onClick={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -121,13 +142,13 @@ class Declaration extends Component {
                                 <br/>
                                 我理解并同意所有信息，价格和意见如有更改，恕不另行通知。 产品信息可能不适用于所有KVB昆仑公司，如果有任何疑问，我将联系我所在国家或地区的KVB代表。
                             </small>
-                            <div className="text-center">
+                            <div className="text-center form-check-inline">
                                 <Field
-                                    type="radio"
+                                    type="checkbox"
                                     name="AgreeRisks"
                                     component="input"
-                                    value="1"
-                                    onChange={this.handleChange}/>
+
+                                    onClick={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -141,13 +162,13 @@ class Declaration extends Component {
                                 <br/>
                                 我已阅读，明白和同意包含在客户服务协议中隐私法例1993的条款。
                             </small>
-                            <div className="text-center">
+                            <div className="text-center form-check-inline">
                                 <Field
-                                    type="radio"
+                                    type="checkbox"
                                     name="AgreePrivacy"
                                     component="input"
-                                    value="1"
-                                    onChange={this.handleChange}/>
+
+                                    onClick={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -171,13 +192,13 @@ class Declaration extends Component {
                                 <br/>本人并非美国公民，包括从税务角度而言的居美外籍人士及／或美国居民。
                             </small>
 
-                            <div className="text-center">
+                            <div className="text-center form-check-inline">
                                 <Field
-                                    type="radio"
+                                    type="checkbox"
                                     name="AgreeOther"
                                     component="input"
-                                    value="1"
-                                    onChange={this.handleChange}/>
+
+                                    onClick={this.handleChange}/>
                                 I agree 我同意
                             </div>
                         </div>
@@ -207,15 +228,11 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    sendForm:(data) => {
+    sendForm: (data) => {
         dispatch(sendForm(data))
     }
 })
 
-
-const CnDeclaration = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Declaration)
+const CnDeclaration = connect(mapStateToProps, mapDispatchToProps)(Declaration)
 
 export default CnDeclaration;

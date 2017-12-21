@@ -35,12 +35,12 @@ const CnPersonalDetail = connect(
             FundSourceTypesId: "1",
             ClearUnderstandingId: '1',
             //Declaration
-            AgreeAccuracyAndNotification: "1",
-            AgreeDisclosureInfoToServiceProviderId: "1",
-            AgreeKVBTermsConditions: "1",
-            AgreeOther: "1",
-            AgreePrivacy: "1",
-            AgreeRisks: "1",
+            // AgreeAccuracyAndNotification: "1",
+            // AgreeDisclosureInfoToServiceProviderId: "1",
+            // AgreeKVBTermsConditions: "1",
+            // AgreeOther: "1",
+            // AgreePrivacy: "1",
+            // AgreeRisks: "1",
 
             // request 
             FirstName: 'Martina',

@@ -3,7 +3,7 @@ import {TextField} from 'material-ui';
 
 class SelectField extends Component {
     render() {
-        const {label, labelInfo, meta, placeholder, input, disabled, children} = this.props
+        const {label, labelInfo, meta, placeholder, input, disabled, children,id, dataId} = this.props
         return (
             <div
                 className={meta.touched && meta.error
@@ -21,7 +21,9 @@ class SelectField extends Component {
                         }}></small>
                     : null}
 
-                <select className="custom-select" 
+                <select className="custom-select"
+                    id={id} 
+                    data-id={dataId}
                     {...input}  >
                     {children}
                 </select> 

@@ -6,60 +6,72 @@ import FormHeader from './common/Header';
 import {Field, reduxForm, FieldArray} from 'redux-form';
 import $ from 'jquery';
 import moment from 'moment';
+
+let requiredFields = [
+    'GendersId',
+    'TitleTypesId',
+    'FirstName',
+    'Surname',
+    'Email',
+    'Birthday',
+    'BirthCountryId',
+    'NationalityId',
+    'ResidentialAddress',
+    'City',
+    'CountryId',
+    'MailingAddress',
+    'ContactTypesId',
+    'contactCountryCode',
+    'ContactNumber',
+    //'TelephonePassword',
+    'MaritalStatusId',
+    'NumberOfDependents',
+    'TypeOfIdentificationId',
+    'IdentificationNumber',
+
+    'NameOfBank',
+    'BankAddress',
+    //'BSB',
+    'BankAccountNumber',
+    'BankCurrencyId',
+    'BankAccountHolderName',
+    //'SwiftCode',
+
+    'EmploymentStatusesId',
+    'CompanyName',
+    'Occupation',
+    'BusinessTypesId',
+    'EmployerCountry',
+    'EmployerCity',
+    'EmployerProvince',
+    'EmployerPostalCode',
+    'EmployerStreet1',
+    //'EmployerStreet2',
+    'CitizenOrTaxResidentOfUSAId',
+    'BornInUSAAndSurrenderedCitizenshipId',
+]
+const EmployRequiredFields = [
+    'CompanyName',
+    'Occupation',
+    'BusinessTypesId',
+    'EmployerCountry',
+    'EmployerCity',
+    'EmployerProvince',
+    'EmployerPostalCode',
+    'EmployerStreet1'
+]
+const PrescribedRequiredFields = [
+    'NameOfEntity',
+    'NameOfDirector'
+]
 function validate(values){
     const errors = {}
-    const requiredFields = [
-        'GendersId',
-        'TitleTypesId',
-        'FirstName',
-        'Surname',
-        'Email',
-        'Birthday',
-        'BirthCountryId',
-        'NationalityId',
-        'ResidentialAddress',
-        'City',
-        'CountryId',
-        'MailingAddress',
-        'ContactTypesId',
-        'contactCountryCode',
-        'ContactNumber',
-        'TelephonePassword',
-        'MaritalStatusId',
-        'NumberOfDependents',
-        'TypeOfIdentificationId',
-        'IdentificationNumber',
-
-        'NameOfBank',
-        'BankAddress',
-        'BSB',
-        'BankAccountNumber',
-        'BankCurrencyId',
-        'BankAccountHolderName',
-        'SwiftCode',
-
-        'EmploymentStatusesId',
-        'CompanyName',
-        'Occupation',
-        'BusinessTypesId',
-        'EmployerCountry',
-        'EmployerCity',
-        'EmployerProvince',
-        'EmployerPostalCode',
-        'EmployerStreet1',
-        'EmployerStreet2',
-        'CitizenOrTaxResidentOfUSAId',
-        'BornInUSAAndSurrenderedCitizenshipId',
-        'SourceOfIncome'
-    ]
+    const regcn = new RegExp("[\u4E00-\u9FA5]|[\uFE30-\uFFA0]|[!$%^&*()@#！@#￥……&*（）——|{}【】‘；：”“'。，、？《》 _+|~=`{}\\[\\]:\";'<>?,.\\/]");
+    
     requiredFields.map((field,index)=>{
         if (!values[field]) {
             errors[field] = 'Required 必填栏位'
         } 
-        // if (values[field] && /[^%&',;=?$x22]+/.test(values[field])){
-        //     console.log( /[^%&',;=?$x22]+/.test(values[field]))
-        //     errors[field] = 'has not allowed symbol like "<>()"'
-        // }
     })
 
     if (values.Birthday) {
@@ -71,16 +83,15 @@ function validate(values){
     if (values.Email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
         errors.Email = 'Invalid email address 邮箱格式错误'
     }
-
-    const SourceOfIncomeErrors = [];
-    
-    if (!values.SourceOfIncome || !values.SourceOfIncome.length) {
-        errors.SourceOfIncome =  '请至少填入一种收入来源' 
+    if (values.IdentificationNumber && regcn.test(values.IdentificationNumber)) {
+        errors.IdentificationNumber = '只能输入英文或数字'
+    }
+    if (values.BankAccountNumber && regcn.test(values.BankAccountNumber)){
+        errors.BankAccountNumber = '只能输入英文或数字'
     }
     if (!values.Tax || !values.Tax.length) { 
         errors.Tax =  '请至少提供一种纳税人识别号码' 
     } 
-   
     return errors
 }
 
@@ -103,10 +114,22 @@ class PersonalDetail extends Component {
             ? this.setState({show_ShareTransWithAgent: true})
             : this.setState({show_ShareTransWithAgent: false})
        
-        if (target.name === 'EmploymentStatuses' ){
-            target.value !== '4' // Unemployed 无业
-            ? this.setState({show_EmploymentStatus: true})
-            : this.setState({show_EmploymentStatus: false})
+        if (target.name === 'EmploymentStatusesId' ){
+            if(target.value == '1' || target.value == '2'){
+                this.setState({show_EmploymentStatus: true})
+                EmployRequiredFields.map((data)=>{
+                    if (requiredFields.indexOf(data) < 0) requiredFields.push(data);
+                })
+            }else {
+                EmployRequiredFields.map((data)=>{
+                    requiredFields = requiredFields.filter(function(el) {
+                        return el !== data;
+                    });
+                })
+                this.setState({show_EmploymentStatus: false})
+            }
+            console.log("requiredFields",requiredFields)
+            
         }
         if(target.name === 'ResidentialAddress') {
             const DiffrentAddress = $('input[name="DiffrentAddress"]:checked').val()
@@ -135,36 +158,10 @@ class PersonalDetail extends Component {
     }
     handleNextPage(values){
         let validError = false;
-        if(!values.SourceOfIncome) {
-            alert(validate(values).SourceOfIncome)
-            $('html, body').animate({
-                scrollTop: $("#SourceOfIncome").offset().top-300
-            });
-            return false;
-        }else if(values.SourceOfIncome){
-            values.SourceOfIncome && values.SourceOfIncome.map((data,index)=>{
-                const sId = data.SourceOfIncomeId 
-                if (!values.SourceOfIncome[index].SourceOfIncomePercent) {
-                    const $input = $(`input[name="SourceOfIncome[${index}].SourceOfIncomePercent"]`)[0]
-                    alert('请填写所勾选的收入来源所占百分比')
-                    $input.focus();
-                    validError = true;
-                    return false;
-                }else if (!values.SourceOfIncome[index].SourceOfIncomeDescription) {
-                    const $input = $(`input[name="SourceOfIncome[${index}].SourceOfIncomeDescription"]`)[0]
-                    alert('请填写所勾选的收入来源描述')
-                    $input.focus();
-                    validError = true;
-                    return false;
-                }
-            })
-        }
-
         if(!values.Tax) {
             alert(validate(values).Tax)
             return false;
         }
-
         if(validError){
             return false;
         }
@@ -295,37 +292,40 @@ class PersonalDetail extends Component {
                                     <Field
                                         name="contactCountryCode"
                                         placeholder="Country Code 国家码"
+                                        type="number"
                                         component={InputField}/>
                                     <Field
                                         name="contactAreaCode"
                                         placeholder="Area Code 区码"
+                                        type="number"
                                         component={InputField}/>
                                     <Field
                                         onChange={this.handleChange}
                                         name="ContactNumber"
+                                        type="number"
                                         placeholder="Number 电话号码"
                                         component={InputField}/>
                                 </div>
                             </div>
 
-                            <Field
+                            {/* <Field
                                 name="TelephonePassword"
                                 component={InputField}
                                 label="Telephone Password 电话密码 *"
-                                labelInfo="It is important that you remember your telephone password for future identification when contacting KVB. <br/> 请确保记住您的电话密码以方便之后与我们联络时的身份识别"/>
+                                labelInfo="It is important that you remember your telephone password for future identification when contacting KVB. <br/> 请确保记住您的电话密码以方便之后与我们联络时的身份识别"/> */}
 
                             <Field
                                 name="MaritalStatusId"
                                 component={SelectField}
                                 onChange={this.handleChange}
                                 label="Marital Status 婚姻状况 *">
-                                {source && CreateOptions(source.MaritalStatus)
-                                }
+                                {source && CreateOptions(source.MaritalStatus)}
                             </Field>
 
                             <Field
                                 name="NumberOfDependents"
                                 className="form-control"
+                                type="number"
                                 label="Number of dependents 家属人数 *"
                                 component={InputField}/>
 
@@ -361,18 +361,20 @@ class PersonalDetail extends Component {
                 
                             <Field name="BankAddress" component={InputField} label="Bank address 银行地址 *"/>
 
-                            <Field name="BSB" component={InputField} label="BSB 区域代码 *"/>
+                            <Field name="BSB" component={InputField} label="BSB 区域代码"/>
 
                             <Field name="BankAccountNumber" component={InputField} label="Account number 银行帐号 *"/>
-                          
-                            <div className="form-group">
-                                <label>Currency 货币 *</label>
-                                {source && CreateRadios(source.CurrencyTypes, 'BankCurrencyId')}
-                            </div>
+                        
+                            <Field
+                                name="BankCurrencyId"
+                                component={SelectField}
+                                label="Currency 货币 *">
+                                {source && CreateOptions(source.CurrencyTypes)}
+                            </Field>
                             
-                            <Field name="BankAccountHolderName" component={InputField} label="Account holder’s name 银行帐户名 *"/>
+                            <Field name="BankAccountHolderName" component={InputField} label="Account holder's name 银行帐户名 *"/>
 
-                            <Field name="SwiftCode" component={InputField} label="SWIFT code国际汇款代码 *"/>
+                            <Field name="SwiftCode" component={InputField} label="SWIFT code国际汇款代码"/>
                 
                         </div>
                         <hr/> {/* ======================= Section Five ======================= */}
@@ -384,8 +386,7 @@ class PersonalDetail extends Component {
                                 component={SelectField}
                                 onChange={this.handleChange}
                                 label="Employment Status 就业情况 *">
-                                {source && CreateOptions(source.EmploymentStatuses)
-                                }
+                                {source && CreateOptions(source.EmploymentStatuses)}
                             </Field>
                            
                             {this.state.show_EmploymentStatus
@@ -506,9 +507,9 @@ class ShareTransWithAgent extends Component {
                         No, I don't agree 不，我不同意
                     </div>
                 </div>
-                <hr/>
+                {/*<hr/>
 
-                <h3>Charges Schedule 费用表</h3>
+                 <h3>Charges Schedule 费用表</h3>
 
                 <p>KVB Kunlun New Zealand Limited fees and charges as agreed and acknowledged by
                     the client are as follows: 客户同意并确认KVB昆仑新西兰有限公司的费用如下：</p>
@@ -544,7 +545,7 @@ class ShareTransWithAgent extends Component {
                         ? true
                         : false}/>
                     %
-                </div>
+                </div> */}
             </div>
         );
     }
@@ -651,9 +652,21 @@ class EmploymentStatus extends Component {
 
     handleChange(e) {
         const target = e.target
-        target.name === 'PrescribedPersonId' && target.value === '1'
-            ? this.setState({show_SeniorInfo: true})
-            : this.setState({show_SeniorInfo: false})
+        if(target.name === 'PrescribedPersonId' && target.value === '1'){
+            this.setState({show_SeniorInfo: true})
+            PrescribedRequiredFields.map((data)=>{
+                if (requiredFields.indexOf(data) < 0) requiredFields.push(data);
+            })
+        }else{
+            this.setState({show_SeniorInfo: false})
+            PrescribedRequiredFields.map((data)=>{
+                requiredFields = requiredFields.filter(function(el) {
+                    return el !== data;
+                });
+            })
+        }
+        console.log("requiredFields",requiredFields)
+        
     }
 
     render() {
@@ -673,6 +686,10 @@ class EmploymentStatus extends Component {
                     {source && CreateOptions(source.BusinessTypes)}
                 </Field>
 
+                <Field name="EmployerStreet1" component={InputField} label="Employer Street#1 公司地址#1 *"/>
+
+                <Field name="EmployerStreet2" component={InputField} label="Employer Street#2 公司地址#2"/>
+
                 <LocationOption component={SelectField} label="Employer Country or Region 就业国家或地区 *" name="EmployerCountry">
                     <option value="">-- Country --</option>
                 </LocationOption>
@@ -682,16 +699,9 @@ class EmploymentStatus extends Component {
                 <Field name="EmployerProvince" component={InputField} label="Employer Province 就业省份 *"/>
 
                 <Field name="EmployerPostalCode" component={InputField} label="Employer Postcode 就业地区邮政编号 *"/>
-
-                <Field name="EmployerStreet1" component={InputField} label="Employer Street#1 公司地址#1"/>
-
-                <Field name="EmployerStreet2" component={InputField} label="Employer Street#2 公司地址#2"/>
                 
                 <hr/>
-                <label id="SourceOfIncome">Source Of Income 收入来源</label>
-                <SourceOfIncome source={source}/>
-                <hr/>
-                
+            
                 <label>Are you a Director/Senior Management of a public listed company in any
                     recognised security exchange, a Prescribed Person, or a Politically Exposed
                     Person (PEP)
@@ -748,7 +758,7 @@ class SourceOfIncome extends Component {
                         {data.TitleCn}  {data.TitleEn}
                     </td>
                     <td width="50"> 
-                        <Field name={`SourceOfIncome[${index}].SourceOfIncomePercent`} component="input"/> % 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomePercent`} type="number" min="1" max="100" component="input"/> % 
                     </td> 
                     <td width="59%"> 
                         <Field name={`SourceOfIncome[${index}].SourceOfIncomeDescription`} component="input"/> 
@@ -785,7 +795,11 @@ PersonalDetail = reduxForm({
     onSubmitFail: function(form){
        // console.log("form",form)
        if(form)
+        $('html, body').animate({
+            scrollTop: $(`#${Object.keys(form)[0]}`).offset().top-$('header').height()-50
+        });
         $(`#${Object.keys(form)[0]}`).focus()
+        
     }
     // , asyncValidate
 })(PersonalDetail)

@@ -61,19 +61,18 @@ export function sendForm(dataForm) {
     const PersonalDetail = dataForm.PersonalDetail.values
     const SecurityQuestions = dataForm.SecurityQuestions.values.SecurityQuestions
     const newSourceOfIncome = [];
-
+    const Declarations = ["AgreeAccuracyAndNotification", "AgreeKVBTermsConditions", "AgreeRisks", "AgreePrivacy", "AgreeOther"];
+    for(let i = 0; i <Declarations.length; i++){
+        if(PersonalDetail[Declarations[i]]){
+            PersonalDetail[Declarations[i]] = '1'
+        }
+    }
+    
     if(PersonalDetail.SourceOfIncome){
         PersonalDetail.SourceOfIncome.map((incomeData,index)=>{
             incomeData.SourceOfIncomeId = index
             newSourceOfIncome.push(incomeData)
         })
-    }else{
-        alert('至少选择一种以上的 Source Of Income 收入来源')
-        return;
-    }
-    if(!PersonalDetail.Tax){
-        alert('至少填写一种 Individual Self-Certification 个人认证')
-        return;
     }
     PersonalDetail.Birthday = moment(PersonalDetail.Birthday,'dd/mm/YYYY')
     PersonalDetail.ContactNumber = PersonalDetail.contactCountryCode + PersonalDetail.contactAreaCode + PersonalDetail.ContactNumber
