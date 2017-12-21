@@ -117,16 +117,13 @@ class PersonalDetail extends Component {
         if (target.name === 'EmploymentStatusesId' ){
             if(target.value == '1' || target.value == '2'){
                 this.setState({show_EmploymentStatus: true})
-                EmployRequiredFields.map((data)=>{
-                    if (requiredFields.indexOf(data) < 0) requiredFields.push(data);
-                })
+                PushArrayToArray(EmployRequiredFields);                
             }else {
-                EmployRequiredFields.map((data)=>{
-                    requiredFields = requiredFields.filter(function(el) {
-                        return el !== data;
-                    });
-                })
                 this.setState({show_EmploymentStatus: false})
+                FilterArrayByArray(EmployRequiredFields);
+                this.props.change('BusinessTypesId', 1);
+                FilterArray("OtherBusinessTypes");
+                
             }
             console.log("requiredFields",requiredFields)
             
@@ -646,7 +643,8 @@ class EmploymentStatus extends Component {
         super(props);
         autoBind(this);
         this.state = {
-            show_SeniorInfo: false
+            show_SeniorInfo: false,
+            show_otherField: false
         };
     }
 
@@ -654,23 +652,31 @@ class EmploymentStatus extends Component {
         const target = e.target
         if(target.name === 'PrescribedPersonId' && target.value === '1'){
             this.setState({show_SeniorInfo: true})
-            PrescribedRequiredFields.map((data)=>{
-                if (requiredFields.indexOf(data) < 0) requiredFields.push(data);
-            })
+            PushArrayToArray(PrescribedRequiredFields)
         }else{
             this.setState({show_SeniorInfo: false})
-            PrescribedRequiredFields.map((data)=>{
-                requiredFields = requiredFields.filter(function(el) {
-                    return el !== data;
-                });
-            })
+            FilterArrayByArray(PrescribedRequiredFields)
         }
-        console.log("requiredFields",requiredFields)
-        
+
+        if(target.name === 'BusinessTypesId'){
+            if(target.value == '27' || target.value == '14'){
+                this.setState({
+                    show_otherField:true
+                })
+                PushToArray("OtherBusinessTypes");
+            }else {
+                this.setState({
+                    show_otherField:false
+                })
+                FilterArray("OtherBusinessTypes");
+            }
+        }      
+        console.log(requiredFields)  
     }
 
     render() {
         const {source,PersonalDetail} = this.props
+        const {show_otherField} = this.state
         return (
             <div>
                 <Field name="CompanyName" component={InputField} label="Company Name 公司名称 *"/>
@@ -682,10 +688,13 @@ class EmploymentStatus extends Component {
                     component={SelectField}
                     onChange={this.handleChange}
                     label="Nature of Business 业务性质 *">
-                    <option value="">-- Nature of Business --</option>
                     {source && CreateOptions(source.BusinessTypes)}
                 </Field>
-
+                {/** todo */}
+                {show_otherField ?   
+                     <Field name="OtherBusinessTypes" component={InputField} customCss={{paddingTop:"0"}}/>
+                     :null}
+                
                 <Field name="EmployerStreet1" component={InputField} label="Employer Street#1 公司地址#1 *"/>
 
                 <Field name="EmployerStreet2" component={InputField} label="Employer Street#2 公司地址#2"/>
@@ -787,6 +796,27 @@ class SourceOfIncome extends Component {
 }
 
 
+const PushToArray = (obj) => {
+    if (requiredFields.indexOf(obj) < 0) requiredFields.push(obj);
+}
+
+const PushArrayToArray = (arr) => {
+    arr.map((data)=>{
+        PushToArray(data)
+    })
+}
+
+const FilterArray = (obj) => {
+    requiredFields = requiredFields.filter(function(el) {
+        return el !== obj;
+    });
+}
+
+const FilterArrayByArray = (arr) => {
+    arr.map((data)=>{
+        FilterArray(data)
+    })
+}
 
 
 PersonalDetail = reduxForm({
