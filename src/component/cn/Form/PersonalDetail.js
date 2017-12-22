@@ -6,7 +6,7 @@ import FormHeader from './common/Header';
 import {Field, reduxForm, FieldArray} from 'redux-form';
 import $ from 'jquery';
 import moment from 'moment';
-
+import DialogBox from '../../Common/Dialog';
 let requiredFields = [
     'GendersId',
     'TitleTypesId',
@@ -404,6 +404,7 @@ class PersonalDetail extends Component {
                                     name="CitizenOrTaxResidentOfUSAId"
                                     value="1"/>
                                 Yes 是
+                                <DialogBox/>
                                 <Field
                                     type="radio"
                                     component="input"

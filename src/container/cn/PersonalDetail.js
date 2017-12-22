@@ -78,8 +78,8 @@ const CnPersonalDetail = connect(
             EmployerPostalCode: '1',
             EmployerStreet1: '1',
             EmployerStreet2: '2',
-            CitizenOrTaxResidentOfUSAId: '1',
-            BornInUSAAndSurrenderedCitizenshipId:'1'
+            CitizenOrTaxResidentOfUSAId: '2',
+            BornInUSAAndSurrenderedCitizenshipId:'2'
             
         }
         const source =  state.info.source
