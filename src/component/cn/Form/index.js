@@ -75,7 +75,7 @@ class FormIndex extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 'personal-detail'
+            page: 'account-information'
             //page: 'investment-background'
         }
         autoBind(this);

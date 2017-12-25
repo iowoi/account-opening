@@ -67,6 +67,9 @@ class InvestmentBackground extends Component {
     constructor(props) {
         super(props);
         autoBind(this);
+        this.state = {
+            SOI: null
+        }
     }
 
     handleChange(e) {
@@ -82,10 +85,52 @@ class InvestmentBackground extends Component {
     }
 
     handleNextPage(e) {
-        e.preventDefault();
-        const $checkInput = $('input[name="ClearUnderstandingId"]:checked')
-        if ($checkInput.val() === '2') {
-            $checkInput.parent().addClass('error-check');
+        let validError = false;
+        const values = this.props.dataForm.PersonalDetail.values
+        if($('.soip-error').length > 0){
+            $('html, body').animate({
+                scrollTop: $("#SourceOfIncome").offset().top-$('header').height()
+            });
+            validError = true;
+        }
+        // valid SourceOfIncome
+        if(!values.SourceOfIncome) {
+            alert('请至少填入一种收入来源')
+            $('html, body').animate({
+                scrollTop: $("#SourceOfIncome").offset().top-$('header').height()
+            });
+            validError = true;
+        }else if(values.SourceOfIncome){
+            let sum = 0
+            values.SourceOfIncome.map((data,index)=>{
+                sum += parseInt( data.SourceOfIncomePercent, 10 )
+                if (index === 11 && data.SourceOfIncomePercent && !data.SourceOfIncomeDescription) {
+                    const $input = $(`input[name="SourceOfIncome[11].SourceOfIncomeDescription"]`)
+                    $('html, body').animate({
+                        scrollTop: $input.offset().top-$('header').height()-50
+                    });
+                    $input.focus();
+                    validError = true;
+                    return false;
+                }
+            })
+            if(sum>100){
+                alert('所得百分比加總不得大於100%')
+                $('html, body').animate({
+                    scrollTop: $("#SourceOfIncome").offset().top-$('header').height()
+                });
+                validError = true;
+                return false;
+            }
+        }
+        // valid ClearUnderstandingId
+        const $clearUnderstanding = $('input[name="ClearUnderstandingId"]:checked')
+        if ($clearUnderstanding.val() === '2') {
+            $clearUnderstanding.parent().addClass('error-check');
+            validError = true;
+        }
+       
+        if(validError){
             return false;
         }
         this.props.handleRenderPage(this.props.nextPage);
@@ -128,8 +173,10 @@ class InvestmentBackground extends Component {
                                 {source && CreateRadios(source.FundsAvailableLevels, 'FundsAvailableLevelsId')}
                             </div>
                         </div>
-
-                        <div className="form-group">
+                        <hr/>
+                        <label id="SourceOfIncome">Source Of Income 收入来源</label>
+                        <SourceOfIncomeCard source={source}/>
+                        {/* <div className="form-group">
                             <label>Source of funds for security trading 交易资金来源</label>
                             <div className="form-group">
                                 {source && CreateRadios(source.FundSourceTypes, 'FundSourceTypesId')}
@@ -139,7 +186,7 @@ class InvestmentBackground extends Component {
                         <Field
                             name="FundSourceTypesRemark"
                             component={InputField}
-                            label="Source of funds Remark 资金来源說明"/>
+                            label="Source of funds Remark 资金来源說明"/> */}
                         <hr/>
                     </div>
                     <div id="1" className="steps">
@@ -181,11 +228,88 @@ class InvestmentBackground extends Component {
     }
 }
 
+
+const SourceOfIncome =[];
+class SourceOfIncomeCard extends Component {
+    constructor(props) {
+        super(props);
+        autoBind(this);
+        this.state = {
+            disabledInput : true
+        };
+    }
+    handleClick(e){
+        const $target = $(e.target);
+        if($target.is(":checked")){
+            $target.parents('tr').find('input[type!="checkbox"]').attr('disabled',false)
+        }else{
+            $target.parents('tr').find('input[type!="checkbox"]').attr('disabled',true)
+        }
+        
+    }
+    handleChange(e){
+        const target  = e.target
+        if(target.name.indexOf('SourceOfIncomePercent') &&  target.value && (target.value < 1 || target.value > 100)){
+            this.setState({
+                ['error_text'+target.id]: "请输入介于1~100的数值"
+            })
+        }else{
+            this.setState({
+                ['error_text'+target.id]: ""
+            })
+        }
+    }
+   
+    render (){
+        const {source} = this.props
+        const DataRow = [];
+        source && source.SourceOfIncome.map((data,index)=>{
+            DataRow.push( 
+                <tr key={index}>
+                    {/* <td width="20"> 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeId`} id={index} component="input" value={index+1} onClick={this.handleClick} className="checkbox" type="checkbox"/> 
+                    </td>  */}
+                    <td width="20%"> 
+                        {data.TitleCn}  {data.TitleEn}
+                    </td>
+                    <td width="20%"> 
+                        <Field  name={`SourceOfIncome[${index}].SourceOfIncomePercent`}  id={index} onChange={this.handleChange} type="number" min="1" max="100" component="input"/> % 
+                    </td> 
+                    <td width="60%"> 
+                        <Field  name={`SourceOfIncome[${index}].SourceOfIncomeDescription`} onChange={this.handleChange} component="input"/> 
+                        {this.state['error_text'+index] ?  <small className="red ml-2 soip-error">{this.state['error_text'+index]}</small> :null}
+                    </td> 
+                </tr>
+            )
+        })
+        
+        return[
+            <table width="100%" key={1} className="SourceOfIncome-table">
+                <thead>
+                    <tr>
+                        <th>Source of Income</th>
+                        <th>Percent of <br/>annual income</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   {DataRow}
+                </tbody>
+            </table>,
+            <div key={2} className="red d-none">请将勾选的项目填写完整</div>
+        ]
+    }
+}
+
+
+
 InvestmentBackground = reduxForm({form: 'PersonalDetail'})(InvestmentBackground)
 
 const CnInvestmentBackground = connect(state => {
     const source = state.info.source
-    return {source};
+    const dataForm = state.form
+    
+    return {source,dataForm};
 })(InvestmentBackground)
 
 export default CnInvestmentBackground;

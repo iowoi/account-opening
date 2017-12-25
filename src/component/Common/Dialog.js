@@ -1,14 +1,22 @@
 import React, {Component} from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Dialog from 'material-ui/Dialog';
 
 class DialogBox extends Component {
-    state = {
-        open: false
-    };
-
-    handleOpen = () => {
-        this.setState({open: true});
-    };
+    constructor(props){
+        super(props)
+        this.state = {
+            open: props.display
+        };
+    }
+    
+    componentWillReceiveProps(nextProps){
+        if(this.props.display !== nextProps.display){
+            this.setState ({
+                open: nextProps.display
+            })
+        }
+    }
 
     handleClose = () => {
         this.setState({open: false});
@@ -18,23 +26,23 @@ class DialogBox extends Component {
         const actions = [
           <button
             label="Cancel"
-            primary={true}
+            className="btn btn-default"
             onClick={this.handleClose}
-          />
+          >Close</button>
         ];
-
         return (
-            <div>
-                <a label="Dialog" onClick={this.handleOpen}>ss</a>
-                <Dialog
-                    title="Dialog With Actions"
-                    actions={actions}
-                    modal={false}
-                    open={this.state.open}
-                    onRequestClose={this.handleClose}>
-                    The actions in this window were passed in as an array of React objects.
-                </Dialog>
-            </div>
+            <MuiThemeProvider>
+                <div>
+                    <Dialog
+                        // title="Dialog With Actions"
+                        actions={actions}
+                        modal={false}
+                        open={this.state.open}
+                        onRequestClose={this.handleClose}>
+                        {this.props.children}
+                    </Dialog>
+                </div>
+            </MuiThemeProvider>
         );
     }
 }

@@ -12,7 +12,7 @@ class LocationOption extends Component {
 
         const {source,name, children, component, label} = this.props
         return (
-            <Field component={component} name={name} label={label}className="custom-select">
+            <Field component={component} name={name} label={label}className="custom-select" onChange={this.props.onChange}>
                 {children}
                 {source && source
                     .CountryCode

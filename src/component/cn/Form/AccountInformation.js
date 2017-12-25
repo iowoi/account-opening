@@ -3,6 +3,8 @@ import FormHeader from './common/Header';
 import {Field, reduxForm} from 'redux-form';
 import autoBind from 'react-autobind';
 import {connect} from 'react-redux'; 
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 import {InputField, DateField, SelectField, CreateRadios} from '../../Common';
 import {Link} from 'react-router-dom';
@@ -22,8 +24,8 @@ class AccountInformation extends Component {
         e.preventDefault();
         this.props.handleRenderPage(this.props.prevPage);
     }
-
-
+    //Select Select--multi is-clearable is-searchable
+    class="Select Select--multi is-clearable is-searchable has-value"
     render() {
         const {handleSubmit, className, pristine, reset, submitting, source} = this.props
         
@@ -57,10 +59,9 @@ class AccountInformation extends Component {
                         </div>
                         <div id="3" className="steps">
                             <h3>Market access 交易市場</h3>
-                            <div className="form-group">
                                 <label>Market access 交易市場 *</label>
-                                <div className="form-check-inline">
-                                    <Field component="select" name="MarketAccessId">
+                                <div className="form-check-inline multi-select">
+                                    {/* <Field component="select" name="MarketAccessId">
                                         <optgroup label="North America 北美洲">
                                             <option value="1">United States 美国</option>
                                             <option value="2">Canada 加拿大</option>
@@ -77,7 +78,8 @@ class AccountInformation extends Component {
                                         <optgroup label="Others">
                                             <option value="8">Others (please specify) 其他(请列明)</option>
                                         </optgroup>
-                                    </Field>
+                                    </Field> */}
+                                    <Field component={mutipleSelector} name="MarketAccessId" source={source}></Field>
                                     {/* {source && source
                                             .MarketAccess
                                             .map((data, index) => {
@@ -95,7 +97,6 @@ class AccountInformation extends Component {
                                             })} */}
                                 </div>
                             </div>
-                        </div>
 
                         <div className="text-center">
                             <button onClick={this.handlePrevPage} className="btn btn-primary">返回 </button>
@@ -103,6 +104,75 @@ class AccountInformation extends Component {
                             </div>
                     </form>
                 </div>
+            </div>
+        );
+    }
+}
+
+
+
+class mutipleSelector extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            removeSelected: true,
+			disabled: false,
+			stayOpen: false,
+			value: [],
+            rtl: false,
+            show_other: false
+        }
+        autoBind(this)
+    }
+	handleSelectChange (value) {
+		console.log('You\'ve selected:', value);
+        this.setState({ value });
+        if(value.indexOf('8') != -1) {
+            this.setState({
+                show_other: true
+            })
+        }
+	}
+	toggleCheckbox (e) {
+		this.setState({
+			[e.target.name]: e.target.checked,
+		});
+	}
+	toggleRtl (e) {
+		let rtl = e.target.checked;
+		this.setState({ rtl });
+	}
+
+    render() {
+        const { crazy, disabled, stayOpen, value, show_other } = this.state;
+        const { source } = this.props
+        const CITY = [];
+        console.log(value)
+        if(source){
+            source.MarketAccess.map((data)=>{
+                CITY.push({
+                    label: data.TitleEn +' '+ data.TitleCn,
+                    value: data.code
+                })
+            })
+        }
+        const options = CITY;
+        
+        return (
+            <div>
+                <Select
+                    closeOnSelect={!stayOpen}
+                    disabled={disabled}
+                    multi
+                    name="MarketAccessId"
+                    onChange={this.handleSelectChange}
+                    options={options}
+                    removeSelected={this.state.removeSelected}
+                    rtl={this.state.rtl}
+                    simpleValue
+                    value={value}
+                />
+                {show_other?<Field component={InputField} name="MarketAccessOthers" ></Field>:null}
             </div>
         );
     }

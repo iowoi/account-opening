@@ -36,9 +36,15 @@
     input:not([type='checkbox']) ,
     input:not([type='radio']) ,
     select {
-        margin-top: px-to-rem(10);
         width: 50%;
         height: px-to-rem(36);
+    }
+    .form-group {
+        input:not([type='checkbox']) ,
+        input:not([type='radio']) ,
+        select {
+            margin-top: px-to-rem(10);
+        }
     }
     select:disabled {
         background-color: $lite-gary;
@@ -60,7 +66,6 @@
     }
     .form-inline {
         display: table;
-    
         .form-group {
             margin: 0 0 0 1rem;
             padding: 1rem 0;
@@ -78,13 +83,16 @@
             padding: 0px;
         }
         .expend {
-            margin: -1.2em -3rem 0rem;
+            margin: -1.35em -3rem 0rem;
             padding: 1rem 3rem 0rem;
         }
     }
     .expend,
     .senior-expend {
         background-color: rgba(31, 97, 177, 0.23);
+        .glyphicon-remove {
+            left: 25px;
+        }
     }
     .expend {
         margin: 1.4rem -3rem -1.8rem;
@@ -106,12 +114,16 @@
             td {
                 input {
                     margin-top: 0;
+                    &:disabled {
+                        background-color: #ccc;
+                    }
                 }
                 padding: 5px 0;
-                &:nth-child(4){
+                &:nth-child(3){
                     input {
                         width: 100%;
                         margin-top: 0;
+                        
                     }
                 }
             }

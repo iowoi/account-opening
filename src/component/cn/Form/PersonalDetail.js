@@ -61,13 +61,15 @@ const EmployRequiredFields = [
     'EmployerStreet1'
 ]
 const PrescribedRequiredFields = [
-    'NameOfEntity',
-    'NameOfDirector'
+    'NameOfDirector',
+    'NameOfEntity'    
 ]
 function validate(values){
     const errors = {}
     const regcn = new RegExp("[\u4E00-\u9FA5]|[\uFE30-\uFFA0]|[!$%^&*()@#！@#￥……&*（）——|{}【】‘；：”“'。，、？《》 _+|~=`{}\\[\\]:\";'<>?,.\\/]");
-    
+    const regNum = new RegExp('-?(\d+|\d+\.\d+|\.\d+)([eE][-+]?\d+)?');
+    const birthdayValid = moment(values.Birthday,["dd/MM/YYYY"],true).isValid()
+  
     requiredFields.map((field,index)=>{
         if (!values[field]) {
             errors[field] = 'Required 必填栏位'
@@ -78,6 +80,9 @@ function validate(values){
         const age = moment().diff(values.Birthday, 'years');
         if(age < 18) {
             errors.Birthday = 'Must > 18 years old'
+        }
+        if(!birthdayValid){
+            errors.Birthday = 'Invalid Birthday 生日格式错误'
         }
     }
     if (values.Email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
@@ -92,6 +97,12 @@ function validate(values){
     if (!values.Tax || !values.Tax.length) { 
         errors.Tax =  '请至少提供一种纳税人识别号码' 
     } 
+    if(values.CitizenOrTaxResidentOfUSAId == "1") {
+        errors.CitizenOrTaxResidentOfUSAId =  '对不起，我们无法处理您的在线开户申请。请您与我们的客户服务专员联系' 
+    }
+    if(values.BornInUSAAndSurrenderedCitizenshipId == "1") {
+        errors.BornInUSAAndSurrenderedCitizenshipId =  '对不起，我们无法处理您的在线开户申请。请您与我们的客户服务专员联系' 
+    }
     return errors
 }
 
@@ -104,6 +115,8 @@ class PersonalDetail extends Component {
             show_EmploymentStatus: true,
             selfCertificationKey: 0,
             show_anotherMailAdd: false,
+            show_USAIdDialogBox:false,
+            show_USAIdDialogBox2:false,
             ResidentialAddress:""
         };
     }
@@ -122,11 +135,8 @@ class PersonalDetail extends Component {
                 this.setState({show_EmploymentStatus: false})
                 FilterArrayByArray(EmployRequiredFields);
                 this.props.change('BusinessTypesId', 1);
-                FilterArray("OtherBusinessTypes");
-                
+                FilterArray("BusinessTypesOthers");
             }
-            console.log("requiredFields",requiredFields)
-            
         }
         if(target.name === 'ResidentialAddress') {
             const DiffrentAddress = $('input[name="DiffrentAddress"]:checked').val()
@@ -138,6 +148,16 @@ class PersonalDetail extends Component {
             target.value === 'Yes' 
             ? this.setState({show_anotherMailAdd: true})
             : this.setState({show_anotherMailAdd: false})
+        }
+        if(target.name === 'CitizenOrTaxResidentOfUSAId'){
+            target.value === '1' 
+            ? this.setState({show_USAIdDialogBox: true})
+            : this.setState({show_USAIdDialogBox: false})
+        }
+        if(target.name === 'BornInUSAAndSurrenderedCitizenshipId'){
+            target.value === '1' 
+            ? this.setState({show_USAIdDialogBox2: true})
+            : this.setState({show_USAIdDialogBox2: false})
         }
     }
     
@@ -155,9 +175,23 @@ class PersonalDetail extends Component {
     }
     handleNextPage(values){
         let validError = false;
+        
         if(!values.Tax) {
             alert(validate(values).Tax)
             return false;
+        }else{
+            values.Tax.map((data)=>{
+                if(!data.TaxpayerIdentificationNumber && !data.TinUnavailableTypesId){
+                    alert('请填妥您的纳税人识别号码相關資料')
+                    validError = true;
+                    return false;
+                }
+                if(data.TinUnavailableTypesId == '2' && !data.TinUnavailableReason){
+                    alert('請說明無法提供的原因')
+                    validError = true;
+                    return false;
+                }
+            })
         }
         if(validError){
             return false;
@@ -168,9 +202,8 @@ class PersonalDetail extends Component {
 
     render() {
         const {pristine, reset, source, className, submitting, handleSubmit, PersonalDetail} = this.props
-        const {selfCertificationKey, show_anotherMailAdd, ResidentialAddress} 
+        const {selfCertificationKey, show_anotherMailAdd, ResidentialAddress, show_USAIdDialogBox,show_USAIdDialogBox2} 
         = this.state
-        //console.log(this.props)
        
         const steps = [
             {cn:"个人申请", en:"Individual Applicant"},
@@ -182,16 +215,15 @@ class PersonalDetail extends Component {
         for (var i = 0; i < this.state.selfCertificationKey; i += 1) {
             SelfCertificationArr.push(<SelfCertification id={i+1}  source={source} key={i} removeSelfCertification={this.removeSelfCertification}/>);
         };
+        //console.log(PersonalDetail)
         return (
             <div className={className}>
-                
                 <form onSubmit={handleSubmit(this.handleNextPage)}>
-              
                 <div className="form-page col-md-10 col-center" >
                         <div className="steps" id="0" >
                             <h3>Individual Applicant 个人申请</h3>
                             <p className="blue-title">Please complete all required details below. Those marked with an * are mandatory.<br/>请完成所有需要的栏位。标明 * 的为必须填写。</p>
-
+                            
                             <div className="form-group">
                                 <label>Gender 性别*</label>
                                 <div className="form-check-inline">
@@ -366,7 +398,7 @@ class PersonalDetail extends Component {
                                 name="BankCurrencyId"
                                 component={SelectField}
                                 label="Currency 货币 *">
-                                {source && CreateOptions(source.CurrencyTypes)}
+                                <option value="1">USD 美元</option><option value="2">NZD 纽元</option><option value="3">AUD 澳元</option><option value="4">JPY 日元</option>
                             </Field>
                             
                             <Field name="BankAccountHolderName" component={InputField} label="Account holder's name 银行帐户名 *"/>
@@ -404,7 +436,6 @@ class PersonalDetail extends Component {
                                     name="CitizenOrTaxResidentOfUSAId"
                                     value="1"/>
                                 Yes 是
-                                <DialogBox/>
                                 <Field
                                     type="radio"
                                     component="input"
@@ -412,6 +443,26 @@ class PersonalDetail extends Component {
                                     name="CitizenOrTaxResidentOfUSAId"
                                     value="2"/>
                                 No 否
+                                <DialogBox display={show_USAIdDialogBox}>
+                                   <div>
+                                        对不起，我们无法处理您的在线开户申请。请您与我们的客户服务专员联系： <br/><br/>
+                                        •  奥克兰      +64 9 359 8999 <br/>
+                                        •  悉尼          1300 668 120 (免费热线) / +61 2 8263 0175 <br/>
+                                        •  墨尔本      1300 668 120 (免费热线) / +61 3 9660 1875 <br/>
+                                        •  中国          4008 888 822 (免费热线) <br/>
+                                        •  中国香港  +852 2828 3588
+                                   </div>
+                                </DialogBox>
+                                <DialogBox display={show_USAIdDialogBox2}>
+                                   <div>
+                                        对不起，我们无法处理您的在线开户申请。请您与我们的客户服务专员联系： <br/><br/>
+                                        •  奥克兰      +64 9 359 8999 <br/>
+                                        •  悉尼          1300 668 120 (免费热线) / +61 2 8263 0175 <br/>
+                                        •  墨尔本      1300 668 120 (免费热线) / +61 3 9660 1875 <br/>
+                                        •  中国          4008 888 822 (免费热线) <br/>
+                                        •  中国香港  +852 2828 3588
+                                   </div>
+                                </DialogBox>
                             </div>
 
                             <label className="d-block">Are you born in the U.S. (or a U.S. territory) but am
@@ -583,23 +634,38 @@ class SelfCertification extends Component {
         autoBind(this);
         this.state = {
             haveTIN: true,
+            haveIRD: true,
             fillReason: false,
+            typeIRD:false,
             expendStyle: props.id % 2 === 0
         }
     }
     handleChange(e) {
         const target = e.target
-        target.name.indexOf('haveTIN') != -1 && target.value === 'Yes'
-            ? this.setState({haveTIN: true})
-            : this.setState({haveTIN: false})
-         target.name.indexOf('TinUnavailableTypesId') != -1 && target.value === '2'
-            ? this.setState({fillReason: true})
-            : this.setState({fillReason: false})
-         
+        if(target.name.indexOf('haveTIN') != -1){
+            target.value === 'Yes' 
+            ? this.setState({haveTIN: true}) 
+            : this.setState({haveTIN: false}) 
+        }
+        if(target.name.indexOf('haveIRD') != -1){
+            target.value === 'Yes' 
+            ? this.setState({haveIRD: true}) 
+            : this.setState({haveIRD: false}) 
+        }
+        if(target.name.indexOf('CountryCodesId') != -1){
+            target.value === '24' 
+            ? this.setState({typeIRD: true}) 
+            : this.setState({typeIRD: false}) 
+        }
+        if(target.name.indexOf('TinUnavailableTypesId') != -1){
+            target.value === '2'
+            ? this.setState({fillReason: true}) 
+            : this.setState({fillReason: false}) 
+        }
     }
     render() {
         const {removeSelfCertification,id,source} = this.props
-        const {haveTIN,expendStyle,fillReason} = this.state
+        const {haveTIN,haveIRD,typeIRD, expendStyle,fillReason} = this.state 
         return (
             <div className={!expendStyle?"expend":null}>
                 {id != 0?
@@ -607,32 +673,52 @@ class SelfCertification extends Component {
                         <span className="glyphicon red glyphicon-remove" aria-hidden="true"></span>
                     </a>
                 :null}
-
                
                 <LocationOption name={`Tax[${id}].CountryCodesId`} 
                     label="Which country or countries are you a tax resident? 您是哪个或哪些国家的税务居民？*"
+                    onChange={this.handleChange} 
                     labelInfo="(Please notify KVB if there is any material change in circumstances. 如果有任何情况发生改变，请通知KVB)"
                     component={SelectField}>
                     <option value="">-- Tax Resident Country --</option>
                 </LocationOption>
 
-                <label className="mt-4">Please provide your Taxpayer Identification Number (TIN). 请提供您的纳税人识别号码 (TIN) </label>
-                <small className="d-block">(For account holder who is tax resident of China, the TIN is the China National Identity Card Number. 对于中国税务居民的账户持有人，TIN号码就是中国的居民身份证号码)</small>
-                <Field name={`haveTIN${id}`} type="radio" component="input" value="Yes" onChange={this.handleChange} checked={haveTIN}/>
-                <label>I do have TIN</label>
-                <Field name={`Tax[${id}].TaxpayerIdentificationNumber`}component={InputField} disabled={!haveTIN}/>
-                <Field name={`haveTIN${id}`} type="radio" component="input" value="No" onChange={this.handleChange}/>
-                <label>I do not have TIN</label>
-                <p>If a TIN is unavailable, provide the appropriate reason: 如果您没有TIN号码，请提供适当的理由</p>
-                <Field 
-                name={`Tax[${id}].TinUnavailableTypesId`} component="select" className="mt-0 custom-select" onChange={this.handleChange} disabled={haveTIN} >
-                    <option value="">-- Reason --</option>
-                    {source && CreateOptions(source.TinUnavailableTypes)}
-                </Field>
-                {fillReason ? <Field
-                                name={`Tax[${id}].TinUnavailableReason`} 
-                                component={InputField}
-                                label="The account holder is unable to obtain a TIN. Please explain the reason: 账户持有人无法获得TIN，请说明原因"/>:null}
+                {typeIRD? 
+                    <div> 
+                        <label className="mt-4 d-block">IRD Number 税号:  </label> 
+                        <Field name={`Tax[${id}].haveIRD${id}`} type="radio" component="input" value="Yes" onChange={this.handleChange} checked={haveIRD}/> 
+                        <label>I do have IRD</label> 
+                        <Field name={`Tax[${id}].TaxpayerIdentificationNumber`}component={InputField} disabled={!haveIRD}/> 
+                        <Field name={`Tax[${id}].haveIRD${id}`} type="radio" component="input" value="No" onChange={this.handleChange}/> 
+                        <label>I do not have IRD</label> 
+                        <Field name={`Tax[${id}].TinUnavailableReason`}  
+                               component={InputField}
+                               disabled={haveIRD}
+                               label="If an IRD is unavailable, provide the appropriate reason: 如果您没有IRD号码，请提供适当的理由"/> 
+                    </div> 
+                   : 
+             
+                    <div> 
+                        <label className="mt-4">Please provide your Taxpayer Identification Number (TIN). 请提供您的纳税人识别号码 (TIN) </label> 
+                        <small className="d-block">(For account holder who is tax resident of China, the TIN is the China National Identity Card Number. 对于中国税务居民的账户持有人，TIN号码就是中国的居民身份证号码)</small> 
+                        <Field name={`Tax[${id}].haveTIN${id}`} type="radio" component="input" value="Yes" onChange={this.handleChange} checked={haveTIN}/> 
+                        <label>I do have TIN</label> 
+                        <Field name={`Tax[${id}].TaxpayerIdentificationNumber`}component={InputField} disabled={!haveTIN}/> 
+                        <Field name={`Tax[${id}].haveTIN${id}`} type="radio" component="input" value="No" onChange={this.handleChange}/> 
+                        <label>I do not have TIN</label> 
+                        <p>If a TIN is unavailable, provide the appropriate reason: 如果您没有TIN号码，请提供适当的理由</p> 
+                        <Field  
+                        name={`Tax[${id}].TinUnavailableTypesId`} component="select" className="mt-0 custom-select" onChange={this.handleChange} disabled={haveTIN} > 
+                            <option value="">-- Reason --</option> 
+                            {source && CreateOptions(source.TinUnavailableTypes)} 
+                        </Field> 
+                        {fillReason ? <Field 
+                                        name={`Tax[${id}].TinUnavailableReason`}  
+                                        component={InputField} 
+                                        label="The account holder is unable to obtain a TIN. Please explain the reason: 账户持有人无法获得TIN，请说明原因"/>:null} 
+                    </div> 
+                } 
+                 
+
                 <hr/>
             </div>
         )
@@ -664,15 +750,14 @@ class EmploymentStatus extends Component {
                 this.setState({
                     show_otherField:true
                 })
-                PushToArray("OtherBusinessTypes");
+                PushToArray("BusinessTypesOthers");
             }else {
                 this.setState({
                     show_otherField:false
                 })
-                FilterArray("OtherBusinessTypes");
+                FilterArray("BusinessTypesOthers");
             }
         }      
-        console.log(requiredFields)  
     }
 
     render() {
@@ -691,9 +776,8 @@ class EmploymentStatus extends Component {
                     label="Nature of Business 业务性质 *">
                     {source && CreateOptions(source.BusinessTypes)}
                 </Field>
-                {/** todo */}
                 {show_otherField ?   
-                     <Field name="OtherBusinessTypes" component={InputField} customCss={{paddingTop:"0"}}/>
+                     <Field name="BusinessTypesOthers" component={InputField} customCss={{paddingTop:"0"}}/>
                      :null}
                 
                 <Field name="EmployerStreet1" component={InputField} label="Employer Street#1 公司地址#1 *"/>
@@ -741,60 +825,7 @@ class EmploymentStatus extends Component {
         );
     }
 }
-class SourceOfIncome extends Component {
-    constructor(props) {
-        super(props);
-        autoBind(this);
-        this.state = {
-            error: false,
-            show_EmploymentStatus: true,
-            selfCertificationKey: 0,
-            show_anotherMailAdd: false,
-            ResidentialAddress:""
-        };
-    }
-   
-    render (){
-        const {source} = this.props
-        const DataRow = [];
 
-        source && source.SourceOfIncome.map((data,index)=>{
-            DataRow.push( 
-                <tr key={index}>
-                    <td width="20"> 
-                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeId`} id={index} component="input" value={index+1} onClick={this.handleClick} className="checkbox" type="checkbox"/> 
-                    </td> 
-                    <td width="150"> 
-                        {data.TitleCn}  {data.TitleEn}
-                    </td>
-                    <td width="50"> 
-                        <Field name={`SourceOfIncome[${index}].SourceOfIncomePercent`} type="number" min="1" max="100" component="input"/> % 
-                    </td> 
-                    <td width="59%"> 
-                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeDescription`} component="input"/> 
-                    </td> 
-                </tr>
-            )
-        })
-        
-        return[
-            <table width="100%" key={1} className="SourceOfIncome-table">
-                <thead>
-                    <tr>
-                        <th> - </th>
-                        <th>Source of Income</th>
-                        <th>Percent of <br/>annual income</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   {DataRow}
-                </tbody>
-            </table>,
-            <div key={2} className="red d-none">请将勾选的项目填写完整</div>
-        ]
-    }
-}
 
 
 const PushToArray = (obj) => {
@@ -822,15 +853,25 @@ const FilterArrayByArray = (arr) => {
 
 PersonalDetail = reduxForm({
     form: 'PersonalDetail',
-    validate,
-    onSubmitFail: function(form){
-       // console.log("form",form)
-       if(form)
-        $('html, body').animate({
-            scrollTop: $(`#${Object.keys(form)[0]}`).offset().top-$('header').height()-50
-        });
-        $(`#${Object.keys(form)[0]}`).focus()
-        
+    validate, 
+    onSubmitFail: function(errors){
+        //console.log(errors)
+        const input = Object.keys(errors)[0]
+        const alertErrors = ["Tax","CitizenOrTaxResidentOfUSAId","BornInUSAAndSurrenderedCitizenshipId"]
+        const loopErrors = () => {alertErrors.map((data)=>{
+            return data;
+        })}
+        if(errors && alertErrors.indexOf(input) == -1){
+            $('html, body').animate({
+                scrollTop: $($(`input[name="${input}"]`)[0]).offset().top -$('header').height()-50
+            });
+            $(`#${input}`).focus()
+            return;
+        }else{
+            $(`#${input}`).focus()
+            alert(errors[input])
+            return;
+        }
     }
     // , asyncValidate
 })(PersonalDetail)

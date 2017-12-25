@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import DatePicker from 'react-datepicker';
+import Datetime from 'react-datetime';
 import moment from 'moment';
 class DateField extends Component {
     render() {
         const {label, labelInfo, meta, placeholder, input, disabled, children} = this.props
         //("meta.dirty",meta.dirty && meta.error)
-        //console.log("meta",meta)
         
         return (
             <div
@@ -23,19 +22,19 @@ class DateField extends Component {
                             __html: labelInfo
                         }}></small>
                     : null}
-
-                <DatePicker
-                    className="form-control"
+                <Datetime 
                     onChange={input.onChange}
-                    id={input.name}
-                    showYearDropdown 
-                    scrollableYearDropdown 
-                    selected={input.value
+                    inputProps={{
+                        placeholder:"dd/mm/YYYY",
+                        name: input.name,
+                        id: input.id
+                    }}
+                    value={input.value
                         ? input.value
-                        : null}
-                  
-                    placeholderText="dd/mm/YYYY"/> 
-                    
+                        : null} 
+                        dateFormat="DD/MM/YYYY"
+                        timeFormat={false}
+                    />                    
                 {meta.touched && meta.error || meta.dirty && meta.error
                     ? <div className="error-text">{meta.touched && meta.error || meta.dirty && meta.error}</div>
                     : null}
