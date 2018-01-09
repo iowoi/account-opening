@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 
 import React, {Component} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -13,15 +12,17 @@ import {
     CnTerm,
     CnApply,
     CnApplyInfo,
+    CnAccountType,
     CnUpload,
+    CnAccountInformation,
     CnInvestmentBackground,
     CnSecurityQuestions,
     CnDeclaration,
     CnFinish,
-    FormIndex,
-    CnAccountInformation
+    CnFormIndex,
+    PEP
 } from './component/index';
-import {CnIndex, PersonalDetail, CnSelectLocation} from './container';
+import {CnIndex, CnPersonalDetail, CnSelectLocation} from './container';
 import {browserHistory} from 'react-router'
 
 import {BrowserRouter as Router, Switch, withRouter, Route, Redirect} from 'react-router-dom';
@@ -33,14 +34,17 @@ import './styles/app.scss';
 import {Provider} from 'react-redux';
 import store from './store';
 
-// console.log("ENV => "+process.env.NODE_ENV)
-// console.log("ROOT_PATH => "+ROOT_PATH)
+//console.log("ENV => "+process.env.NODE_ENV)
+ //console.log("ROOT_PATH => "+ROOT_PATH)
 const routes = [
     {
         path: process.env.NODE_ENV === 'develop' ?  ROOT_PATH : '/',
         component: CnIndex,
         routes: [
             {
+                path: ROOT_PATH + 'cn/type',
+                component: CnAccountType
+            },{
                 path: ROOT_PATH + 'cn/term',
                 component: CnSelectLocation
             }, {
@@ -50,16 +54,45 @@ const routes = [
                 path: ROOT_PATH + 'cn/applyInfo',
                 component: CnApplyInfo
             }, {
+                path: ROOT_PATH + 'cn/PEP',
+                component: PEP
+            }, {
                 path: ROOT_PATH + 'cn/upload',
                 component: CnUpload
             },  {
                 path: ROOT_PATH + 'cn/form',
-                component: FormIndex,
+                component: CnFormIndex,
                 routes: [
                     {
                         path: ROOT_PATH + 'cn/form/personal-detail',
+                        component: 'PersonalDetail'
+                    }
+                ]                    
+            },{
+                path: ROOT_PATH + 'en/type',
+                component: CnAccountType
+            },{
+                path: ROOT_PATH + 'en/term',
+                component: CnSelectLocation
+            }, {
+                path: ROOT_PATH + 'en/apply',
+                component: CnApply
+            }, {
+                path: ROOT_PATH + 'en/applyInfo',
+                component: CnApplyInfo
+            }, {
+                path: ROOT_PATH + 'en/PEP',
+                component: PEP
+            }, {
+                path: ROOT_PATH + 'en/upload',
+                component: CnUpload
+            },  {
+                path: ROOT_PATH + 'en/form',
+                component: CnFormIndex,
+                routes: [
+                    {
+                        path: ROOT_PATH + 'en/form/personal-detail',
                         component: 'PersonalDetail',
-                        display: 'account-information'
                     }
                 ]                    
             }
@@ -73,13 +106,12 @@ class App extends Component {
             <Provider store={store}>
                 <Router   history={browserHistory}>
                     {/* <RouteWithSubRoutes routes={routes}/> */}
-                    <Switch>
+                    <div>
                         {routes &&
                         routes.map((route, i) => (
                             <Route  path={route.path} key={i} render={props => (<route.component {...props} routes={route.routes}/>)}/>
                         ))}`
-                       
-                    </Switch>
+                    </div>
                 </Router>
             </Provider>
         );

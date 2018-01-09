@@ -40,7 +40,7 @@ class inputField extends Component {
                     className="form-control"
                     id={input.name}
                     {...input}
-                    type={type}
+                    type="text"
                     min={min}
                     max={max}
                     disabled={disabled}
@@ -53,7 +53,7 @@ class inputField extends Component {
                     style={customInputCss}
                     placeholder={placeholder}/> {meta.touched && meta.error
                     ? <div className="error-text">{meta.touched && meta.error}</div>
-                    : null}
+                    : <div className="error-text"></div>}
             </div>);
     }
 }

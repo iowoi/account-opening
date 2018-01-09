@@ -8,67 +8,16 @@ import {CreateRadios} from '../../Common';
 import {InputField} from '../../Common';
 import {Term} from '../Card/term';
 import $ from 'jquery';
-
-function validate(values) {
-    const errors = {}
-    const requiredFields = [
-        'GendersId',
-        'TitleTypesId',
-        'FirstName',
-        'Surname',
-        'Email',
-        'Birthday',
-        'BirthCountryId',
-        'NationalityId',
-        'ResidentialAddress',
-        'City',
-        'CountryId',
-        'MailingAddress',
-        'ContactTypesId',
-        'contactCountryCode',
-        'ContactNumber',
-        'TelephonePassword',
-        'MaritalStatusId',
-        'NumberOfDependents',
-        'TypeOfIdentificationId',
-        'IdentificationNumber',
-
-        'NameOfBank',
-        'BankAddress',
-        'BSB',
-        'BankAccountNumber',
-        'BankCurrencyId',
-        'BankAccountHolderName',
-        'SwiftCode',
-
-        'EmploymentStatusesId',
-        'CompanyName',
-        'Occupation',
-        'BusinessTypesId',
-        'EmployerCountry',
-        'EmployerCity',
-        'EmployerProvince',
-        'EmployerPostalCode',
-        'EmployerStreet1',
-        'EmployerStreet2',
-        'CitizenOrTaxResidentOfUSAId',
-        'BornInUSAAndSurrenderedCitizenshipId',
-        'FundSourceTypesRemark'
-    ]
-    requiredFields.map((field, index) => {
-        if (!values[field]) {
-            errors[field] = 'Required'
-        }
-    })
-    return errors
-}
-
+import DialogBox from '../../Common/Dialog';
+import { ServiceInfoCN,ServiceInfoEN} from '../../Common/AlertText';
+import {scrollToElm, formatFloat} from '../../../actions/';
 class InvestmentBackground extends Component {
     constructor(props) {
         super(props);
         autoBind(this);
         this.state = {
-            SOI: null
+            isCN: WEB_LANG('cn'),
+            show_AlertDialog:false
         }
     }
 
@@ -87,46 +36,48 @@ class InvestmentBackground extends Component {
     handleNextPage(e) {
         let validError = false;
         const values = this.props.dataForm.PersonalDetail.values
-        if($('.soip-error').length > 0){
-            $('html, body').animate({
-                scrollTop: $("#SourceOfIncome").offset().top-$('header').height()
-            });
-            validError = true;
-        }
+        const {isCN} = this.state
+        
         // valid SourceOfIncome
-        if(!values.SourceOfIncome) {
-            alert('请至少填入一种收入来源')
-            $('html, body').animate({
-                scrollTop: $("#SourceOfIncome").offset().top-$('header').height()
-            });
+        if($('.soip-error').length > 0){
+            scrollToElm($("#SourceOfIncome"));
+            validError = true;
+        }else if(!values.SourceOfIncome) {
+            alert(isCN?'请填入收入来源':'Please fill Source Of Income')
+            scrollToElm($("#SourceOfIncome"));
             validError = true;
         }else if(values.SourceOfIncome){
             let sum = 0
             values.SourceOfIncome.map((data,index)=>{
-                sum += parseInt( data.SourceOfIncomePercent, 10 )
-                if (index === 11 && data.SourceOfIncomePercent && !data.SourceOfIncomeDescription) {
-                    const $input = $(`input[name="SourceOfIncome[11].SourceOfIncomeDescription"]`)
-                    $('html, body').animate({
-                        scrollTop: $input.offset().top-$('header').height()-50
-                    });
-                    $input.focus();
-                    validError = true;
-                    return false;
+                if(data){
+                    if(data.SourceOfIncomePercent){
+                        sum += Number( data.SourceOfIncomePercent )
+                    }
+                    if (index === 11 && data.SourceOfIncomePercent && !data.SourceOfIncomeDescription) {
+                        const $input = $(`input[name="SourceOfIncome[11].SourceOfIncomeDescription"]`)
+                        scrollToElm($input);
+                        $input.focus();
+                        validError = true;
+                        return false;
+                    }
                 }
             })
-            if(sum>100){
-                alert('所得百分比加總不得大於100%')
-                $('html, body').animate({
-                    scrollTop: $("#SourceOfIncome").offset().top-$('header').height()
-                });
+            if(sum !== Math.abs(100)){
+                alert(isCN?'所得百分比加总不得大于或低于100%':'Total cannot exceed or less than 100%')
+                scrollToElm($("#SourceOfIncome"));
                 validError = true;
                 return false;
             }
         }
         // valid ClearUnderstandingId
         const $clearUnderstanding = $('input[name="ClearUnderstandingId"]:checked')
-        if ($clearUnderstanding.val() === '2') {
-            $clearUnderstanding.parent().addClass('error-check');
+        if(
+            ($clearUnderstanding.val() === '2')||
+            ((values.EmploymentStatusesId == '3'|| values.EmploymentStatusesId == '4') && values.FundsAvailableLevelsId == '4')||
+            (values.SharesOrBondsExperenceId == '4' && values.FundsAvailableLevelsId == '4')||
+            (values.IncomeLevelsId == '4' && values.FundsAvailableLevelsId == '4')
+        ){
+            this.togglePopUp();
             validError = true;
         }
        
@@ -135,47 +86,58 @@ class InvestmentBackground extends Component {
         }
         this.props.handleRenderPage(this.props.nextPage);
     }
-
+    togglePopUp(){
+        this.setState({show_AlertDialog: !this.state.show_AlertDialog})
+    }
+    handleFormatValue(name,int){
+        this.props.change(name,int)
+    }
+    
     render() {
         const {pristine, submitting, source, className} = this.props
+        const {isCN,show_AlertDialog} = this.state
         return (
             <div className={className}>
                 <div className="form-page col-md-10 col-center">
                     <div id="0" className="steps">
-                        <h3>Level of Experience Investing in Financial Markets 金融市场投资经验等级</h3>
+                        <h3>Level of Experience Investing in Financial Markets {isCN&&"金融市场投资经验等级"}</h3>
 
                         <div className="form-group">
                             <label>Please detail your trading experience with Over-the-Counter or Exchange
                                 Traded Derivatives?
-                                <br/>
-                                请问您是否经常进行场外衍生品交易或交易所衍生品交易？</label>
+                                <br/>{isCN&&"请问您是否经常进行场外衍生品交易或交易所衍生品交易？"}
+                                </label>
                             <div className="form-group">
-                                {source && CreateRadios(source.ExperienceLevels, 'ExchangeExperenceId')}
+                                {source && 
+                                    <CreateRadios source={source.ExperienceLevels} name="ExchangeExperenceId"/>}
                             </div>
                         </div>
                         <div className="form-group">
-                            <label>Please detail your trading experience with shares or bonds. 请问您是否有过股票或者债券交易经验？</label>
+                            <label>Please detail your trading experience with shares or bonds.{isCN&&"请问您是否有过股票或者债券交易经验？"} </label>
                             <div className="form-group">
-                                {source && CreateRadios(source.ExperienceLevels, 'SharesOrBondsExperenceId')}
+                                {source && 
+                                    <CreateRadios source={source.ExperienceLevels} name="SharesOrBondsExperenceId"/>}
                             </div>
                         </div>
                         <div className="form-group">
-                            <label>Annual Income (USD equivalent) 年收入 (美元计算)</label>
+                            <label>Annual Income (USD equivalent){isCN&&"年收入 (美元计算)"}</label>
                             <div className="form-group">
-                                {source && CreateRadios(source.FundsAvailableLevels, 'IncomeLevelsId')}
+                                {source &&
+                                    <CreateRadios source={source.IncomeLevels} name="IncomeLevelsId"/>}
                             </div>
                         </div>
 
                         <div className="form-group">
-                            <label>Funds Available for Investment 可用于投资的金额
+                            <label>Funds Available for Investment {isCN&&"可用于投资的金额"}
                             </label>
                             <div className="form-group">
-                                {source && CreateRadios(source.FundsAvailableLevels, 'FundsAvailableLevelsId')}
+                                {source && 
+                                    <CreateRadios source={source.FundsAvailableLevels}name="FundsAvailableLevelsId"/>}
                             </div>
                         </div>
                         <hr/>
-                        <label id="SourceOfIncome">Source Of Income 收入来源</label>
-                        <SourceOfIncomeCard source={source}/>
+                        <label id="SourceOfIncome">Source Of Income {isCN&&"收入来源"}</label>
+                        <SourceOfIncomeCard isCN={isCN} source={source}/>
                         {/* <div className="form-group">
                             <label>Source of funds for security trading 交易资金来源</label>
                             <div className="form-group">
@@ -190,12 +152,12 @@ class InvestmentBackground extends Component {
                         <hr/>
                     </div>
                     <div id="1" className="steps">
-                        <h3>Products Features and Risks 产品特点及风险</h3>
+                        <h3>Products Features and Risks  {isCN&&"产品特点及风险"}</h3>
                         <div className="form-group">
                             <label>I have clear understanding and knowledge that trading or investing in
                                 financial products such as CFDs, Derivatives and Securities carry a high degree
                                 of risk.
-                                <br/>我清楚的理解并且知道进行交易或投资诸如差价合约，衍生工具和证券等金融产品具有较高的风险。</label>
+                                <br/>{isCN&&"我清楚的理解并且知道进行交易或投资诸如差价合约，衍生工具和证券等金融产品具有较高的风险。"}</label>
                             <div className="form-check-inline">
                                 <Field
                                     type="radio"
@@ -203,26 +165,27 @@ class InvestmentBackground extends Component {
                                     onChange={this.handleChange}
                                     name="ClearUnderstandingId"
                                     value="1"/>
-                                Yes 是
+                                Yes {isCN&&"是"}
                                 <Field
                                     type="radio"
                                     component="input"
                                     onChange={this.handleChange}
                                     name="ClearUnderstandingId"
                                     value="2"/>
-                                No 否
+                                No {isCN&&"否"}
                             </div>
                         </div>
                         <hr/>
                         <Term/>
                     </div>
                     <div className="text-center">
-                        <button onClick={this.handlePrevPage} className="btn btn-primary">返回
-                        </button>
-                        <button onClick={this.handleNextPage} className="btn btn-primary">下一步
-                        </button>
+                    <button onClick={this.handlePrevPage} className="btn btn-primary"> {isCN?"返回":"Back"} </button>
+                    <button onClick={this.handleNextPage} className="btn btn-primary">{isCN?"下一步":"Next"}</button>
                     </div>
                 </div>
+                <DialogBox display={show_AlertDialog} togglePopUp={this.togglePopUp}>
+                    {isCN?<ServiceInfoCN/>:<ServiceInfoEN/>}
+                </DialogBox>
             </div>
         );
     }
@@ -240,6 +203,7 @@ class SourceOfIncomeCard extends Component {
     }
     handleClick(e){
         const $target = $(e.target);
+        
         if($target.is(":checked")){
             $target.parents('tr').find('input[type!="checkbox"]').attr('disabled',false)
         }else{
@@ -249,19 +213,60 @@ class SourceOfIncomeCard extends Component {
     }
     handleChange(e){
         const target  = e.target
-        if(target.name.indexOf('SourceOfIncomePercent') &&  target.value && (target.value < 1 || target.value > 100)){
-            this.setState({
-                ['error_text'+target.id]: "请输入介于1~100的数值"
+        const {isCN} = this.props
+        const hasOtherDescrition = $('[name="SourceOfIncome[11].SourceOfIncomeDescription"]').val()
+        const regDigits = (string) => new RegExp("^[\\d]+$").test(string);
+        const regContainsSymbol = (string) => !new RegExp("^[ a-zA-Z\\u4e00-\\u9fa5\\d]+$").test(string);
+        
+        const errorType = {
+            requiredField : isCN ? "Required 必填栏位" : "Required",
+            errorNumber : isCN ? "请输入介于1~100的整数" : "Please enter full number 1~100",
+            containsSymbol : isCN ? "不可輸入符號" : "Can not enter symbol" 
+        }
+        const NumError = (int) => {
+            return (int < 1 || int > 100 || !regDigits(target.value))
+        }
+        const SetErrorMassage = (id,type) => {
+            return this.setState({
+                ['error_text'+id]: errorType[type]
             })
+        }
+        if(target.name.indexOf('SourceOfIncomePercent') && target.value && NumError(target.value)){
+            SetErrorMassage(target.id,"errorNumber")
         }else{
-            this.setState({
-                ['error_text'+target.id]: ""
-            })
+            SetErrorMassage(target.id,"")
+        }
+        if(target.id == 11 && target.value ){
+            if (target.value < 1 || target.value > 100 || !regDigits(target.value)){
+                SetErrorMassage(target.id,"errorNumber")
+            }else if (!hasOtherDescrition){
+                SetErrorMassage(target.id,"requiredField")
+            }else {
+                SetErrorMassage(target.id,"")
+            }
+        }
+        if(target.name.indexOf('SourceOfIncomeDescription' )){
+            const id = $($(target)[0]).attr('dataid')
+            
+            if(target.value && regContainsSymbol(target.value)){
+                
+                SetErrorMassage(id,"containsSymbol")
+            }else {
+                SetErrorMassage(id,"")
+            }
+            
+            if(id == 11 && !target.value){
+                SetErrorMassage(id,"requiredField")
+            }else if(id == 11 && target.value){
+                if(!NumError(target.value) && !regContainsSymbol(target.value)){
+                    SetErrorMassage(id,"")
+                }
+            }
         }
     }
    
     render (){
-        const {source} = this.props
+        const {source,isCN} = this.props
         const DataRow = [];
         source && source.SourceOfIncome.map((data,index)=>{
             DataRow.push( 
@@ -270,13 +275,13 @@ class SourceOfIncomeCard extends Component {
                         <Field name={`SourceOfIncome[${index}].SourceOfIncomeId`} id={index} component="input" value={index+1} onClick={this.handleClick} className="checkbox" type="checkbox"/> 
                     </td>  */}
                     <td width="20%"> 
-                        {data.TitleCn}  {data.TitleEn}
+                        {isCN&&data.TitleCn}  {data.TitleEn}
                     </td>
                     <td width="20%"> 
-                        <Field  name={`SourceOfIncome[${index}].SourceOfIncomePercent`}  id={index} onChange={this.handleChange} type="number" min="1" max="100" component="input"/> % 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomePercent`}  id={index} onChange={this.handleChange} type="number" step="0.01" min="1" max="100" component="input"/> % 
                     </td> 
                     <td width="60%"> 
-                        <Field  name={`SourceOfIncome[${index}].SourceOfIncomeDescription`} onChange={this.handleChange} component="input"/> 
+                        <Field name={`SourceOfIncome[${index}].SourceOfIncomeDescription`} dataid={index} onChange={this.handleChange} component="input"/> 
                         {this.state['error_text'+index] ?  <small className="red ml-2 soip-error">{this.state['error_text'+index]}</small> :null}
                     </td> 
                 </tr>
@@ -287,9 +292,9 @@ class SourceOfIncomeCard extends Component {
             <table width="100%" key={1} className="SourceOfIncome-table">
                 <thead>
                     <tr>
-                        <th>Source of Income</th>
-                        <th>Percent of <br/>annual income</th>
-                        <th>Description</th>
+                        <th>{isCN?"收入来源":"Source of Income"}</th>
+                        <th>{isCN?"收入百分比":"Percent of annual income"}</th>
+                        <th>{isCN?"说明":"Description"}</th>
                     </tr>
                 </thead>
                 <tbody>

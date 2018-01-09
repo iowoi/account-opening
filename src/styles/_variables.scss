@@ -33,7 +33,7 @@ $brand-danger : $red !default;
 @mixin --below-medium { @media only screen and (max-width: 1280px) { @content; }};
 @mixin --above-desktop { @media only screen and (min-width: 1025px) { @content; }};
 @mixin --below-desktop { @media only screen and (max-width: 1024px) { @content; }};
-@mixin --above-small {min-width: 851px};
+@mixin --above-small { @media only screen and (min-width: 992px) { @content; }};
 @mixin --below-small { @media only screen and (max-width: 991px) { @content; }};
 @mixin --above-tablet {min-width: 768px};
 @mixin --below-tablet { @media only screen and (max-width: 767px) { @content; }};

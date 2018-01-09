@@ -119,11 +119,18 @@ a.btn-primary,
 label.btn-primary,
 button.btn-primary {
     @include font-size(15);
-    width: 150px;
-    height: 37px;
+    // min-width: 150px;
+    // height: 37px;
+    // border-radius: 100px;
+    // background-color: $blue;
+    // margin: 2rem 0;
+    /* line-height: 1.5; */
+    min-width: 150px;
+    /* height: 37px; */
     border-radius: 100px;
-    background-color: $blue;
+    background-color: #1f61b1;
     margin: 2rem 0;
+    padding: 8px 15px;
     &:hover {
         cursor: pointer;
     }
@@ -132,7 +139,7 @@ button.btn-primary {
 a.btn-white,
 button.btn-white {
     @include font-size(15);
-    width: 150px;
+    min-width: 150px;
     height: 37px;
     border-radius: 100px;
     background-color: $white;

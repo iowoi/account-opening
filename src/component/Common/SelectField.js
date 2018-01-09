@@ -23,6 +23,7 @@ class SelectField extends Component {
 
                 <select className="custom-select"
                     id={id} 
+                    disabled={disabled}
                     data-id={dataId}
                     {...input}  >
                     {children}

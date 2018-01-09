@@ -208,5 +208,10 @@
         .apply-text {
             margin: 0 1rem;
         }
+        h3 {
+            @include font-size(28);
+            margin: 80px 0 30px;
+            color: $dark-blue;
+        }
     }
 }

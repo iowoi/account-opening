@@ -50,39 +50,42 @@ header {
 @include --below-mobile {
     header {
         .app-header {
-            padding: 1.5rem 1rem 1.5rem;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            .title {
-                @include font-size(14);
-                text-align: center;
-                margin-left: 10px;
-                padding: 0;
-                font {
-                    font-size: 1.8rem;
-                }
-            }
             .logo {
-                margin-left: 0px;
+                margin: -15px 0 0 15px;
             }
-            .short-line {
-                display: none;
+        }
+    }
+    .app-header {
+        padding: 1.5rem 1rem 1.5rem;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        .title {
+            @include font-size(14);
+            text-align: center;
+            margin-left: 10px;
+            padding: 0;
+            font {
+                font-size: 1.8rem;
             }
+        }
+        .logo {
+            margin-left: 0px;
+        }
+        .short-line {
+            display: none;
         }
     }
 }
 
 @include --below-xs-mobile {
-    header {
-        .app-header {
-            padding: 1.3rem 1rem 1.3rem;
-            .logo {
-                margin-top: 0px;
-            }
-            .title {
-                display: none;
-            }
+    .app-header {
+        padding: 1.3rem 1rem 1.3rem;
+        .logo {
+            margin-top: 0px;
+        }
+        .title {
+            display: none;
         }
     }
 }

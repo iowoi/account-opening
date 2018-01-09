@@ -4,9 +4,13 @@ import ActiveLabel from '../../../../assets/img/icon-triangle.png';
 class Navbar extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            isCN :WEB_LANG('cn')
+        }
     }
     render() {
-        const Navs = [
+        const {isCN} = this.state
+        let Navs = [
             {
                 pathName: 'personal-detail',
                 en: 'Personal Detail',
@@ -33,9 +37,39 @@ class Navbar extends Component {
                 cn: '完成'
             }
         ]
+        if(!isCN){
+            Navs = [
+                {
+                    pathName: 'personal-detail',
+                    en: 'Personal Detail',
+                    cn: ''
+                }, {
+                    pathName: 'account-information',
+                    en: 'Account Information',
+                    cn: ''
+                }, {
+                    pathName: 'investment-background',
+                    en: 'Investment Background',
+                    cn: ''
+                }, {
+                    pathName: 'security-question',
+                    en: 'Security Question',
+                    cn: ''
+                }, {
+                    pathName: 'declaration',
+                    en: 'Declaration',
+                    cn: ''
+                }, {
+                    pathName: 'finish',
+                    en: 'Finish',
+                    cn: ''
+                }
+            ]
+        }
+        
         const {currentPage} = this.props
         return (
-            <div>
+            <div className={!isCN?"en-navbar":null}>
                 <div className="navbar hidden-md-down">
                     <nav className="navbar-nav col-lg-10 col-sm-12 col-center">
                         {Navs.map((nabs,index) =>

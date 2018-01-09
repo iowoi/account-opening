@@ -5,7 +5,7 @@ import autoBind from 'react-autobind';
 import {connect} from 'react-redux'; 
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-
+import $ from 'jquery';
 import {InputField, DateField, SelectField, CreateRadios} from '../../Common';
 import {Link} from 'react-router-dom';
 const AreaArr = [];
@@ -14,10 +14,39 @@ class AccountInformation extends Component {
     constructor(props) {
         super(props);
         autoBind(this);
+        this.state = {
+            isCN : WEB_LANG('cn')
+        }
     }
 
     handleNextPage(e){
         e.preventDefault();
+        let validError = false;
+        
+        const MarketIdArr = []
+        const MarketIdInputs = $('input[name="MarketAccessId"]')
+        const $MarketOthwerInput = $('#MarketAccessOthers')
+        
+        if(MarketIdInputs.length == 0){
+            $('.multi-select').addClass('error-text')
+            validError = true;
+        }else{
+            for(let i=0; i< MarketIdInputs.length; i++){
+                MarketIdArr.push($(MarketIdInputs[i]).val())
+            }
+            $('.multi-select').removeClass('error-text')
+            this.props.change('MarketAccessId', MarketIdArr.join());
+        }
+        if(MarketIdArr.indexOf('8') != -1  && !$MarketOthwerInput.val() ) {
+            $MarketOthwerInput.parent().addClass('error-text')
+            $MarketOthwerInput.focus();
+            validError = true;
+        }else{
+            $MarketOthwerInput.parent().removeClass('error-text')
+        }
+        if(validError){
+            return false;
+        }
         this.props.handleRenderPage(this.props.nextPage);
     }
     handlePrevPage(e){
@@ -28,38 +57,68 @@ class AccountInformation extends Component {
     class="Select Select--multi is-clearable is-searchable has-value"
     render() {
         const {handleSubmit, className, pristine, reset, submitting, source} = this.props
-        
+        const {isCN} = this.state
+        //console.log(this.props)
         return (
             <div className={className}>
                 <div className="form-page col-md-10 col-center" key={1}>
                     <form onSubmit={this.handleSubmit}>
                         <div id="0" className="steps">
-                            <h3>Nature and Purpose 投资性质与目的</h3>
+                            <h3>Nature and Purpose {isCN&&"投资性质与目的"}</h3>
                             <div className="form-group">
-                                <label>What is the nature and purpose of your relationship KVB? 您与KVB 昆仑国际建立关系的目的是什么？ *</label>
-                                {source && CreateRadios(source.InvestmentTypes, 'InvestmentTypesId')}
+                                <label>What is the nature and purpose of your relationship KVB? {isCN&&"您与KVB 昆仑国际建立关系的目的是什么？"}*</label>
+                                {source && 
+                                    <CreateRadios source={source.InvestmentTypes} name="InvestmentTypesId"/>}
                             </div>
                             <hr/>
                         </div>
                         <div id="1" className="steps">
-                            <h3>Currency Type 开户币种 *</h3>
+                            <h3>Currency Type {isCN&&"开户币种"}*</h3>
                             <div className="form-group">
-                                <label>Currency Type 开户币种*</label>
-                                {source && CreateRadios(source.CurrencyTypes, 'CurrencyTypesId')}
+                                <label>Currency Type {isCN&&"开户币种"}*</label>
+                                <div className="radio-field">
+                                    <Field
+                                        type="radio"
+                                        component="input"
+                                        name="CurrencyTypesId"
+                                        value="1"/>USD {isCN?"美元":""}
+                                </div>
+                                <div className="radio-field">
+                                    <Field
+                                        type="radio"
+                                        component="input"
+                                        name="CurrencyTypesId"
+                                        value="2"/>NZD {isCN?"纽元":""}
+                                </div>
+                                <div className="radio-field">
+                                    <Field
+                                        type="radio"
+                                        component="input"
+                                        name="CurrencyTypesId"
+                                        value="3"/>AUD {isCN?"澳元":""}
+                                </div>
+                                <div className="radio-field">
+                                    <Field
+                                        type="radio"
+                                        component="input"
+                                        name="CurrencyTypesId"
+                                        value="4"/>JPY {isCN?"日元":""}
+                                </div>
                             </div>
                             <hr/>
                         </div>
                         <div id="2" className="steps">
-                            <h3>Account type 帐户类别</h3>
+                            <h3>Account type {isCN&&"帐户类别"}</h3>
                             <div className="form-group">
-                                <label>Account type 帐户类别 *</label>
-                                {source && CreateRadios(source.AccountType, 'AccountTypeId')}
+                                <label>Account type {isCN&&"帐户类别"} *</label>
+                                {source && 
+                                    <CreateRadios source={source.AccountType} name="AccountTypeId"/>}
                             </div>
                             <hr/>
                         </div>
                         <div id="3" className="steps">
-                            <h3>Market access 交易市場</h3>
-                                <label>Market access 交易市場 *</label>
+                            <h3>Market access {isCN&&"交易市場"}</h3>
+                                <label>Market access {isCN&&"交易市場"} *</label>
                                 <div className="form-check-inline multi-select">
                                     {/* <Field component="select" name="MarketAccessId">
                                         <optgroup label="North America 北美洲">
@@ -79,7 +138,7 @@ class AccountInformation extends Component {
                                             <option value="8">Others (please specify) 其他(请列明)</option>
                                         </optgroup>
                                     </Field> */}
-                                    <Field component={mutipleSelector} name="MarketAccessId" source={source}></Field>
+                                    <Field component={mutipleSelector} name="MarketAccessId" isCN={isCN} source={source}></Field>
                                     {/* {source && source
                                             .MarketAccess
                                             .map((data, index) => {
@@ -99,8 +158,8 @@ class AccountInformation extends Component {
                             </div>
 
                         <div className="text-center">
-                            <button onClick={this.handlePrevPage} className="btn btn-primary">返回 </button>
-                            <button onClick={this.handleNextPage} className="btn btn-primary">下一步 ></button>
+                            <button onClick={this.handlePrevPage} className="btn btn-primary"> {isCN?"返回":"Back"} </button>
+                            <button onClick={this.handleNextPage} className="btn btn-primary">{isCN?"下一步":"Next"}</button>
                             </div>
                     </form>
                 </div>
@@ -125,11 +184,15 @@ class mutipleSelector extends Component {
         autoBind(this)
     }
 	handleSelectChange (value) {
-		console.log('You\'ve selected:', value);
+		//console.log('You\'ve selected:~~~', value);
         this.setState({ value });
         if(value.indexOf('8') != -1) {
             this.setState({
                 show_other: true
+            })
+        }else{
+            this.setState({
+                show_other: false
             })
         }
 	}
@@ -145,13 +208,13 @@ class mutipleSelector extends Component {
 
     render() {
         const { crazy, disabled, stayOpen, value, show_other } = this.state;
-        const { source } = this.props
+        const { source,isCN } = this.props
         const CITY = [];
-        console.log(value)
+        //console.log(value)
         if(source){
             source.MarketAccess.map((data)=>{
                 CITY.push({
-                    label: data.TitleEn +' '+ data.TitleCn,
+                    label: isCN? data.TitleEn +' '+ data.TitleCn:data.TitleEn,
                     value: data.code
                 })
             })

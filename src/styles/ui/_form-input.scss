@@ -26,10 +26,10 @@ input[type="checkbox"] {
     margin: 0;
 }
 
-.radio-field,
-.col-inputs {
-    font-size: 16px;
-    font-weight: 500;
+.radio-field {
+    input[type="radio"]{
+        margin-right: 1rem;
+    }    
 }
 
 .has-danger {
@@ -48,8 +48,18 @@ input[type="checkbox"] {
         color: $brand-danger;
     }
 }
-
+.form-inline {
+    font-size: 1.35rem;
+    input[type="radio"] {
+        margin: 0 0.5rem;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
 .form-check-inline {
+    font-size: 1.35rem;
+    font-weight: normal;    
     input[type="radio"] {
         margin: 0 0.5rem;
         margin-left: 25px;
@@ -79,15 +89,6 @@ input[type="checkbox"] {
 
 .error-input {
     border: 1px solid red;
-}
-
-.error-check {
-    &::after {
-        content: "请勾选同意声明";
-        display: inherit;
-        color: red;
-        font-size: px-to-rem(10);
-    }
 }
 
 input[type=number]::-webkit-inner-spin-button {
@@ -339,7 +340,47 @@ td.rdtYear:hover {
     margin-top: 37px;
 }
 
+
 /* Multi Select */
+
+.error-text {
+    color: red;
+    .Select {
+        .Select-control {
+            border: 1px solid red;
+            border-radius: 5px;
+        }
+        &::after {
+            content: "请选择交易市场";
+            display: inherit;
+            color: red;
+            font-size: px-to-rem(10);
+        }
+    }
+}
+.multi-select {
+    .error-text {
+        input{
+            border: 1px solid red;
+            border-radius: 5px;
+        }
+        &::after {
+            content: "请列明其他交易市场";
+            display: inherit;
+            color: red;
+            font-size: px-to-rem(10);
+        }
+    }
+}
 .Select-value {
     display: inline-block;
+}
+
+.Select-input > input {
+    position: relative;
+    top: -8px;
+}
+
+select::-ms-expand {
+    display: none;
 }

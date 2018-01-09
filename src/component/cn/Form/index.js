@@ -24,19 +24,13 @@ import {Switch} from 'react-router-dom';
 import {component} from 'react-router';
 
 
-const steps = [
-    {cn:"个人申请", en:"Individual Applicant"},
-    {cn:"银行帐户资料", en:"Settlement details"},
-    {cn:"就业资料", en:"Employment Information"},
-    {html:"<font class='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font class='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
-]
 const pageInfo = {
     'personal-detail':{
         steps : [
             {cn:"个人申请", en:"Individual Applicant"},
             {cn:"银行帐户资料", en:"Settlement details"},
             {cn:"就业资料", en:"Employment Information"},
-            {html:"<font class='hidden-lg-down'>Common Reporting Standard</font>普通报告标准</font> <br/> <font class='hidden-lg-down'>Individual Self-Certification</font>个人认证"},
+            {html:"<font class='hidden-lg-down'>Common Reporting Standard</font><font class='cn-text'>普通报告标准<br/> </font> <font class='hidden-lg-down'>Individual Self-Certification</font><font class='cn-text'>个人认证</font>"},
         ]
     },
     'account-information':{
@@ -60,8 +54,8 @@ const pageInfo = {
     },
     'declaration' :{
         steps : [
-            {html: "<font class='hidden-lg-down'>Accuracy and Notification</font><br/>信息准确性及通知</font>"},
-            {html: "<font class='hidden-lg-down'>KVB Terms & Conditions</font><br/>KVB昆仑国际条款及细则</font>"}, 
+            {html: "<font class='hidden-lg-down'>Accuracy and Notification<br/></font><font class='cn-text'>信息准确性及通知</font>"},
+            {html: "<font class='hidden-lg-down'>KVB Terms & Conditions<br/></font><font class='cn-text'>KVB昆仑国际条款及细则</font>"}, 
             {cn: "风险", en: "Risks"},
             {cn: "隐私", en: "Privacy"}, 
             {cn: "其他", en: "Other"}
@@ -71,17 +65,14 @@ const pageInfo = {
         step : []
     }
 }
-class FormIndex extends Component {
+class CnFormIndex extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 'account-information'
+            page: 'personal-detail'
             //page: 'investment-background'
         }
         autoBind(this);
-    }
-    componentDidUpdate(){
-        //console.log('componentDidUpdate')
     }
     handleRenderPage(page) {
         this.setState({page: page})
@@ -155,4 +146,4 @@ class FormIndex extends Component {
     }
 }
 
-export default FormIndex;
+export default CnFormIndex;

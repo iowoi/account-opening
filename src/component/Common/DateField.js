@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
 import Datetime from 'react-datetime';
+import autoBind from 'react-autobind';
+
 import moment from 'moment';
 class DateField extends Component {
+    constructor(props) {
+		super(props);
+		autoBind(this);
+	}
+
+    handleChange(e){
+        this.props.change(this.props.input.name,e.endOf('days'))
+    }
     render() {
         const {label, labelInfo, meta, placeholder, input, disabled, children} = this.props
         //("meta.dirty",meta.dirty && meta.error)
-        
         return (
             <div
                 className={meta.touched && meta.error || meta.dirty && meta.error
@@ -23,17 +32,15 @@ class DateField extends Component {
                         }}></small>
                     : null}
                 <Datetime 
-                    onChange={input.onChange}
                     inputProps={{
                         placeholder:"dd/mm/YYYY",
                         name: input.name,
                         id: input.id
                     }}
-                    value={input.value
-                        ? input.value
-                        : null} 
-                        dateFormat="DD/MM/YYYY"
-                        timeFormat={false}
+                    closeOnSelect={true}
+                    strictParsing={true}
+                    value={input.value?moment(input.value).format("DD/MM/YYYY"):""}
+                    onChange={this.handleChange}
                     />                    
                 {meta.touched && meta.error || meta.dirty && meta.error
                     ? <div className="error-text">{meta.touched && meta.error || meta.dirty && meta.error}</div>

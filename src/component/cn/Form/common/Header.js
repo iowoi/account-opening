@@ -32,7 +32,6 @@ class FormHeader extends Component {
                 <Header/>
                 <Navbar currentPage={currentPage}/>
                 {steps ? <Stepper titles={steps}/>:null}
-                
             </header>
         );
     }

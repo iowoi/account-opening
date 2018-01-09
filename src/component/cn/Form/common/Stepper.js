@@ -2,6 +2,13 @@ import React, {Component, Children} from 'react';
 import $ from 'jquery';
 
 class Stepper extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            isCN : WEB_LANG('cn')
+        }
+    }
+
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll);
         window.addEventListener('keydown', this.handleKeydown);
@@ -46,24 +53,28 @@ class Stepper extends Component {
 
     render() {
         const {titles} = this.props
+        const {isCN} = this.state
         return (
-                <div className="stepper col-lg-10 col-sm-12 col-center" >
+                <div className={!isCN?"en-site stepper col-lg-10 col-sm-12 col-center":"stepper col-lg-10 col-sm-12 col-center"} >
                     <div className="stepper-row">
                         {titles && titles.map(function(value,index){
                             return (
                                 <div className={index === 0 ? "stepper-step active" : "stepper-step" } key={index} id={"stepper"+index}>
                                     {value.html ? [
                                         
-                                        <div key={1} dangerouslySetInnerHTML={{__html: value.html}}></div>,
-                                        
+                                        <div key={0} dangerouslySetInnerHTML={{__html: value.html}}></div>,
+                                        <div key={1} className="step"> Step {index+1}</div>,
                                         <div key={2} ><a className="btn btn-circle"></a></div>
                                     ]:[
-                                        <span key={1}>
+                                        <span key={0}>
                                                 <font className='hidden-lg-down'>
                                                 {value.en}
                                                 </font>
-                                                {value.cn}
+                                                {isCN?value.cn:null}
                                             </span>,
+                                        <span key={1}  className="step">
+                                            Step {index+1}
+                                        </span>,
                                         <div key={2} ><a  className="btn btn-circle"></a></div>
                                         ]
                                     }

@@ -58,9 +58,27 @@
     background-color: #CADBEC;
     position: absolute;
     top: 57px;
+    left: 50%;
     cursor: unset;
 }
-
+.stepper {
+    .step {
+        display: none;
+    }
+}
+.en-site {
+    .cn-text{
+        display: none;
+    }
+    .hidden-lg-down{
+        display: block !important;
+    }
+    
+    
+}
+@include --above-small {
+   
+}
 @include --below-small {
     .stepper,
     .stepper.fixed {
@@ -75,7 +93,16 @@
             height: 25px;
             @include font-size(12);
         }
+        .hidden-lg-down {
+            display: none !important;
+        }
+        
     }
+    .en-site {
+        .step {
+            display: block;
+        }
+    }        
     .stepper-row {
         &:before {
             top: 55px;

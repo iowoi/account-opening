@@ -15,16 +15,19 @@ class CnIndex extends Component {
    
     componentDidUpdate(){
         const {history,location} = this.props
-        if(history.action === 'PUSH' && location.pathname.indexOf('personal-detail') != -1 ){
-            window.scrollTo(0, 0)
-        }else if (history.action === 'POP' && location.pathname.indexOf('personal-detail') != -1){
+        if(history.action === 'PUSH'  ||  history.action === 'POP'){
             window.scrollTo(0, 0)
         }
+        // if(history.action === 'PUSH' && location.pathname.indexOf('personal-detail') != -1 ){
+        //     window.scrollTo(0, 0)
+        // }else if (history.action === 'POP' && location.pathname.indexOf('personal-detail') != -1){
+        //     window.scrollTo(0, 0)
+        // }
     }
     
     render() {        
-       const {location, source, routes} = this.props
-       
+        const {location, source, routes} = this.props
+        
         return (
             <div>
                 {location.pathname.indexOf('form') != -1 ? null : <Header/>}
@@ -32,6 +35,8 @@ class CnIndex extends Component {
                 <Route exact path={ROOT_PATH} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>
                 <Route exact path={ROOT_PATH+'cn'} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>
                 <Route exact path={ROOT_PATH+'cn/'} render={() => (<Redirect to={ROOT_PATH+'cn/term'}/>)}/>
+                <Route exact path={ROOT_PATH+'en'} render={() => (<Redirect to={ROOT_PATH+'en/term'}/>)}/>
+                <Route exact path={ROOT_PATH+'en/'} render={() => (<Redirect to={ROOT_PATH+'en/term'}/>)}/>
             </div>
         );
     }

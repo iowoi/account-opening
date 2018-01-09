@@ -1,41 +1,20 @@
 import React, {Component} from 'react';
 import {Field} from 'redux-form';
-export const CreateRadios = (source, name, style) => {
-    return style === 'inline'
-        ? <div className="form-check-inline radio-field">
-                {source.map((data, index) => {
-                    return [
-                        <Field
-                                type="radio"
-                                component="input"
-                                name={name}
-                                value={data
-                                .code
-                                .toString()} key={0}/>,<span key={1}> {data.TitleCn}</span>
-                            ]
+class CreateOptions extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            isCN :WEB_LANG('cn')
+        }
+    }
+    render() {
 
-                })}</div>
-        : <div>
-            {source.map((data, index) => {
-                return (
-                    <div key={data.code} className="radio-field">
-                        <Field
-                            type="radio"
-                            component="input"
-                            name={name}
-                            value={data
-                            .code
-                            .toString()}/> {data.TitleCn}
-                    </div>
-                )
-            })}
-        </div>
-
+        const {source} = this.props
+        const {isCN} = this.state
+        return source.map((data, index) => {
+            return <option key={data.code} value={data.code}>{data.TitleEn} {isCN&&data.TitleCn}</option>
+        })
+    }
 }
 
-
-export const CreateOptions = (source) => {
-    return source.map((data, index) => {
-        return <option key={data.code} value={data.code}>{data.TitleEn} {data.TitleCn}</option>
-    })
-}
+export default CreateOptions;
