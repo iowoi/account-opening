@@ -54,7 +54,6 @@ class AccountInformation extends Component {
         this.props.handleRenderPage(this.props.prevPage);
     }
     //Select Select--multi is-clearable is-searchable
-    class="Select Select--multi is-clearable is-searchable has-value"
     render() {
         const {handleSubmit, className, pristine, reset, submitting, source} = this.props
         const {isCN} = this.state

@@ -18,7 +18,7 @@ class DialogBox extends Component {
         }
     }
 
-    handleClose = () => {
+    handleClose () {
         this.setState({open: false});
         this.props.togglePopUp();
     };
